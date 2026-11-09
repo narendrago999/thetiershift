@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 52" width="260" height="52" fill="none">
+  <defs>
+    <linearGradient id="logoDarkGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5575F7" />
+      <stop offset="100%" stop-color="#16B8A6" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(6, 6)">
+    <rect width="40" height="40" rx="10" fill="#101B32" stroke="#5575F7" stroke-width="1.2" stroke-opacity="0.2"/>
+    <rect x="9" y="10" width="22" height="4.5" rx="2.25" fill="url(#logoDarkGrad)"/>
+    <rect x="14" y="17" width="12" height="4" rx="2" fill="#5575F7" opacity="0.9"/>
+    <rect x="16.5" y="23.5" width="7" height="3.5" rx="1.75" fill="#16B8A6" opacity="0.8"/>
+    <path d="M20 34 L20 27 M20 27 L16 31 M20 27 L24 31" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="29" cy="12" r="1.5" fill="#16B8A6"/>
+  </g>
+
+  <text x="58" y="28" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="22" font-weight="700" fill="#101B32" letter-spacing="-0.5">Tier<tspan fill="#5575F7">Shift</tspan></text>
+  <text x="59" y="42" font-family="'Space Grotesk', -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#5575F7" letter-spacing="4">TECHNOLOGIES</text>
+</svg>
+

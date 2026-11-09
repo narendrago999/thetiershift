@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="tsGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#101B32" />
+      <stop offset="45%" stop-color="#5575F7" />
+      <stop offset="100%" stop-color="#16B8A6" />
+    </linearGradient>
+    <linearGradient id="tsAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5575F7" />
+      <stop offset="100%" stop-color="#16B8A6" />
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect width="64" height="64" rx="14" fill="#101B32"/>
+  
+  <!-- Stylized T formed by tiered levels & ascending shift arrow -->
+  <!-- Top Horizontal Tier Bar (T-top) -->
+  <rect x="14" y="14" width="36" height="7" rx="3.5" fill="url(#tsAccent)"/>
+  
+  <!-- Stepped Tier Bar 2 -->
+  <rect x="23" y="24" width="18" height="6" rx="3" fill="#5575F7" opacity="0.9"/>
+  
+  <!-- Stepped Tier Bar 3 -->
+  <rect x="26" y="33" width="12" height="6" rx="3" fill="#16B8A6" opacity="0.8"/>
+  
+  <!-- Upward Shift Arrow / Dynamic Vector -->
+  <path d="M32 50 L32 38 M32 38 L25 45 M32 38 L39 45" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Subtle accent dot representing modern node -->
+  <circle cx="48" cy="17.5" r="2.5" fill="#16B8A6"/>
+</svg>
+

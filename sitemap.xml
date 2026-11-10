@@ -1,14 +1,11 @@
 
-<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Homepage -->
   <url>
     <loc>https://thetiershift.com/</loc>
     <lastmod>2026-11-10</lastmod>
   </url>
 
-  <!-- Data Engineering -->
   <url>
     <loc>https://thetiershift.com/services/data-engineering/</loc>
     <lastmod>2026-11-10</lastmod>

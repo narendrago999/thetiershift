@@ -57,12 +57,12 @@
       button.disabled=true;button.textContent='Submitting…';statusBox.className='status';statusBox.style.display='none';
       google.script.run.withSuccessHandler(function(result){
         button.disabled=false;button.textContent='Submit application';
-        if(result&&result.success){form.reset();turnstileToken='';window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},'*');showStatus(result.message,'success');}
+        if(result&&result.success){form.reset();turnstileToken='';window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},'https://thetiershift.com');showStatus(result.message,'success');}
         else showStatus('We could not submit your application. Please try again.','error');
       }).withFailureHandler(function(error){
         button.disabled=false;button.textContent='Submit application';
         showStatus(error&&error.message?error.message:'Something went wrong. Please try again.','error');
-        if(window.turnstile)turnstile.reset();turnstileToken='';
+        window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},'https://thetiershift.com');turnstileToken='';
       }).submitApplication(form);
     });
     function showStatus(message,type){statusBox.textContent=message;statusBox.className='status '+type;statusBox.style.display='block';}

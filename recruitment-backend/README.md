@@ -13,20 +13,19 @@ Google Apps Script source for the Careers application form. The public website s
 2. Open [Google Apps Script](https://script.google.com/) and create a standalone project named **TierShift Recruitment**.
 3. Paste `Code.gs` into the default script file.
 4. Add an HTML file named **Index** and paste `Index.html`.
-5. In [Cloudflare Turnstile](https://www.cloudflare.com/products/turnstile/), create a widget for `thetiershift.com` and `script.google.com` if the dashboard asks for allowed hostnames. Copy its site key and secret key.
+5. Create a free Cloudflare Turnstile widget for the hostname `thetiershift.com` (and `www.thetiershift.com` if you use that hostname). The widget belongs on the public Careers page, not inside the Apps Script iframe. Copy the site key for the public page and keep the secret key private.
 6. In Apps Script, open **Project Settings → Script Properties** and add:
-   - `TURNSTILE_SITE_KEY` = your public Turnstile site key
-   - `TURNSTILE_SECRET_KEY` = your private Turnstile secret key
-   Keep the secret only in Script Properties. Never put it in GitHub or page JavaScript.
-7. In the editor, select `setupRecruitmentStorage` and click **Run**. Review and approve the Google Drive and Sheets permissions. Check that the private folder and register exist in Drive.
+   - `TURNSTILE_SECRET_KEY` = the private Turnstile secret key
+   Never put this secret in GitHub or page JavaScript.
+7. In the Apps Script editor, select `setupRecruitmentStorage` and click **Run**. Review and approve the Google Drive and Sheets permissions. Check that the private folder and register exist in Drive.
 8. Select **Deploy → New deployment → Web app**.
 9. Set **Execute as** to **Me** and **Who has access** to **Anyone**, so applicants do not need a Google sign-in. Deploy and copy the URL ending in `/exec`.
-10. Share that deployment URL with the site administrator to connect it to the Careers page.
+10. Send the web app URL and the Turnstile **site key** (not the secret key) to the site administrator to connect the iframe and verification widget on the Careers page.
 
 ## Privacy and operations
 - The web app runs as the deploying owner. Uploaded records are created in that owner's Drive.
 - Keep the root recruitment folder private; grant access only to authorised reviewers.
-- The server validates required fields, email format, PDF extension and signature, 5 MB maximum, consent, a honeypot, and Cloudflare Turnstile.
+- The server validates required fields, email format, PDF extension and signature, 5 MB maximum, consent, a honeypot, and Cloudflare Turnstile server-side via Siteverify.
 - The central register contains applicant details and links to the private applicant folder and CV.
 - The form creates a spreadsheet, exports an Excel `.xlsx` copy into the applicant folder, then trashes the temporary Google Sheet.
 - Apply a documented retention period and delete records when no longer required. The GitHub repository must never contain applicant CVs or personal data.

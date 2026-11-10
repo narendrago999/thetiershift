@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.thetiershift.com/sitemap.xml
+Sitemap: https://thetiershift.com/sitemap.xml
 

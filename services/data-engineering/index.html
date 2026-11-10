@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO Metadata -->
+  <title>Data Engineering Services &amp; Consulting | TierShift Technologies</title>
+  <meta name="description" content="Modernise your data ecosystem with TierShift. Expert data engineering, Microsoft Fabric, Databricks, Snowflake, lakehouse architecture and scalable ETL pipelines.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://thetiershift.com/services/data-engineering/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://thetiershift.com/services/data-engineering/">
+  <meta property="og:title" content="Data Engineering &amp; Modern Data Platforms | TierShift">
+  <meta property="og:description" content="Build scalable data platforms, modern lakehouses and reliable data pipelines with TierShift Technologies.">
+  <meta property="og:image" content="https://thetiershift.com/assets/tiershift-og.jpg">
+  <meta property="og:site_name" content="TierShift Technologies">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../style.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://thetiershift.com/services/data-engineering/#service",
+    "name": "Data Engineering & Modern Data Platforms",
+    "serviceType": "Data Engineering Consulting and Implementation",
+    "url": "https://thetiershift.com/services/data-engineering/",
+    "description": "Data engineering, modern data platforms, Microsoft Fabric, Databricks, Snowflake, lakehouse architecture, ETL and ELT pipeline development.",
+    "provider": {
+      "@type": "Organization",
+      "@id": "https://thetiershift.com/#organization",
+      "name": "TierShift Technologies",
+      "url": "https://thetiershift.com/"
+    },
+    "areaServed": "Worldwide"
+  }
+  </script>
+
+  <style>
+    .de-hero {
+      background: linear-gradient(135deg, #0A1120, #101B32 65%, #182848);
+      color: #fff;
+      padding: 150px 0 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .de-hero-content {
+      max-width: 850px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .de-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      line-height: 1.12;
+      margin: 25px 0;
+      letter-spacing: -0.04em;
+    }
+
+    .de-hero p {
+      color: #CBD5E1;
+      font-size: 1.15rem;
+      max-width: 720px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .de-label {
+      display: inline-block;
+      color: #16B8A6;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .de-section {
+      padding: 85px 0;
+    }
+
+    .de-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .de-card {
+      background: #fff;
+      border: 1px solid rgba(16,27,50,.09);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 25px rgba(16,27,50,.05);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .de-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(16,27,50,.10);
+    }
+
+    .de-card h3 {
+      color: #101B32;
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      margin: 15px 0 10px;
+    }
+
+    .de-card p, .de-copy {
+      color: #64748B;
+      line-height: 1.8;
+    }
+
+    .de-icon {
+      font-size: 1.8rem;
+    }
+
+    .de-dark {
+      background: #101B32;
+      color: #fff;
+    }
+
+    .de-dark h2 {
+      color: #fff;
+    }
+
+    .de-dark .de-copy {
+      color: #CBD5E1;
+    }
+
+    .de-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .de-tech span {
+      background: rgba(85,117,247,.12);
+      border: 1px solid rgba(85,117,247,.25);
+      color: #5575F7;
+      border-radius: 8px;
+      padding: 11px 18px;
+      font-weight: 600;
+      font-size: .9rem;
+    }
+
+    .de-dark .de-tech span {
+      color: #fff;
+      border-color: rgba(255,255,255,.15);
+      background: rgba(255,255,255,.07);
+    }
+
+    .de-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      margin-top: 35px;
+    }
+
+    .de-step {
+      border-left: 3px solid #5575F7;
+      padding: 15px;
+      background: #fff;
+      border-radius: 0 10px 10px 0;
+    }
+
+    .de-step strong {
+      display: block;
+      color: #101B32;
+      margin-bottom: 8px;
+    }
+
+    .de-faq {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .de-faq details {
+      background: #fff;
+      border: 1px solid rgba(16,27,50,.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+
+    .de-faq summary {
+      color: #101B32;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .de-faq details p {
+      color: #64748B;
+      margin-top: 14px;
+      line-height: 1.8;
+    }
+
+    .de-cta {
+      text-align: center;
+      background: linear-gradient(135deg, #101B32, #182848);
+      color: white;
+      border-radius: 20px;
+      padding: 55px 30px;
+    }
+
+    .de-cta h2 {
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .de-cta p {
+      color: #CBD5E1;
+      margin-bottom: 25px;
+    }
+
+    .de-breadcrumb {
+      color: #94A3B8;
+      font-size: .85rem;
+      margin-bottom: 20px;
+    }
+
+    .de-breadcrumb a {
+      color: #16B8A6;
+    }
+
+    @media(max-width: 850px) {
+      .de-grid { grid-template-columns: repeat(2, 1fr); }
+      .de-steps { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media(max-width: 560px) {
+      .de-hero { padding: 125px 0 75px; }
+      .de-grid, .de-steps { grid-template-columns: 1fr; }
+      .de-section { padding: 60px 0; }
+      .de-card { padding: 23px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <div class="header-container">
+      <a href="/" class="brand-logo" aria-label="TierShift Technologies Home">
+        <div class="logo-mark">
+          <svg viewBox="0 0 40 40" width="36" height="36"
+               fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="10" fill="#101B32"
+                  stroke="#5575F7" stroke-width="1.5"/>
+            <rect x="9" y="10" width="22" height="4.5" rx="2.25" fill="#5575F7"/>
+            <rect x="14" y="17" width="12" height="4" rx="2" fill="#5575F7"/>
+            <rect x="16.5" y="23.5" width="7" height="3.5" rx="1.75" fill="#16B8A6"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">Tier<span class="text-accent">Shift</span></span>
+          <span class="logo-tag">TECHNOLOGIES</span>
+        </div>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/#about" class="nav-link">About Us</a></li>
+          <li><a href="/#services" class="nav-link active">Services</a></li>
+          <li><a href="/#expertise" class="nav-link">Expertise</a></li>
+          <li><a href="/#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="/#contact" class="btn btn-primary btn-sm header-cta">
+          Let's Talk
+        </a>
+        <button class="mobile-toggle" id="mobileToggle"
+                aria-label="Toggle navigation menu"
+                aria-expanded="false" aria-controls="mobileMenu">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <div class="mobile-menu-inner">
+        <ul class="mobile-nav-links">
+          <li><a href="/" class="mobile-link">Home</a></li>
+          <li><a href="/#about" class="mobile-link">About Us</a></li>
+          <li><a href="/#services" class="mobile-link">Services</a></li>
+          <li><a href="/#expertise" class="mobile-link">Expertise</a></li>
+          <li><a href="/#contact" class="mobile-link">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="de-hero">
+      <div class="container de-hero-content">
+        <div class="de-breadcrumb">
+          <a href="/">Home</a> / Services / Data Engineering
+        </div>
+
+        <span class="de-label">DATA ENGINEERING &amp; MODERN DATA PLATFORMS</span>
+
+        <h1>Build a Smarter, Scalable Data Foundation for Your Business.</h1>
+
+        <p>
+          Transform fragmented data into reliable, business-ready assets.
+          TierShift helps organisations design modern data platforms,
+          engineer scalable pipelines and build trusted data ecosystems
+          using Microsoft Fabric, Databricks and Snowflake.
+        </p>
+
+        <a href="/#contact" class="btn btn-primary btn-lg">
+          Discuss Your Data Project →
+        </a>
+        <a href="#capabilities" class="btn btn-secondary btn-lg">
+          Explore Our Capabilities
+        </a>
+      </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="de-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">OUR APPROACH</span>
+          <h2 class="section-title">
+            Turn Your Data into a Business Asset
+          </h2>
+          <p class="section-subtitle">
+            Modern businesses need more than disconnected databases
+            and manual reporting. They need a dependable data foundation
+            that brings information together, improves data quality
+            and supports confident decision-making.
+          </p>
+        </div>
+
+        <div class="de-copy">
+          <p>
+            We help businesses plan, build and improve data engineering
+            solutions that connect source systems, automate data movement
+            and make trusted information available for analytics and
+            operational use.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section class="de-section" id="capabilities"
+             style="background:#F5F7FC">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">WHAT WE DO</span>
+          <h2 class="section-title">Data Engineering Capabilities</h2>
+          <p class="section-subtitle">
+            End-to-end engineering services for modern, scalable
+            and maintainable data ecosystems.
+          </p>
+        </div>
+
+        <div class="de-grid">
+          <article class="de-card">
+            <div class="de-icon">🏗️</div>
+            <h3>Data Platform Architecture</h3>
+            <p>
+              Design modern lakehouse and warehouse architectures,
+              data models and scalable platform foundations aligned
+              with business requirements.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">🔷</div>
+            <h3>Microsoft Fabric Solutions</h3>
+            <p>
+              Build Fabric Lakehouses, Warehouses, Data Pipelines,
+              notebooks and integrated analytics solutions.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">⚡</div>
+            <h3>Databricks Engineering</h3>
+            <p>
+              Develop scalable Spark-based data processing,
+              Delta Lake solutions and automated engineering workflows.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">❄️</div>
+            <h3>Snowflake Solutions</h3>
+            <p>
+              Design and optimise cloud data warehouse solutions,
+              transformations and reliable data integration.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">🔄</div>
+            <h3>ETL &amp; ELT Pipeline Development</h3>
+            <p>
+              Automate ingestion, transformation and orchestration
+              across databases, APIs, files and enterprise systems.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">🛡️</div>
+            <h3>Data Quality &amp; Governance</h3>
+            <p>
+              Improve consistency, validation, lineage, monitoring
+              and trust across your data environment.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">🚀</div>
+            <h3>Data Migration &amp; Integration</h3>
+            <p>
+              Modernise legacy data environments and connect
+              enterprise applications and distributed sources.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">📊</div>
+            <h3>Analytics-Ready Data Models</h3>
+            <p>
+              Build reusable, well-structured datasets that support
+              reporting, dashboards and downstream analytics.
+            </p>
+          </article>
+
+          <article class="de-card">
+            <div class="de-icon">⚙️</div>
+            <h3>Performance Optimisation</h3>
+            <p>
+              Improve pipeline efficiency, query performance,
+              reliability and platform resource utilisation.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="de-section de-dark">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="de-label">OUR TECHNOLOGY EXPERTISE</span>
+          <h2 class="section-title">
+            Built with Modern Data Technologies
+          </h2>
+          <p class="de-copy">
+            We work with established cloud data platforms and
+            engineering tools to build solutions around your needs.
+          </p>
+        </div>
+
+        <div class="de-tech">
+          <span>Microsoft Fabric</span>
+          <span>Azure Data Factory</span>
+          <span>Azure Data Lake</span>
+          <span>Databricks</span>
+          <span>Snowflake</span>
+          <span>PySpark</span>
+          <span>Python</span>
+          <span>SQL</span>
+          <span>dbt</span>
+          <span>Delta Lake</span>
+          <span>Power BI</span>
+          <span>Azure DevOps</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Delivery Methodology -->
+    <section class="de-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">HOW WE WORK</span>
+          <h2 class="section-title">From Data Challenges to Reliable Solutions</h2>
+          <p class="section-subtitle">
+            A structured approach focused on technical quality,
+            business alignment and maintainability.
+          </p>
+        </div>
+
+        <div class="de-steps">
+          <div class="de-step">
+            <strong>01. Discover</strong>
+            <p class="de-copy">Understand systems, data sources and requirements.</p>
+          </div>
+          <div class="de-step">
+            <strong>02. Strategise</strong>
+            <p class="de-copy">Define architecture and implementation priorities.</p>
+          </div>
+          <div class="de-step">
+            <strong>03. Build</strong>
+            <p class="de-copy">Develop pipelines, models and integrations.</p>
+          </div>
+          <div class="de-step">
+            <strong>04. Deliver</strong>
+            <p class="de-copy">Validate, test and deploy the solution.</p>
+          </div>
+          <div class="de-step">
+            <strong>05. Optimise</strong>
+            <p class="de-copy">Monitor, maintain and continuously improve.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="de-section" style="background:#F5F7FC">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-label">COMMON QUESTIONS</span>
+          <h2 class="section-title">Data Engineering FAQs</h2>
+        </div>
+
+        <div class="de-faq">
+          <details>
+            <summary>What does a data engineering company do?</summary>
+            <p>
+              A data engineering company designs and builds systems
+              that collect, integrate, transform and manage data
+              so businesses can use reliable information for
+              analytics and operations.
+            </p>
+          </details>
+
+          <details>
+            <summary>Does TierShift provide Microsoft Fabric consulting?</summary>
+            <p>
+              TierShift offers Microsoft Fabric-focused data platform
+              engineering, including Lakehouse, Warehouse, Data
+              Pipelines, notebooks and data integration solutions.
+            </p>
+          </details>
+
+          <details>
+            <summary>Can you work with existing data platforms?</summary>
+            <p>
+              Yes. Solutions can be designed around existing
+              databases, cloud environments, enterprise applications
+              and data platforms, subject to technical assessment.
+            </p>
+          </details>
+
+          <details>
+            <summary>Can you migrate our existing data warehouse?</summary>
+            <p>
+              We can assess existing data environments and plan
+              migration and modernisation approaches based on
+              source systems, data volumes and business requirements.
+            </p>
+          </details>
+
+          <details>
+            <summary>How do we get started with a data engineering project?</summary>
+            <p>
+              Contact TierShift with an overview of your current
+              environment and objectives. We can discuss the
+              requirements and identify a suitable next step.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="de-section">
+      <div class="container">
+        <div class="de-cta">
+          <span class="de-label">LET'S BUILD TOGETHER</span>
+          <h2>Ready to Modernise Your Data Platform?</h2>
+          <p>
+            Tell us about your data challenges and let's explore
+            the right engineering approach for your business.
+          </p>
+          <a href="/#contact" class="btn btn-primary btn-lg">
+            Discuss Your Project →
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p style="color:#CBD5E1;text-align:center;padding:30px 0">
+        © <span id="currentYear">2026</span>
+        TierShift Technologies. All rights reserved.
+        <br>
+        <a href="/" style="color:#16B8A6">Back to Home</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="../../script.js"></script>
+  <script>
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

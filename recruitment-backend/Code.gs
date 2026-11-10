@@ -5,9 +5,7 @@ const CONFIG = {
 };
 
 function doGet() {
-  const template = HtmlService.createTemplateFromFile('Index');
-  template.turnstileSiteKey = PropertiesService.getScriptProperties().getProperty('TURNSTILE_SITE_KEY') || '';
-  return template.evaluate()
+  return HtmlService.createHtmlOutputFromFile('Index')
     .setTitle('Apply to TierShift Technologies')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
@@ -53,9 +51,8 @@ function submitApplication(form) {
     }
 
     const props = PropertiesService.getScriptProperties();
-    const siteKey = props.getProperty('TURNSTILE_SITE_KEY') || '';
     const secretKey = props.getProperty('TURNSTILE_SECRET_KEY') || '';
-    if (!siteKey || !secretKey) {
+    if (!secretKey) {
       throw new Error('The application portal is not fully configured yet. Please try again later.');
     }
     verifyTurnstile(form.turnstileToken, secretKey);

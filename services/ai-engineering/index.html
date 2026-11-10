@@ -47,6 +47,53 @@
         "name": "AI Engineering Services | TierShift Technologies",
         "isPartOf": { "@id": "https://thetiershift.com/#website" },
         "about": { "@id": "https://thetiershift.com/services/ai-engineering/#service" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://thetiershift.com/#website",
+        "url": "https://thetiershift.com/",
+        "name": "TierShift Technologies",
+        "publisher": { "@id": "https://thetiershift.com/#organization" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://thetiershift.com/services/ai-engineering/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thetiershift.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://thetiershift.com/#services" },
+          { "@type": "ListItem", "position": 3, "name": "AI Engineering", "item": "https://thetiershift.com/services/ai-engineering/" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://thetiershift.com/services/ai-engineering/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is AI engineering?",
+            "acceptedAnswer": { "@type": "Answer", "text": "AI engineering is the practice of designing, building, integrating and operating applications that use AI models. It includes data preparation, model selection, orchestration, evaluation, security and deployment." }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between RAG and fine-tuning?",
+            "acceptedAnswer": { "@type": "Answer", "text": "RAG retrieves relevant information from a knowledge source at query time and provides it to a model as context. Fine-tuning changes model behaviour through additional training. The right choice depends on the use case, data and expected outcomes." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can AI agents work with our existing business systems?",
+            "acceptedAnswer": { "@type": "Answer", "text": "They can be designed to interact with approved systems through APIs and other controlled tools. Access permissions, validation, auditability and human approval should be considered as part of the design." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do we need to have our data platform ready?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Not necessarily. We can first assess the available data, its quality and access constraints, then recommend a practical starting point. Some projects may need data preparation before an AI solution can deliver reliable results." }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you approach AI security and reliability?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Controls are selected for the application and its risk profile. Typical considerations include access control, data handling, grounded responses, evaluation, monitoring, human review and clear boundaries on what an AI system can do." }
+          }
+        ]
       }
     ]
   }
@@ -143,6 +190,37 @@
           <article class="usecase"><div class="ico">⇄</div><div><h3>Workflow coordination</h3><p>Connect systems and automate multi-step processes while keeping approvals and accountability in place.</p></div></article>
           <article class="usecase"><div class="ico">◎</div><div><h3>Customer and team support</h3><p>Provide context-aware assistance that helps people resolve common questions and find next steps.</p></div></article>
         </div>
+      </div>
+    </section>
+
+    <section class="section light" id="connected-services">
+      <div class="wrap">
+        <div class="heading">
+          <div class="kicker">CONNECTED CAPABILITIES</div>
+          <h2>AI works best when it connects to the right foundations.</h2>
+          <p>Bring AI together with trusted data, analytics and cloud platforms to create solutions that fit the way your business already works.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="ico">▦</div>
+            <h3>Data Engineering &amp; Platforms</h3>
+            <p>Prepare, integrate and govern the data that powers reliable AI applications, using modern data platforms and scalable pipelines.</p>
+            <p style="margin-top:15px"><a href="/services/data-engineering/" style="color:#4266e8;font-weight:700">Explore Data Engineering →</a></p>
+          </article>
+          <article class="card">
+            <div class="ico">▥</div>
+            <h3>Business Intelligence &amp; Analytics</h3>
+            <p>Connect AI-assisted analysis with business reporting, semantic models and decision-ready insights.</p>
+            <p style="margin-top:15px"><a href="/services/business-intelligence/" style="color:#4266e8;font-weight:700">Explore BI &amp; Analytics →</a></p>
+          </article>
+          <article class="card">
+            <div class="ico">☁</div>
+            <h3>Cloud &amp; Infrastructure</h3>
+            <p>Build the cloud foundations, integrations and deployment environments needed to operate AI solutions responsibly.</p>
+            <p style="margin-top:15px"><a href="/services/cloud-infrastructure/" style="color:#4266e8;font-weight:700">Explore Cloud Services →</a></p>
+          </article>
+        </div>
+        <p style="text-align:center;color:#65728a;font-size:13px;margin:25px 0 0">Our focus is practical implementation: the right data, connected systems, clear controls and measurable business outcomes.</p>
       </div>
     </section>
 

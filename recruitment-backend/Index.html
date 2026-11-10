@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <? if (turnstileSiteKey) { ?>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <? } ?>
+  <style>
+    :root{font-family:Inter,Arial,sans-serif;color:#26344d}
+    *{box-sizing:border-box}
+    body{margin:0;background:#f8faff}
+    .wrap{max-width:620px;margin:0 auto;padding:8px 2px 20px}
+    h2{font-size:1.45rem;color:#101b32;margin:0 0 8px}
+    .intro{color:#64748b;line-height:1.6;margin:0 0 22px;font-size:.94rem}
+    .field{margin:0 0 15px}
+    label{display:block;font-size:.9rem;font-weight:600;margin-bottom:7px;color:#26344d}
+    input,textarea,select{width:100%;padding:12px 13px;border:1px solid #d6deea;border-radius:8px;background:#fff;color:#26344d;font:inherit;font-size:.94rem}
+    textarea{min-height:92px;resize:vertical}
+    input:focus,textarea:focus,select:focus{outline:2px solid rgba(85,117,247,.22);border-color:#5575f7}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .consent{display:flex;align-items:flex-start;gap:9px;color:#64748b;font-size:.82rem;line-height:1.55;margin:18px 0}
+    .consent input{width:auto;margin:3px 0 0}
+    button{width:100%;border:0;border-radius:9px;padding:14px 18px;background:#5575f7;color:#fff;font-size:1rem;font-weight:700;cursor:pointer}
+    button:disabled{opacity:.65;cursor:wait}
+    .note{font-size:.78rem;line-height:1.55;color:#64748b;margin:13px 0 0}
+    .status{display:none;padding:14px;border-radius:9px;margin-top:16px;line-height:1.55;font-size:.9rem}
+    .success{display:block;background:#eaf7f4;color:#145c50}
+    .error{display:block;background:#fff0f0;color:#9b2525}
+    .trap{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+    @media(max-width:520px){.row{grid-template-columns:1fr;gap:0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Apply for Software Engineer</h2>
+    <p class="intro">Complete the details below and upload your CV. Once submitted, you'll receive an application reference number.</p>
+    <form id="applicationForm">
+      <div class="trap" aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="field"><label for="name">Full name *</label><input id="name" name="name" autocomplete="name" maxlength="100" required></div>
+      <div class="row">
+        <div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="160" required></div>
+        <div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="location">Current location *</label><input id="location" name="location" maxlength="120" required></div>
+        <div class="field"><label for="experience">Experience *</label><select id="experience" name="experience" required><option value="">Select experience</option><option>Fresher</option><option>Less than 1 year</option><option>1–2 years</option><option>2–3 years</option><option>3+ years</option></select></div>
+      </div>
+      <div class="field"><label for="skills">Key skills / technologies *</label><textarea id="skills" name="skills" maxlength="1200" placeholder="e.g. JavaScript, React, Node.js, SQL" required></textarea></div>
+      <div class="row">
+        <div class="field"><label for="linkedin">LinkedIn profile</label><input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/..."></div>
+        <div class="field"><label for="portfolio">GitHub / Portfolio</label><input id="portfolio" name="portfolio" type="url" placeholder="https://github.com/..."></div>
+      </div>
+      <div class="field"><label for="notice">Notice period / availability</label><input id="notice" name="notice" maxlength="120" placeholder="e.g. Immediate, 30 days"></div>
+      <div class="field"><label for="resume">Resume (PDF, up to 5 MB) *</label><input id="resume" name="resume" type="file" accept=".pdf,application/pdf" required></div>
+      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that TierShift Technologies may use the information I provide to assess my application and contact me about this opportunity. *</span></label>
+      <? if (turnstileSiteKey) { ?>
+        <div class="field"><div class="cf-turnstile" data-sitekey="<?= turnstileSiteKey ?>" data-callback="onTurnstileSuccess"></div></div>
+      <? } ?>
+      <button id="submitButton" type="submit">Submit application</button>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </form>
+    <p class="note">Your application details and CV are stored in private recruitment storage and are accessible only to the authorised recruitment team. Please do not include sensitive identity documents in your CV.</p>
+  </div>
+  <script>
+    let turnstileToken = '';
+    function onTurnstileSuccess(token){turnstileToken=token;}
+    const form=document.getElementById('applicationForm');
+    const button=document.getElementById('submitButton');
+    const statusBox=document.getElementById('status');
+    form.addEventListener('submit',function(event){
+      event.preventDefault();
+      if(!form.reportValidity())return;
+      const file=form.elements.resume.files[0];
+      if(!file||file.type!=='application/pdf'||file.size>5*1024*1024){
+        showStatus('Please upload a PDF resume no larger than 5 MB.','error');return;
+      }
+      button.disabled=true;button.textContent='Submitting…';
+      statusBox.className='status';statusBox.style.display='none';
+      google.script.run
+        .withSuccessHandler(function(result){
+          button.disabled=false;button.textContent='Submit application';
+          if(result&&result.success){
+            form.reset();turnstileToken='';
+            showStatus(result.message,'success');
+          }else{showStatus('We could not submit your application. Please try again.','error');}
+        })
+        .withFailureHandler(function(error){
+          button.disabled=false;button.textContent='Submit application';
+          showStatus(error&&error.message?error.message:'Something went wrong. Please try again.','error');
+        })
+        .submitApplication(form);
+    });
+    function showStatus(message,type){
+      statusBox.textContent=message;statusBox.className='status '+type;statusBox.style.display='block';
+    }
+  </script>
+</body>
+</html>

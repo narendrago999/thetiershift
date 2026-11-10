@@ -40,12 +40,19 @@
   </div>
   <script>
     let turnstileToken='';
+    let parentOrigin='https://thetiershift.com';
+    try { if (document.referrer) parentOrigin=new URL(document.referrer).origin; } catch(e) {}
     window.addEventListener('message',function(event){
-      if(event.origin!=='https://thetiershift.com'&&event.origin!=='https://www.thetiershift.com')return;
+      if(event.origin!==parentOrigin)return;
       if(event.data&&event.data.type==='TIERSHIFT_TURNSTILE_TOKEN'&&typeof event.data.token==='string'){
         turnstileToken=event.data.token;document.getElementById('turnstileToken').value=turnstileToken;
       }
     });
+    function notifyParentHeight(){
+      window.parent.postMessage({type:'TIERSHIFT_FORM_RESIZE',height:document.documentElement.scrollHeight},parentOrigin);
+    }
+    window.addEventListener('load',notifyParentHeight);
+    if(window.ResizeObserver){new ResizeObserver(notifyParentHeight).observe(document.documentElement);}
     const form=document.getElementById('applicationForm');
     const tokenInput=document.createElement('input');tokenInput.type='hidden';tokenInput.name='turnstileToken';tokenInput.id='turnstileToken';form.appendChild(tokenInput);
     const button=document.getElementById('submitButton');const statusBox=document.getElementById('status');
@@ -57,12 +64,12 @@
       button.disabled=true;button.textContent='Submitting…';statusBox.className='status';statusBox.style.display='none';
       google.script.run.withSuccessHandler(function(result){
         button.disabled=false;button.textContent='Submit application';
-        if(result&&result.success){form.reset();turnstileToken='';window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},'https://thetiershift.com');showStatus(result.message,'success');}
+        if(result&&result.success){form.reset();turnstileToken='';window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},parentOrigin);showStatus(result.message,'success');}
         else showStatus('We could not submit your application. Please try again.','error');
       }).withFailureHandler(function(error){
         button.disabled=false;button.textContent='Submit application';
         showStatus(error&&error.message?error.message:'Something went wrong. Please try again.','error');
-        window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},'https://thetiershift.com');turnstileToken='';
+        window.parent.postMessage({type:'TIERSHIFT_TURNSTILE_RESET'},parentOrigin);turnstileToken='';
       }).submitApplication(form);
     });
     function showStatus(message,type){statusBox.textContent=message;statusBox.className='status '+type;statusBox.style.display='block';}

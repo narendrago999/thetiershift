@@ -10,6 +10,8 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://challenges.cloudflare.com">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
   <style>
@@ -38,8 +40,11 @@
     .career-consent input{width:auto;margin-top:4px}
     .career-note{font-size:.82rem;color:#64748b;line-height:1.6;margin-top:14px}
     .career-status{display:none;margin-top:14px;padding:12px;border-radius:8px;background:#eaf7f4;color:#145c50;font-size:.9rem;line-height:1.5}
+    .turnstile-wrap{padding:16px;background:#fff;border:1px solid #d6deea;border-radius:12px;margin:20px 0 16px}
+    .turnstile-label{display:block;font-size:.82rem;font-weight:700;color:#526078;margin-bottom:10px}
+    .application-frame{display:block;width:100%;height:1200px;border:0;border-radius:12px;background:#f8faff;overflow:hidden}
     @media(max-width:800px){.career-grid{grid-template-columns:1fr}.careers-wrap{padding:48px 18px}}
-    @media(max-width:520px){.career-form .form-row{grid-template-columns:1fr}.career-card,.apply-card{padding:22px}.careers-hero{padding:68px 18px}}
+    @media(max-width:520px){.career-form .form-row{grid-template-columns:1fr}.career-card,.apply-card{padding:22px}.careers-hero{padding:68px 18px}.application-frame{height:1600px}}
   </style>
 </head>
 <body>
@@ -101,12 +106,16 @@
 
         <aside class="apply-card" id="apply">
           <h2>Apply for this role</h2>
-          <p>We're preparing a secure application portal so you can submit your details and CV directly without sending email attachments.</p>
-          <div style="padding:20px;border:1px solid #d6deea;border-radius:12px;background:#fff;margin-top:20px">
-            <strong style="color:#101b32">Applications portal coming shortly</strong>
-            <p style="margin:9px 0 0;color:#64748b;line-height:1.65">Our application form is being configured. Please check back shortly. For role-related questions, contact <a href="mailto:narendrago999@gmail.com">narendrago999@gmail.com</a>.</p>
+          <p>Complete the application form below and upload your PDF resume. You'll receive a reference number once your application is submitted.</p>
+          <div class="turnstile-wrap">
+            <span class="turnstile-label">Security verification</span>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAF7YfImsz2aD0beQ" data-theme="light" data-callback="onTierShiftTurnstileSuccess" data-expired-callback="onTierShiftTurnstileExpired" data-error-callback="onTierShiftTurnstileError"></div>
           </div>
-          <p class="career-note">When the portal opens, you will be able to complete the form, upload your PDF resume and receive an application reference number on submission.</p>
+          <iframe id="tierShiftApplicationFrame" class="application-frame"
+            src="https://script.google.com/macros/s/AKfycbwWs5sZ0J_dc1arc06Lk6dNylTd-83QYhlLRd2FxVk-_FZFHyTRuIWhPqQ9hqS7wxA/exec"
+            title="TierShift Software Engineer application form" loading="eager"
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <p class="career-note">Your resume and application details are saved in private recruitment storage. Please submit only information relevant to your application.</p>
         </aside>
       </div>
     </section>
@@ -115,29 +124,29 @@
   <footer class="site-footer"><div class="container"><div class="footer-bottom"><p class="copyright">© 2026 TierShift Technologies. All rights reserved.</p><p class="footer-motto"><a href="/">Home</a> · <a href="/insights/">Insights</a> · <a href="/privacy-policy/">Privacy Policy</a></p></div></div></footer>
 
   <script>
-    document.getElementById('careerApplication').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const form = event.currentTarget;
-      if (!form.reportValidity()) return;
-      const file = document.getElementById('applicantResume').files[0];
-      const status = document.getElementById('careerStatus');
-      if (!file || file.type !== 'application/pdf' || file.size > 5 * 1024 * 1024) {
-        status.style.display = 'block';
-        status.textContent = 'Please select a PDF resume no larger than 5 MB.';
-        return;
+    function onTierShiftTurnstileSuccess(token) {
+      const frame = document.getElementById('tierShiftApplicationFrame');
+      if (frame && frame.contentWindow) frame.contentWindow.postMessage({type:'TIERSHIFT_TURNSTILE_TOKEN',token:token}, '*');
+    }
+    function onTierShiftTurnstileExpired() {
+      const frame = document.getElementById('tierShiftApplicationFrame');
+      if (frame && frame.contentWindow) frame.contentWindow.postMessage({type:'TIERSHIFT_TURNSTILE_TOKEN',token:''}, '*');
+    }
+    function onTierShiftTurnstileError() { onTierShiftTurnstileExpired(); }
+    window.addEventListener('message', function(event) {
+      const frame = document.getElementById('tierShiftApplicationFrame');
+      if (!frame || event.source !== frame.contentWindow || !event.data) return;
+      if (event.data.type === 'TIERSHIFT_FORM_RESIZE' && Number.isFinite(event.data.height)) {
+        frame.style.height = Math.max(900, Math.min(2400, event.data.height + 24)) + 'px';
       }
-      const data = new FormData(form);
-      const fields = [
-        ['Name', data.get('name')], ['Email', data.get('email')], ['Phone', data.get('phone') || 'Not provided'],
-        ['Location', data.get('location')], ['Experience', data.get('experience')], ['Skills', data.get('skills')],
-        ['LinkedIn', data.get('linkedin') || 'Not provided'], ['GitHub / Portfolio', data.get('portfolio') || 'Not provided'],
-        ['Notice period', data.get('notice') || 'Not provided'], ['Resume filename', file.name]
-      ];
-      const body = fields.map(([label, value]) => label + ': ' + value).join('\n');
-      const subject = encodeURIComponent('Software Engineer Application - ' + data.get('name'));
-      window.location.href = 'mailto:narendrago999@gmail.com?subject=' + subject + '&body=' + encodeURIComponent(body + '\n\nI will attach my PDF resume before sending.');
-      status.style.display = 'block';
-      status.textContent = 'Your email draft should open now. Please attach ' + file.name + ' to the email and press Send. The application is not submitted until you send it.';
+      if (event.data.type === 'TIERSHIFT_TURNSTILE_RESET' && window.turnstile) {
+        const widget = document.querySelector('.cf-turnstile');
+        if (widget) {
+          const response = widget.querySelector('input[name="cf-turnstile-response"]');
+          if (response) response.value = '';
+        }
+        try { if (window.turnstile.reset) window.turnstile.reset(); } catch (error) {}
+      }
     });
   </script>
 </body>

@@ -7,3 +7,84 @@
 .ts-brand-tag{display:block;margin:0;padding:0 0 0 1px;color:#64748B;font-family:Inter,Arial,sans-serif;font-size:8px;font-weight:700;letter-spacing:.23em;line-height:1.25;white-space:nowrap}
 .ts-brand:focus-visible{outline:2px solid #5575F7;outline-offset:5px;border-radius:4px}
 @media(max-width:480px){.ts-brand{gap:9px}.ts-brand-mark{width:36px;height:36px;flex-basis:36px}.ts-brand-name{font-size:21px}}
+
+/* Shared homepage navigation system: consistent across every page */
+:where(header.site-header,header.header,header.topbar){
+  position:sticky!important;top:0!important;left:auto!important;right:auto!important;
+  z-index:1000!important;width:100%!important;height:84px!important;min-height:84px!important;
+  margin:0!important;padding:0!important;
+  background:rgba(16,27,50,.94)!important;
+  -webkit-backdrop-filter:blur(16px)!important;backdrop-filter:blur(16px)!important;
+  border:0!important;border-bottom:1px solid rgba(255,255,255,.09)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.12)!important;
+}
+:where(header.site-header,header.header,header.topbar) :where(.header-container,.head,.wrap.nav){
+  box-sizing:border-box!important;width:100%!important;max-width:1200px!important;
+  min-height:84px!important;height:84px!important;margin:0 auto!important;
+  padding:0 24px!important;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:28px!important;
+}
+:where(header.site-header,header.header,header.topbar) .ts-brand{margin:0!important;flex:0 0 auto!important}
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop){
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:26px!important;margin:0!important;padding:0!important;min-width:0!important;
+}
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop) a{
+  display:inline-flex!important;align-items:center!important;gap:7px!important;
+  color:#CBD5E1!important;font-family:Inter,Arial,sans-serif!important;
+  font-size:14px!important;font-weight:500!important;line-height:1.3!important;
+  text-decoration:none!important;white-space:nowrap!important;
+  padding:9px 0!important;border:0!important;background:transparent!important;
+  transition:color .18s ease!important;
+}
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop) a:hover,
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop) a:focus-visible,
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop) a.active{
+  color:#fff!important;
+}
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop) a.cta,
+:where(header.site-header,header.header,header.topbar) a.navcta,
+:where(header.site-header,header.header,header.topbar) .header-cta{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  min-height:42px!important;padding:0 18px!important;border:1px solid #5575F7!important;
+  border-radius:8px!important;background:linear-gradient(110deg,#5575F7,#4263df)!important;
+  color:#fff!important;font-size:13px!important;font-weight:700!important;
+  text-decoration:none!important;white-space:nowrap!important;
+  box-shadow:0 5px 16px rgba(85,117,247,.2)!important;
+}
+:where(header.site-header,header.header,header.topbar) a.navcta:hover,
+:where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks) a.cta:hover,
+:where(header.site-header,header.header,header.topbar) .header-cta:hover{
+  background:linear-gradient(110deg,#6684ff,#5575F7)!important;color:#fff!important;
+}
+:where(header.site-header,header.header,header.topbar) .ts-brand-name{color:#fff!important}
+:where(header.site-header,header.header,header.topbar) .ts-brand-tag{color:#aebbd0!important}
+:where(header.site-header,header.header,header.topbar) .ts-brand-name>span{color:#7f9bff!important}
+:where(header.site-header,header.header,header.topbar) .nav-dropdown-menu{
+  background:rgba(10,17,32,.98)!important;border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.34)!important;border-radius:14px!important;
+}
+@media(max-width:900px){
+  :where(header.site-header,header.header,header.topbar) :where(.header-container,.head,.wrap.nav){
+    gap:16px!important;padding-left:18px!important;padding-right:18px!important;
+  }
+  :where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop){gap:16px!important}
+}
+@media(max-width:700px){
+  :where(header.site-header,header.header,header.topbar){height:auto!important;min-height:72px!important}
+  :where(header.site-header,header.header,header.topbar) :where(.header-container,.head,.wrap.nav){
+    min-height:72px!important;height:auto!important;flex-wrap:wrap!important;
+    row-gap:8px!important;padding-top:12px!important;padding-bottom:12px!important;
+  }
+  :where(header.header,header.topbar) :where(nav.nav,nav.navlinks){
+    order:3!important;flex:1 0 100%!important;justify-content:flex-start!important;
+    gap:20px!important;overflow-x:auto!important;overflow-y:hidden!important;
+    padding:2px 0 5px!important;scrollbar-width:none!important;
+  }
+  :where(header.header,header.topbar) :where(nav.nav,nav.navlinks)::-webkit-scrollbar{display:none}
+  :where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks,nav.nav-desktop) a{
+    font-size:13px!important;padding:7px 0!important;
+  }
+  :where(header.site-header,header.header,header.topbar) :where(nav.nav,nav.navlinks) a.cta,
+  :where(header.site-header,header.header,header.topbar) a.navcta{min-height:36px!important;padding:0 13px!important}
+}

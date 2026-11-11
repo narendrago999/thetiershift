@@ -1352,16 +1352,21 @@
                     <label for="serviceInterest">Service Interested In <span class="required">*</span></label>
                     <div class="select-wrapper">
                       <select id="serviceInterest" name="service" required>
-                        <option value="" disabled selected>Select a primary capability...</option>
-                        <option value="Data Engineering & Platforms">Data Engineering &amp; Platforms (Fabric, Databricks, Snowflake)</option>
-                        <option value="Artificial Intelligence & Automation">Artificial Intelligence &amp; Automation (Agents, RAG, GenAI)</option>
-                        <option value="Business Intelligence & Analytics">Business Intelligence &amp; Analytics (Power BI, Dashboards)</option>
-                        <option value="Cloud & Infrastructure">Cloud &amp; Infrastructure (Azure Solutions &amp; Migration)</option>
-                        <option value="Software & Web Development">Software &amp; Web Development (Custom Web Apps &amp; APIs)</option>
-                        <option value="Data Management & Operations">Data Management &amp; Operations (Quality, Cleansing, Validation)</option>
-                        <option value="Digital Experience & Web Solutions">Digital Experience &amp; Web Solutions (UI/UX, SEO, Redesign)</option>
-                        <option value="IT Consulting & Digital Transformation">IT Consulting &amp; Digital Transformation (Roadmaps &amp; Architecture)</option>
-                        <option value="General Advisory / Other">Other / Comprehensive Digital Transformation</option>
+                        <option value="" disabled selected>Select a service...</option>
+                        <optgroup label="CORE SERVICES">
+                          <option value="AI Agents & Agentic Workforce">AI Agents &amp; Agentic Workforce (Custom agents, AI workforce)</option>
+                          <option value="Data Engineering & Data Platforms">Data Engineering &amp; Data Platforms (Fabric, Databricks, Snowflake)</option>
+                          <option value="Business Intelligence & Analytics">Business Intelligence &amp; Analytics (Power BI, Dashboards)</option>
+                        </optgroup>
+                        <optgroup label="ADDITIONAL SERVICES">
+                          <option value="AI Engineering & Automation">AI Engineering &amp; Automation (RAG, GenAI, workflow automation)</option>
+                          <option value="Cloud Infrastructure">Cloud Infrastructure (Azure solutions &amp; migration)</option>
+                          <option value="Data Management & Operations">Data Management &amp; Operations (Quality, cleansing, validation)</option>
+                          <option value="Digital Experience & Web Solutions">Digital Experience &amp; Web Solutions (UI/UX, SEO, redesign)</option>
+                          <option value="Software & Web Development">Software &amp; Web Development (Custom web apps &amp; APIs)</option>
+                          <option value="IT Consulting & Digital Transformation">IT Consulting &amp; Digital Transformation (Roadmaps &amp; architecture)</option>
+                        </optgroup>
+                        <option value="General Advisory / Other">Other / Not sure yet</option>
                       </select>
                       <svg class="select-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

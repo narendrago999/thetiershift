@@ -626,12 +626,12 @@ function sendEnquiry(event) {
   );
 
   // Trigger client email application
-  window.location.href = `mailto:narendrago999@gmail.com?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:thetiershift@gmail.com?subject=${subject}&body=${body}`;
 
   // Display user guidance toast notification
   showToast(
     "Email Client Opened",
-    `A prefilled email message for narendrago999@gmail.com has been prepared in your default email client. Please review the details and click send.`
+    `A prefilled email message for thetiershift@gmail.com has been prepared in your default email client. Please review the details and click send.`
   );
 }
 

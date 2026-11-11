@@ -46,14 +46,23 @@
     @media(max-width:800px){.career-grid{grid-template-columns:1fr}.careers-wrap{padding:48px 18px}}
     @media(max-width:520px){.career-form .form-row{grid-template-columns:1fr}.career-card,.apply-card{padding:22px}.careers-hero{padding:68px 18px}.application-frame{height:1600px}}
   </style>
+  <link rel="stylesheet" href="/assets/css/brand-consistency.css">
 </head>
 <body>
   <header class="site-header">
     <div class="header-container">
-      <a href="/" class="brand-logo" aria-label="TierShift Technologies Home">
-        <div class="logo-mark"><img src="/favicon.svg" width="36" height="36" alt=""></div>
-        <div class="logo-text"><span class="logo-name">Tier<span class="text-accent">Shift</span></span><span class="logo-tag">TECHNOLOGIES</span></div>
-      </a>
+      <a class="ts-brand" href="/" aria-label="TierShift Technologies home">
+  <svg class="ts-brand-mark" viewBox="0 0 40 40" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect width="40" height="40" rx="10" fill="#101B32" stroke="#5575F7" stroke-width="1.5" stroke-opacity=".4"/>
+    <rect x="9" y="10" width="22" height="4.5" rx="2.25" fill="url(#tsBrandGradient)"/>
+    <rect x="14" y="17" width="12" height="4" rx="2" fill="#5575F7" opacity=".95"/>
+    <rect x="16.5" y="23.5" width="7" height="3.5" rx="1.75" fill="#16B8A6"/>
+    <path d="M20 34V27M20 27l-4 4M20 27l4 4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="29" cy="12" r="1.5" fill="#16B8A6"/>
+    <defs><linearGradient id="tsBrandGradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#5575F7"/><stop offset="100%" stop-color="#16B8A6"/></linearGradient></defs>
+  </svg>
+  <span class="ts-brand-copy"><span class="ts-brand-name">Tier<span>Shift</span></span><span class="ts-brand-tag">TECHNOLOGIES</span></span>
+</a>
       <nav class="nav-desktop" aria-label="Main Navigation">
         <ul class="nav-links">
           <li><a href="/" class="nav-link">Home</a></li>

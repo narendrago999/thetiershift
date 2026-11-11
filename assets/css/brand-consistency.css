@@ -1,0 +1,9 @@
+/* TierShift shared brand mark and wordmark */
+.ts-brand{display:inline-flex!important;align-items:center!important;align-self:center;gap:11px;flex:0 0 auto;min-width:max-content;height:44px;margin:0;padding:0;text-decoration:none!important;line-height:1;vertical-align:middle}
+.ts-brand-mark{display:block;flex:0 0 40px;width:40px;height:40px;max-width:40px;margin:0;object-fit:contain}
+.ts-brand-copy{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3px;min-width:0;margin:0;padding:0}
+.ts-brand-name{display:block;margin:0;padding:0;color:#101B32;font-family:"Space Grotesk",Inter,Arial,sans-serif;font-size:23px;font-weight:700;letter-spacing:-.055em;line-height:1.05;white-space:nowrap}
+.ts-brand-name>span{color:#5575F7}
+.ts-brand-tag{display:block;margin:0;padding:0 0 0 1px;color:#64748B;font-family:Inter,Arial,sans-serif;font-size:8px;font-weight:700;letter-spacing:.23em;line-height:1.25;white-space:nowrap}
+.ts-brand:focus-visible{outline:2px solid #5575F7;outline-offset:5px;border-radius:4px}
+@media(max-width:480px){.ts-brand{gap:9px}.ts-brand-mark{width:36px;height:36px;flex-basis:36px}.ts-brand-name{font-size:21px}}

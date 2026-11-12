@@ -119,4 +119,15 @@
   <url><loc>https://thetiershift.com/insights/articles/power-bi-direct-lake-performance-design/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://thetiershift.com/insights/articles/onelake-shortcuts-architecture-security/</loc><lastmod>2026-11-12</lastmod></url>
   <url><loc>https://thetiershift.com/insights/articles/fabric-lakehouse-delta-table-optimization/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/pipeline-success-stale-data/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/duplicate-records-ingestion/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/slow-pyspark-jobs/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/schema-drift-pipeline-failures/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/power-bi-direct-lake-fallback/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/manual-reporting-bottlenecks/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/ai-hallucinations-enterprise/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/ai-data-access-security/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/cloud-cost-overruns/</loc><lastmod>2026-11-12</lastmod></url>
+  <url><loc>https://thetiershift.com/problems/disconnected-business-systems/</loc><lastmod>2026-11-12</lastmod></url>
 </urlset>

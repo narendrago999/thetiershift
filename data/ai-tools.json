@@ -22,8 +22,10 @@
       "pricingUrl": "https://chatgpt.com/pricing/",
       "pricingLabel": "Free plan; limits apply",
       "pricingType": "free",
-      "bestFor": "General AI assistant for writing, analysis, coding and multimodal tasks",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A flexible starting point for general questions, writing, coding assistance and exploring ideas.",
+      "useCase": "Drafts, brainstorming, code explanations, data exploration and general-purpose assistant workflows.",
+      "checkBeforeChoosing": "Check source quality, context limits, data handling and whether cited material is current.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "claude",
@@ -34,8 +36,10 @@
       "pricingUrl": "https://claude.com/pricing",
       "pricingLabel": "Free plan; limits apply",
       "pricingType": "free",
-      "bestFor": "AI assistant for writing, coding and long-context analysis",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A strong fit for careful drafting, lengthy documents and coding conversations.",
+      "useCase": "Long-form drafting, document analysis, code review and working through complex written context.",
+      "checkBeforeChoosing": "Check source quality, context limits, data handling and whether cited material is current.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "gemini",
@@ -46,8 +50,10 @@
       "pricingUrl": "https://gemini.google/in/subscriptions/",
       "pricingLabel": "Free access; paid plans expand limits",
       "pricingType": "free",
-      "bestFor": "Google AI assistant for research, writing and multimodal tasks",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful for multimodal questions and work that benefits from Google service integration.",
+      "useCase": "Multimodal assistance and research tasks that fit naturally into Google’s ecosystem.",
+      "checkBeforeChoosing": "Check source quality, context limits, data handling and whether cited material is current.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "perplexity",
@@ -58,8 +64,10 @@
       "pricingUrl": "https://www.perplexity.ai/pro",
       "pricingLabel": "Free Standard plan; advanced research paid",
       "pricingType": "free",
-      "bestFor": "Web answer engine with linked sources",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A good choice when you want a web-oriented answer with references to inspect.",
+      "useCase": "Quick web research where source links and follow-up questions matter.",
+      "checkBeforeChoosing": "Check source quality, context limits, data handling and whether cited material is current.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "microsoft-copilot",
@@ -70,8 +78,10 @@
       "pricingUrl": "https://www.microsoft.com/en-us/microsoft-copilot/pricing",
       "pricingLabel": "Free access; features vary",
       "pricingType": "free",
-      "bestFor": "Microsoft AI assistant for questions, drafting and web-grounded help",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful for general assistance and Microsoft-centred productivity workflows.",
+      "useCase": "Everyday web assistance, drafting and workflows connected to Microsoft products.",
+      "checkBeforeChoosing": "Check source quality, context limits, data handling and whether cited material is current.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "midjourney",
@@ -82,8 +92,10 @@
       "pricingUrl": "https://www.midjourney.com/plans",
       "pricingLabel": "Paid subscription",
       "pricingType": "paid",
-      "bestFor": "AI image creation for stylised visuals and concept art",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Designed for visual ideation and art-directed image generation; it is a paid product.",
+      "useCase": "Concept art, campaign imagery and highly art-directed visual exploration.",
+      "checkBeforeChoosing": "Review generation credits, commercial-use terms, output ownership and control over text or brand assets.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "ideogram",
@@ -94,8 +106,10 @@
       "pricingUrl": "https://ideogram.ai/pricing/",
       "pricingLabel": "Free access and paid options; limits change",
       "pricingType": "limited",
-      "bestFor": "Image generation for typography-led visuals and graphic concepts",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Especially useful when the prompt needs typography or lettering to appear in the generated artwork.",
+      "useCase": "Posters, social graphics and concepts where readable text inside an image is important.",
+      "checkBeforeChoosing": "Review generation credits, commercial-use terms, output ownership and control over text or brand assets.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "leonardo-ai",
@@ -106,8 +120,10 @@
       "pricingUrl": "https://www.leonardo.ai/pricing",
       "pricingLabel": "Free plan with daily tokens",
       "pricingType": "free",
-      "bestFor": "Creative image and visual asset generation platform",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful for creative asset generation and exploring consistent visual directions.",
+      "useCase": "Game assets, product concepts and repeatable visual styles for creative projects.",
+      "checkBeforeChoosing": "Review generation credits, commercial-use terms, output ownership and control over text or brand assets.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "adobe-firefly",
@@ -118,8 +134,10 @@
       "pricingUrl": "https://www.adobe.com/products/firefly/plans.html",
       "pricingLabel": "Free plan with limited daily generations",
       "pricingType": "limited",
-      "bestFor": "Adobe generative AI for image, vector and creative editing",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A fit for creative teams already working with Adobe tools and generative editing.",
+      "useCase": "Generative edits and visual assets in workflows that use Adobe creative applications.",
+      "checkBeforeChoosing": "Review generation credits, commercial-use terms, output ownership and control over text or brand assets.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "recraft",
@@ -128,10 +146,11 @@
       "description": "AI design platform for image and vector generation",
       "website": "https://www.recraft.ai/",
       "pricingUrl": "https://www.recraft.ai/pricing",
-      "pricingLabel": "Free access; credit limits apply",
-      "pricingType": "limited",
-      "bestFor": "AI design platform for image and vector generation",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "Useful for vector-like assets, icons and design-oriented visual production.",
+      "useCase": "Brand illustrations, icons and vector-style graphics for design systems.",
+      "checkBeforeChoosing": "Review generation credits, commercial-use terms, output ownership and control over text or brand assets."
     },
     {
       "slug": "runway",
@@ -140,10 +159,11 @@
       "description": "AI creative platform for generating and editing video",
       "website": "https://runwayml.com/",
       "pricingUrl": "https://runwayml.com/pricing",
-      "pricingLabel": "One-time free credits; paid for ongoing use",
-      "pricingType": "limited",
-      "bestFor": "AI creative platform for generating and editing video",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "A creative video suite for experimenting with generative clips and editing.",
+      "useCase": "Creative video experiments, scene generation and AI-assisted video editing.",
+      "checkBeforeChoosing": "Check clip length, generation credits, watermarking, queue priority and commercial-use rights."
     },
     {
       "slug": "kling-ai",
@@ -151,11 +171,13 @@
       "category": "Video",
       "description": "AI video and image creation for prompt-led clips",
       "website": "https://klingai.com/",
-      "pricingUrl": "https://klingai.com/",
+      "pricingUrl": "",
       "pricingLabel": "Check current regional pricing and credits",
       "pricingType": "verify",
-      "bestFor": "AI video and image creation for prompt-led clips",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A video-generation option for prompt-led and image-led visual experiments.",
+      "useCase": "Prompt-led video clips and image-to-video experiments for visual storytelling.",
+      "checkBeforeChoosing": "Check clip length, generation credits, watermarking, queue priority and commercial-use rights.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "luma-dream-machine",
@@ -164,10 +186,11 @@
       "description": "Generative video experience for cinematic clips",
       "website": "https://lumalabs.ai/dream-machine",
       "pricingUrl": "https://lumalabs.ai/pricing",
-      "pricingLabel": "Check current access and plan limits",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "Generative video experience for cinematic clips",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A tool to explore generative motion and cinematic-style video concepts.",
+      "useCase": "Cinematic concept clips and motion studies from text or image prompts.",
+      "checkBeforeChoosing": "Check clip length, generation credits, watermarking, queue priority and commercial-use rights."
     },
     {
       "slug": "synthesia",
@@ -178,8 +201,10 @@
       "pricingUrl": "https://www.synthesia.io/pricing",
       "pricingLabel": "Basic free plan; paid production tiers",
       "pricingType": "free",
-      "bestFor": "AI presenter video platform for training and explainers",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A practical fit for structured training and presenter-style business videos.",
+      "useCase": "Presenter-led explainers, onboarding videos and internal training content.",
+      "checkBeforeChoosing": "Check clip length, generation credits, watermarking, queue priority and commercial-use rights.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "pika",
@@ -190,8 +215,10 @@
       "pricingUrl": "https://pika.art/pricing",
       "pricingLabel": "Free account; monthly credits may be zero",
       "pricingType": "limited",
-      "bestFor": "AI visual creation for short video effects and generative clips",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "For short-form generative video experiments; verify current credit availability before planning a project.",
+      "useCase": "Short creative clips and playful video transformations for social content.",
+      "checkBeforeChoosing": "Check clip length, generation credits, watermarking, queue priority and commercial-use rights.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "github-copilot",
@@ -202,8 +229,10 @@
       "pricingUrl": "https://github.com/features/copilot/plans",
       "pricingLabel": "Free plan with usage limits",
       "pricingType": "free",
-      "bestFor": "AI coding assistant integrated with development environments",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A coding assistant for developers who want suggestions and chat inside supported tools.",
+      "useCase": "Inline code completion, chat-assisted coding and developer productivity inside supported IDEs.",
+      "checkBeforeChoosing": "Review IDE compatibility, repository permissions, code retention, model limits and team security controls.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "cursor",
@@ -212,10 +241,11 @@
       "description": "AI-focused code editor with codebase-aware chat and agentic workflows",
       "website": "https://cursor.com/",
       "pricingUrl": "https://cursor.com/pricing",
-      "pricingLabel": "Free plan with limited usage",
-      "pricingType": "free",
-      "bestFor": "AI-focused code editor with codebase-aware chat and agentic workflows",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "A code editor aimed at developers who want AI assistance across a repository.",
+      "useCase": "Codebase-aware editing, refactoring and agent-style development in an AI-first editor.",
+      "checkBeforeChoosing": "Review IDE compatibility, repository permissions, code retention, model limits and team security controls."
     },
     {
       "slug": "windsurf",
@@ -224,10 +254,11 @@
       "description": "AI development environment with agentic coding and codebase context",
       "website": "https://windsurf.com/",
       "pricingUrl": "https://windsurf.com/pricing",
-      "pricingLabel": "Check current free tier and limits",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "AI development environment with agentic coding and codebase context",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "An AI-oriented coding environment for multi-step development tasks.",
+      "useCase": "Multi-file coding tasks and agent-assisted development in a dedicated coding environment.",
+      "checkBeforeChoosing": "Review IDE compatibility, repository permissions, code retention, model limits and team security controls."
     },
     {
       "slug": "replit",
@@ -238,8 +269,10 @@
       "pricingUrl": "https://replit.com/pricing",
       "pricingLabel": "Check plan and usage-based pricing",
       "pricingType": "verify",
-      "bestFor": "Browser development platform with AI-assisted app building",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A browser-based environment for building and sharing application prototypes.",
+      "useCase": "Prototyping and deploying small applications from a browser-based development workspace.",
+      "checkBeforeChoosing": "Review IDE compatibility, repository permissions, code retention, model limits and team security controls.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "amazon-q-developer",
@@ -250,8 +283,10 @@
       "pricingUrl": "https://aws.amazon.com/q/developer/pricing/",
       "pricingLabel": "Free tier and Pro tier",
       "pricingType": "free",
-      "bestFor": "AWS developer assistant for coding, security and AWS tasks",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Most relevant to developers building, operating or securing workloads on AWS.",
+      "useCase": "AWS-focused coding help, explaining cloud resources and developer security workflows.",
+      "checkBeforeChoosing": "Review IDE compatibility, repository permissions, code retention, model limits and team security controls.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "grammarly",
@@ -262,8 +297,10 @@
       "pricingUrl": "https://www.grammarly.com/plans",
       "pricingLabel": "Free plan; advanced features paid",
       "pricingType": "free",
-      "bestFor": "Writing assistant for spelling, grammar, tone and clarity",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A writing companion for everyday professional communication and editing.",
+      "useCase": "Polishing emails, reports and business writing for clarity, tone and correctness.",
+      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "jasper",
@@ -274,8 +311,9 @@
       "pricingUrl": "https://www.jasper.ai/pricing",
       "pricingLabel": "Paid plans; trial terms may apply",
       "pricingType": "trial",
-      "bestFor": "AI marketing platform for campaign content and brand-aware writing",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A marketing-focused platform for teams producing repeated brand-led campaigns.",
+      "useCase": "Marketing teams producing campaign content while maintaining brand voice and consistency.",
+      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options."
     },
     {
       "slug": "copy-ai",
@@ -284,10 +322,11 @@
       "description": "AI go-to-market and content workflow platform",
       "website": "https://www.copy.ai/",
       "pricingUrl": "https://www.copy.ai/prices",
-      "pricingLabel": "Check current paid and usage tiers",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "AI go-to-market and content workflow platform",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A workflow-oriented option for sales and go-to-market teams.",
+      "useCase": "Go-to-market workflows such as sales research, campaign planning and content operations.",
+      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options."
     },
     {
       "slug": "writesonic",
@@ -298,8 +337,10 @@
       "pricingUrl": "https://writesonic.com/pricing",
       "pricingLabel": "Check current trial and plan terms",
       "pricingType": "verify",
-      "bestFor": "AI content and search visibility platform",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A content and search visibility platform; compare its current modules with your publishing workflow.",
+      "useCase": "Content workflows and visibility research for teams working on search-led growth.",
+      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "quillbot",
@@ -308,10 +349,11 @@
       "description": "Writing suite with paraphrasing, grammar and summarising tools",
       "website": "https://quillbot.com/",
       "pricingUrl": "https://quillbot.com/premium",
-      "pricingLabel": "Free tools; Premium unlocks more",
-      "pricingType": "free",
-      "bestFor": "Writing suite with paraphrasing, grammar and summarising tools",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "Useful for editing and summarising drafts; review rewritten text for meaning and accuracy.",
+      "useCase": "Paraphrasing, summarising and improving drafts while retaining the original meaning.",
+      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options."
     },
     {
       "slug": "notion-ai",
@@ -322,8 +364,9 @@
       "pricingUrl": "https://www.notion.com/pricing",
       "pricingLabel": "Limited trial; continued use requires eligible paid plan",
       "pricingType": "trial",
-      "bestFor": "AI features in Notion for drafting, summaries and workspace search",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Most useful when project knowledge and documentation already live in Notion.",
+      "useCase": "Summarising workspace knowledge, drafting internal docs and finding information across Notion.",
+      "checkBeforeChoosing": "Check workspace permissions, connected-app access, data retention and plan-level AI quotas."
     },
     {
       "slug": "gamma",
@@ -334,8 +377,10 @@
       "pricingUrl": "https://gamma.app/pricing",
       "pricingLabel": "Free plan with usage limits",
       "pricingType": "free",
-      "bestFor": "AI presentation and document workspace",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A quick route from a brief to a polished presentation or document draft.",
+      "useCase": "Turning an outline or brief into a presentation, proposal or shareable document.",
+      "checkBeforeChoosing": "Check workspace permissions, connected-app access, data retention and plan-level AI quotas.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "canva-ai",
@@ -346,8 +391,10 @@
       "pricingUrl": "https://www.canva.com/pricing/",
       "pricingLabel": "Free plan; AI feature limits apply",
       "pricingType": "free",
-      "bestFor": "Design platform with AI-assisted writing, image creation and layouts",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful for everyday design tasks and marketing content in Canva.",
+      "useCase": "Creating branded social posts, presentations and marketing assets with assisted design tools.",
+      "checkBeforeChoosing": "Check workspace permissions, connected-app access, data retention and plan-level AI quotas.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "notebooklm",
@@ -355,11 +402,12 @@
       "category": "Productivity",
       "description": "Google research assistant that works from supplied sources",
       "website": "https://notebooklm.google/",
-      "pricingUrl": "https://notebooklm.google/",
-      "pricingLabel": "Free access with usage limits",
-      "pricingType": "free",
-      "bestFor": "Google research assistant that works from supplied sources",
-      "verifiedOn": "2026-11-12"
+      "pricingUrl": "",
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "Best suited to a bounded collection of source materials rather than unrestricted web research.",
+      "useCase": "Researching a defined set of source documents and generating source-grounded summaries.",
+      "checkBeforeChoosing": "Check workspace permissions, connected-app access, data retention and plan-level AI quotas."
     },
     {
       "slug": "otter-ai",
@@ -368,10 +416,11 @@
       "description": "AI meeting assistant for transcription and searchable notes",
       "website": "https://otter.ai/",
       "pricingUrl": "https://otter.ai/pricing",
-      "pricingLabel": "Free Basic plan with monthly limits",
-      "pricingType": "free",
-      "bestFor": "AI meeting assistant for transcription and searchable notes",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "Useful for capturing and revisiting spoken meetings, subject to participant consent and company policy.",
+      "useCase": "Meeting transcription, searchable notes and action-item capture for teams.",
+      "checkBeforeChoosing": "Check workspace permissions, connected-app access, data retention and plan-level AI quotas."
     },
     {
       "slug": "elevenlabs",
@@ -382,8 +431,10 @@
       "pricingUrl": "https://elevenlabs.io/pricing",
       "pricingLabel": "Free plan with monthly limits",
       "pricingType": "free",
-      "bestFor": "AI voice platform for text-to-speech, voice design and dubbing",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A voice-generation toolkit; confirm voice rights and usage terms before publishing.",
+      "useCase": "Producing synthetic narration, voice prototypes and multilingual audio content.",
+      "checkBeforeChoosing": "Review voice and music rights, consent requirements, commercial licensing and export limits.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "suno",
@@ -394,8 +445,10 @@
       "pricingUrl": "https://suno.com/pricing",
       "pricingLabel": "Free plan with usage limits",
       "pricingType": "free",
-      "bestFor": "AI music creation platform for generating songs from prompts",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "For music ideation and song drafts; check licensing terms before commercial distribution.",
+      "useCase": "Exploring original music ideas and generating song drafts from text prompts.",
+      "checkBeforeChoosing": "Review voice and music rights, consent requirements, commercial licensing and export limits.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "descript",
@@ -406,8 +459,10 @@
       "pricingUrl": "https://www.descript.com/pricing",
       "pricingLabel": "Free plan with limits",
       "pricingType": "free",
-      "bestFor": "Audio and video editor with text-based editing and transcription",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful when editing spoken content is easier through its transcript than a traditional timeline.",
+      "useCase": "Editing spoken-word audio or video by editing its transcript and cleaning up recordings.",
+      "checkBeforeChoosing": "Review voice and music rights, consent requirements, commercial licensing and export limits.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "murf-ai",
@@ -418,8 +473,9 @@
       "pricingUrl": "https://murf.ai/pricing",
       "pricingLabel": "Trial/preview; production features paid",
       "pricingType": "trial",
-      "bestFor": "AI voiceover platform for studio-style narration",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A voiceover workflow for narration and presentation content.",
+      "useCase": "Creating voiceovers for product demos, training material and presentation narration.",
+      "checkBeforeChoosing": "Review voice and music rights, consent requirements, commercial licensing and export limits."
     },
     {
       "slug": "adobe-podcast",
@@ -427,11 +483,12 @@
       "category": "Audio",
       "description": "Browser audio tools for speech enhancement and podcast production",
       "website": "https://podcast.adobe.com/",
-      "pricingUrl": "https://podcast.adobe.com/",
-      "pricingLabel": "Free tools; enhanced features may require a plan",
-      "pricingType": "free",
-      "bestFor": "Browser audio tools for speech enhancement and podcast production",
-      "verifiedOn": "2026-11-12"
+      "pricingUrl": "",
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "A focused option for improving spoken-word recording quality.",
+      "useCase": "Improving spoken-audio clarity and preparing recordings for podcasts or interviews.",
+      "checkBeforeChoosing": "Review voice and music rights, consent requirements, commercial licensing and export limits."
     },
     {
       "slug": "julius-ai",
@@ -442,8 +499,10 @@
       "pricingUrl": "https://julius.ai/pricing",
       "pricingLabel": "Free tier with usage limits",
       "pricingType": "free",
-      "bestFor": "AI data analysis assistant for spreadsheets and visualisation",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A conversational route into spreadsheet analysis and quick charts.",
+      "useCase": "Asking questions of spreadsheets, exploring trends and creating quick data visualisations.",
+      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "akkio",
@@ -452,10 +511,11 @@
       "description": "AI analytics platform for predictive modelling and BI workflows",
       "website": "https://www.akkio.com/",
       "pricingUrl": "https://www.akkio.com/pricing",
-      "pricingLabel": "Business plans; trial/demo may vary",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "AI analytics platform for predictive modelling and BI workflows",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Relevant to teams exploring predictive analytics and business forecasting.",
+      "useCase": "Exploring predictive analytics and business modelling with a guided analytics workflow.",
+      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated."
     },
     {
       "slug": "hex",
@@ -464,10 +524,11 @@
       "description": "Collaborative analytics workspace combining SQL, Python and AI",
       "website": "https://hex.tech/",
       "pricingUrl": "https://hex.tech/pricing",
-      "pricingLabel": "Check current free workspace eligibility",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "Collaborative analytics workspace combining SQL, Python and AI",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A collaborative notebook-style analytics workspace for technical data teams.",
+      "useCase": "Combining SQL, Python notebooks and collaborative analysis for data teams.",
+      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated."
     },
     {
       "slug": "tableau",
@@ -478,8 +539,9 @@
       "pricingUrl": "https://www.tableau.com/pricing/overview",
       "pricingLabel": "Paid licensing; AI features depend on product",
       "pricingType": "paid",
-      "bestFor": "Analytics platform for visual exploration and business dashboards",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "An established BI platform for governed dashboards and visual analytics.",
+      "useCase": "Building interactive dashboards and exploring business metrics across connected data sources.",
+      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated."
     },
     {
       "slug": "power-bi-copilot",
@@ -490,8 +552,9 @@
       "pricingUrl": "https://www.microsoft.com/en-us/power-platform/products/power-bi/pricing",
       "pricingLabel": "Requires eligible paid capacity/licensing",
       "pricingType": "paid",
-      "bestFor": "AI capabilities in Fabric and Power BI for reports and data questions",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Relevant to organisations already using eligible Microsoft Fabric and Power BI capacity.",
+      "useCase": "Using eligible Microsoft Fabric and Power BI capacity for AI-assisted report and data experiences.",
+      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated."
     },
     {
       "slug": "n8n",
@@ -502,8 +565,10 @@
       "pricingUrl": "https://n8n.io/pricing/",
       "pricingLabel": "Free self-hosted community edition; hosted plans paid",
       "pricingType": "free",
-      "bestFor": "Workflow automation with integrations, logic and AI nodes",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A flexible automation option, particularly when self-hosting and custom logic matter.",
+      "useCase": "Building flexible automations and AI workflows, including self-hosted integrations.",
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "make",
@@ -512,10 +577,11 @@
       "description": "Visual automation platform for connecting apps and workflows",
       "website": "https://www.make.com/",
       "pricingUrl": "https://www.make.com/en/pricing",
-      "pricingLabel": "Free plan with operation limits",
-      "pricingType": "free",
-      "bestFor": "Visual automation platform for connecting apps and workflows",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "A visual way to connect apps and orchestrate business processes.",
+      "useCase": "Connecting SaaS applications through visual multi-step scenarios and scheduled automations.",
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security."
     },
     {
       "slug": "zapier",
@@ -526,8 +592,10 @@
       "pricingUrl": "https://zapier.com/pricing",
       "pricingLabel": "Free plan; Agents Free has activity limits",
       "pricingType": "free",
-      "bestFor": "Automation platform connecting apps, data and AI agents",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful for connecting common SaaS tools and automating repetitive hand-offs.",
+      "useCase": "Automating repetitive work between business apps and experimenting with agent-led tasks.",
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "lindy",
@@ -536,10 +604,11 @@
       "description": "AI agent platform for tasks across connected business tools",
       "website": "https://www.lindy.ai/",
       "pricingUrl": "https://www.lindy.ai/pricing",
-      "pricingLabel": "Check current credits and free allowance",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "AI agent platform for tasks across connected business tools",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "An agent-oriented option for delegating repeatable work across connected applications.",
+      "useCase": "Delegating repeatable administrative and business tasks to agents connected to work apps.",
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security."
     },
     {
       "slug": "gumloop",
@@ -548,10 +617,11 @@
       "description": "Visual AI workflow builder connecting models, tools and data",
       "website": "https://www.gumloop.com/",
       "pricingUrl": "https://www.gumloop.com/pricing",
-      "pricingLabel": "Check current free and paid tier limits",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "Visual AI workflow builder connecting models, tools and data",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A visual builder for AI workflows that combine multiple tools and model steps.",
+      "useCase": "Building visual AI workflows that combine models, tools and business data.",
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security."
     },
     {
       "slug": "elicit",
@@ -562,8 +632,10 @@
       "pricingUrl": "https://elicit.com/pricing",
       "pricingLabel": "Free Basic plan; advanced usage paid",
       "pricingType": "free",
-      "bestFor": "AI research assistant for finding papers and literature reviews",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "A research assistant for literature discovery and structured review work.",
+      "useCase": "Finding relevant academic papers and organising evidence for a literature review.",
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "consensus",
@@ -572,10 +644,11 @@
       "description": "Research search engine using scientific literature to answer questions",
       "website": "https://consensus.app/",
       "pricingUrl": "https://consensus.app/pricing",
-      "pricingLabel": "Check free query limits and paid tiers",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "Research search engine using scientific literature to answer questions",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Useful for exploring what published scientific literature says about a question.",
+      "useCase": "Exploring research questions against scientific papers and comparing evidence.",
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources."
     },
     {
       "slug": "scite",
@@ -586,8 +659,10 @@
       "pricingUrl": "https://scite.ai/pricing",
       "pricingLabel": "Subscription/trial; no ongoing free access assumed",
       "pricingType": "trial",
-      "bestFor": "Research tool for exploring how scholarly articles are cited",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "Helpful when you want citation context rather than only a paper title or abstract.",
+      "useCase": "Checking how research papers are cited and whether later studies support or contrast with them.",
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "khanmigo",
@@ -595,11 +670,12 @@
       "category": "Research",
       "description": "Khan Academy AI-powered tutoring and teaching assistant",
       "website": "https://www.khanacademy.org/khan-labs",
-      "pricingUrl": "https://www.khanacademy.org/khan-labs",
-      "pricingLabel": "Availability and pricing vary by country and user type",
+      "pricingUrl": "",
+      "pricingLabel": "Check provider for current access and limits",
       "pricingType": "verify",
-      "bestFor": "Khan Academy AI-powered tutoring and teaching assistant",
-      "verifiedOn": "2026-11-12"
+      "bestFor": "An educational assistant; availability and access depend on country and user type.",
+      "useCase": "Guided tutoring and learning support for eligible learners and educators.",
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources."
     },
     {
       "slug": "wolfram-alpha",
@@ -608,10 +684,11 @@
       "description": "Computational knowledge engine for maths, science and structured queries",
       "website": "https://www.wolframalpha.com/",
       "pricingUrl": "https://www.wolframalpha.com/pro/",
-      "pricingLabel": "Free basic access; Pro adds features",
-      "pricingType": "free",
-      "bestFor": "Computational knowledge engine for maths, science and structured queries",
-      "verifiedOn": "2026-11-12"
+      "pricingLabel": "Check provider for current access and limits",
+      "pricingType": "verify",
+      "bestFor": "Useful for computational questions where a worked calculation is more helpful than prose.",
+      "useCase": "Computational answers for maths, science, unit conversions and structured factual queries.",
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources."
     }
   ]
 }

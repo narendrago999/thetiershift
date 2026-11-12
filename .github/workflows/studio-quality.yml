@@ -12,6 +12,7 @@ on:
       - ".github/workflows/studio-quality.yml"
       - ".github/workflows/studio-live-smoke.yml"
       - "assets/js/site-navigation.js"
+      - "assets/js/tier-analytics.js"
   push:
     branches:
       - main
@@ -40,5 +41,6 @@ jobs:
         run: |
           node --check studio/studio.js
           node --check assets/js/site-navigation.js
+          node --check assets/js/tier-analytics.js
       - name: Run static Studio QA
         run: python3 studio/qa-check.py

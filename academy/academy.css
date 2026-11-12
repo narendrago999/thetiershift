@@ -18,7 +18,6 @@ body{background:var(--ac-paper);color:var(--ac-ink)}
 .academy-button-primary{color:#fff;background:linear-gradient(115deg,#5575f7,#4766e7);box-shadow:0 10px 24px rgba(85,117,247,.26)}
 .academy-button-ghost{border:1px solid rgba(255,255,255,.2);color:#e4eaf6;background:rgba(255,255,255,.04)}
 .academy-trust-row{display:flex;gap:20px;flex-wrap:wrap;margin-top:28px;color:#b6c5d9;font-size:11px;font-weight:650}
-.academy-trust-row span: first-letter{color:#3de0c2}
 .academy-hero-visual{height:410px;position:relative;display:grid;place-items:center}
 .academy-hero-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(85,117,247,.2);filter:blur(70px)}
 .academy-orbit{position:absolute;border:1px solid rgba(160,183,255,.2);border-radius:50%;transform:rotate(-24deg)}

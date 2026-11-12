@@ -39,7 +39,7 @@ const catalog=[
 ['tool-executor','Tool Executor','agent','ai','⚙','Invoke approved business tools',['control','data','tool-result'],['tool-result'],{permissions:'Allow-list',approval:'Required for writes'}],
 ['agent-memory','Agent Memory','storage','ai','▣','Persist permitted agent context',['control'],['control'],{retention:'Session',sensitiveData:'Excluded'}],
 ['access-control','Access Control','governance','control','⛨','Identity and permission boundary',['data','document','control'],['data','control'],{model:'Least privilege',review:'Periodic'}],
-['monitoring','Monitoring','governance','control','◉','Operational observability',['data','control'],['signal'],{metrics:'Freshness, latency, failures',alerts:'Enabled'}],
+['monitoring','Monitoring','governance','control','◉','Operational observability',['data','control','signal'],['signal'],{metrics:'Freshness, latency, failures',alerts:'Enabled'}],
 ['lineage','Data Lineage','governance','control','⌁','Trace data dependencies',['data'],['signal'],{scope:'End-to-end',capture:'Automated'}],
 ['audit-logging','Audit Logging','governance','control','≡','Record material actions',['data','response','tool-result'],['signal'],{events:'Access and changes',retention:'Policy-defined'}],
 ['human-approval','Human Approval','governance','control','☑','Human review and sign-off',['control','tool-result'],['tool-result'],{mode:'Required',evidence:'Recorded'}],

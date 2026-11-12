@@ -18,7 +18,8 @@
     '<details><summary>Resources</summary><div class="ts-mobile-sub"><a href="/ai-tools/">AI Tools Directory</a><a href="/insights/">Insights &amp; Articles</a></div></details>'+
     '<details><summary>Company</summary><div class="ts-mobile-sub"><a href="/about/">About Us</a><a href="/careers/">Careers</a></div></details>'+
     '<a href="/#contact">Contact</a><a class="ts-global-mobile-cta" href="/#contact">Let’s Talk →</a></nav></div></header>';
-  const replace = () => {\n    const analyticsScript = document.createElement('script');
+  const replace = () => {
+    const analyticsScript = document.createElement('script');
     analyticsScript.src = '/assets/js/tier-analytics.js';
     analyticsScript.async = true;
     document.head.appendChild(analyticsScript);

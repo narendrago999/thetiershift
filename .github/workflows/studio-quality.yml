@@ -5,6 +5,7 @@ on:
     paths:
       - "studio/**"
       - ".github/workflows/studio-quality.yml"
+      - "assets/js/site-navigation.js"
   push:
     branches:
       - main

@@ -32,7 +32,7 @@ if duplicates:
 for asset in parser.assets:
     if asset.startswith(("http://", "https://", "//")):
         continue
-    target = (ROOT / asset).resolve()
+    target = ((ROOT.parent / asset.lstrip("/")) if asset.startswith("/") else (ROOT / asset)).resolve()
     if not target.is_file():
         raise SystemExit(f"Missing local asset: {asset}")
 
@@ -68,5 +68,14 @@ if '/studio/' not in nav or "Engineering Studio" not in nav:
 
 if 'href="./studio.css"' not in html or 'src="./studio.js"' not in html:
     raise SystemExit("Studio must use its relative local CSS and JavaScript assets")
+
+
+consent_script = (ROOT.parent / "assets/js/site-consent.js").read_text(encoding="utf-8")
+if "/assets/js/site-consent.js" not in parser.assets or "/assets/js/tier-analytics.js" not in parser.assets:
+    raise SystemExit("Studio must load the shared consent manager and analytics tracker")
+if "tiershift-analytics-consent" not in consent_script or "analytics_storage" not in consent_script:
+    raise SystemExit("Shared consent manager must persist visitor choice and update GA4 consent")
+if "send_page_view:false" not in html or "analytics_storage:'denied'" not in html:
+    raise SystemExit("Studio must default GA4 analytics consent to denied and disable automatic page views")
 
 print(f"Studio QA passed: {len(static_ids)} HTML ids, {len(catalog_ids)} components, {len(template_ids)} templates, {len(parser.assets)} local assets.")

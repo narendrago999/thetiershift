@@ -5,7 +5,8 @@
     '<nav class="ts-global-nav" aria-label="Main navigation">'+
     '<a href="/">Home</a>'+
     '<div class="ts-global-group"><a href="/#services" class="ts-global-trigger" aria-haspopup="true">Services <span class="ts-global-chevron"></span></a><div class="ts-global-dropdown"><div><strong>CORE SERVICES</strong><a href="/services/ai-agents-agentic-workforce/">AI Agents &amp; Agentic Workforce</a><a href="/services/data-engineering/">Data Engineering &amp; Data Platforms</a><a href="/services/business-intelligence/">Business Intelligence &amp; Analytics</a></div><div><strong>ADDITIONAL SERVICES</strong><a href="/services/ai-engineering/">AI Engineering &amp; Automation</a><a href="/services/cloud-infrastructure/">Cloud Infrastructure</a><a href="/services/data-management-operations/">Data Management &amp; Operations</a><a href="/services/digital-experience-web-solutions/">Digital Experience &amp; Web Solutions</a><a href="/services/software-web-development/">Software &amp; Web Development</a><a href="/services/it-consulting-digital-transformation/">IT Consulting &amp; Digital Transformation</a></div></div></div>'+
-    '<a href="/problems/">Problems</a>'+\n    '<a href="/ai-tools/">AI Tools</a>'+
+    '<a href="/problems/">Problems</a>'+
+    '<a href="/ai-tools/">AI Tools</a>'+
     '<a href="/insights/">Insights</a>'+
     '<div class="ts-global-group"><a href="/about/" class="ts-global-trigger" aria-haspopup="true">Company <span class="ts-global-chevron"></span></a><div class="ts-global-dropdown ts-global-company"><div><strong>COMPANY</strong><a href="/about/">About Us</a><a href="/careers/">Careers</a></div></div></div>'+
     '<a href="/#contact">Contact</a></nav>'+

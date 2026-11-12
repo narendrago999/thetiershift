@@ -7,6 +7,10 @@ on:
     paths:
       - 'studio/**'
       - 'architecture/**'
+      - 'contact/**'
+      - 'insights/**'
+      - 'services/**'
+      - 'assets/js/tier-analytics.js'
       - 'sitemap.xml'
       - 'assets/js/site-navigation.js'
       - '.github/workflows/studio-live-smoke.yml'

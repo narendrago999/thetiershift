@@ -7,6 +7,7 @@ on:
       - "architecture/**"
       - "sitemap.xml"
       - ".github/workflows/studio-quality.yml"
+      - ".github/workflows/studio-live-smoke.yml"
       - "assets/js/site-navigation.js"
   push:
     branches:

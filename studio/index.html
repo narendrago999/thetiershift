@@ -54,10 +54,24 @@
 <section class="view page-view" id="examplesView"><div class="page-intro"><div class="eyebrow">LEARN BY EXPLORING</div><h1>Architecture examples</h1><p>Explore illustrative patterns and understand the decisions behind them.</p></div><div class="example-grid" id="exampleGrid"></div></section>
 <section class="view page-view" id="helpView"><div class="page-intro"><div class="eyebrow">STUDIO FIELD GUIDE</div><h1>Design with confidence.</h1><p>A quick guide to building, validating and sharing architecture designs.</p></div><div class="help-grid"><article class="help-card"><span>01 / BUILD</span><h2>Compose the flow</h2><p>Drag components from the catalogue onto the canvas. Select any component to configure its name and properties.</p></article><article class="help-card"><span>02 / CONNECT</span><h2>Join the systems</h2><p>Click an output port, then click a compatible input port. Connections can be selected and removed.</p></article><article class="help-card"><span>03 / VALIDATE</span><h2>Review the design</h2><p>Run deterministic checks for structural gaps, missing controls and common data or AI architecture omissions.</p></article><article class="help-card"><span>04 / SHARE</span><h2>Export the blueprint</h2><p>Save a TAPF JSON project or export a visual SVG. Print the blueprint to create a PDF from your browser.</p></article></div><div class="notice-card"><b>Important scope note</b><p>Engineering Studio is a browser-based architecture design and learning tool. It does not connect to, provision, execute or validate live cloud infrastructure. Validation findings are design guidance, not a security or compliance certification.</p></div></section>
 </main>
+<section class="studio-lead" aria-labelledby="studioLeadTitle">
+  <div class="studio-lead-copy"><span class="eyebrow">FROM BLUEPRINT TO DELIVERY</span><h2 id="studioLeadTitle">Have an architecture in mind? Let’s make it real.</h2><p>Our engineers can help you turn your data or AI design into a production-ready solution, from technical planning to implementation.</p><div class="studio-lead-tags"><span>Microsoft Fabric</span><span>Databricks</span><span>Snowflake</span><span>Enterprise AI</span></div></div>
+  <div class="studio-lead-actions"><a class="btn btn-primary" data-studio-lead="email" href="mailto:thetiershift@gmail.com?subject=Engineering%20Studio%20-%20Architecture%20相談">Discuss your architecture ↗</a><a class="studio-lead-secondary" data-studio-lead="services" href="/services/data-engineering/">Explore our engineering services</a><small>No obligation. Tell us what you’re building.</small></div>
+</section>
 <footer class="studio-footer"><span>© TierShift Technologies</span><span>ENGINEERING STUDIO v1.0 · DESIGNED FOR BETTER SYSTEMS</span><a href="/privacy-policy/">Privacy</a></footer>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div class="eyebrow">NEW ARCHITECTURE</div><h2 id="modalTitle">Create a project</h2><p>Give your architecture a name and choose a starting point.</p><label class="field-label">Project name<input id="newName" maxlength="80" value="Untitled architecture"></label><label class="field-label">Architecture domain<select id="newDomain"><option value="data-engineering">Data engineering</option><option value="enterprise-ai">Enterprise AI</option><option value="multi">Data + enterprise AI</option></select></label><div class="modal-actions"><button class="btn btn-quiet" id="modalCancel">Cancel</button><button class="btn btn-primary" id="createProject">Create project →</button></div></section></div>
+<!-- GA4 with Consent Mode v2; analytics remains denied until consent is granted -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3EZB1M014N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});
+  gtag('js', new Date());
+  gtag('config', 'G-3EZB1M014N', {send_page_view:false});
+</script>
+<script src="/assets/js/tier-analytics.js" defer></script>
 <script src="./studio.js" defer></script>
 </body>
 </html>

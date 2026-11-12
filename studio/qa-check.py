@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parent
 html = (ROOT / "index.html").read_text(encoding="utf-8")
 js = (ROOT / "studio.js").read_text(encoding="utf-8")
 css = (ROOT / "studio.css").read_text(encoding="utf-8")
+nav = (ROOT.parent / "assets/js/site-navigation.js").read_text(encoding="utf-8")
 
 class PageParser(HTMLParser):
     def __init__(self):
@@ -61,6 +62,9 @@ required = ["function portsCompatible", "function validate()", "function importP
 for token in required:
     if token not in js:
         raise SystemExit(f"Missing expected Studio capability: {token}")
+
+if '/studio/' not in nav or "Engineering Studio" not in nav:
+    raise SystemExit("Engineering Studio is missing from shared desktop/mobile navigation")
 
 if 'href="./studio.css"' not in html or 'src="./studio.js"' not in html:
     raise SystemExit("Studio must use its relative local CSS and JavaScript assets")

@@ -146,3 +146,35 @@ if 'href="/contact/"' not in nav:
     raise SystemExit("Shared navigation does not route to the project enquiry page")
 
 print(f"Studio QA passed: {len(static_ids)} HTML ids, {len(catalog_ids)} components, {len(template_ids)} templates, {len(parser.assets)} local assets.")
+
+# Intelligence Centre QA: six interactive browser-based decision tools.
+intelligence_root = ROOT.parent / "intelligence"
+intelligence_page = intelligence_root / "index.html"
+intelligence_js = intelligence_root / "intelligence.js"
+intelligence_css = intelligence_root / "intelligence.css"
+for asset in (intelligence_page, intelligence_js, intelligence_css):
+    if not asset.is_file():
+        raise SystemExit(f"Missing Intelligence Centre asset: {asset.relative_to(ROOT.parent)}")
+intelligence_html = intelligence_page.read_text(encoding="utf-8")
+intelligence_script = intelligence_js.read_text(encoding="utf-8")
+intelligence_parser = PageParser()
+intelligence_parser.feed(intelligence_html)
+if len(intelligence_parser.ids) != len(set(intelligence_parser.ids)):
+    raise SystemExit("Intelligence Centre contains duplicate HTML ids")
+for token in ('<title>TierShift Intelligence Centre', 'name="description"', 'https://thetiershift.com/intelligence/', '/assets/js/site-consent.js', '/assets/js/site-navigation.js', '/intelligence/intelligence.css', '/intelligence/intelligence.js', 'ca-pub-2845295883834438', "send_page_view:false"):
+    if token not in intelligence_html:
+        raise SystemExit(f"Intelligence Centre page missing required integration: {token}")
+for tool_id in ('platform-cost', 'cloud-cost', 'pipeline-performance', 'ai-readiness', 'powerbi-check', 'data-maturity'):
+    if f'id="{tool_id}"' not in intelligence_html:
+        raise SystemExit(f"Missing Intelligence Centre tool: {tool_id}")
+for capability in ('function platform()', 'function cloud()', 'function performance()', 'function score(', 'function biScore()', 'navigator.clipboard.writeText'):
+    if capability not in intelligence_script:
+        raise SystemExit(f"Missing Intelligence Centre capability: {capability}")
+for asset in ('/intelligence/intelligence.css', '/intelligence/intelligence.js'):
+    if asset not in intelligence_parser.assets:
+        raise SystemExit(f"Intelligence Centre asset not loaded: {asset}")
+if '/intelligence/' not in nav or 'Intelligence Centre' not in nav:
+    raise SystemExit("Intelligence Centre is missing from shared desktop/mobile navigation")
+if 'https://thetiershift.com/intelligence/' not in sitemap_urls:
+    raise SystemExit("Intelligence Centre route missing from sitemap")
+print("Intelligence Centre QA passed: six tools, local interaction logic, SEO metadata, shared consent/navigation, assets and sitemap.")

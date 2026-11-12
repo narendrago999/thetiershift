@@ -8,8 +8,8 @@
     '<div class="ts-global-group"><a href="/problems/" class="ts-global-trigger" aria-haspopup="true">Solutions <span class="ts-global-chevron"></span></a><div class="ts-global-dropdown ts-global-solutions"><div><strong>UNDERSTAND THE CHALLENGE</strong><a class="ts-nav-feature" href="/problems/"><b>Problems We Solve</b><small>Explore common business and technology challenges.</small></a></div><div><strong>FIND YOUR WAY FORWARD</strong><a class="ts-nav-feature" href="/solution-finder/"><b>Solution Finder</b><small>Get a guided assessment and practical next steps.</small></a><a class="ts-nav-feature" href="/solution-lab/"><b>Solution Lab</b><small>Experiment with interactive engineering scenarios.</small></a><a class="ts-nav-feature" href="/studio/"><b>Engineering Studio</b><small>Design and validate data and AI architectures.</small></a><a class="ts-nav-feature" href="/architecture/"><b>Architecture Blueprints</b><small>Explore practical data and enterprise AI reference designs.</small></a></div></div></div>'+
     '<div class="ts-global-group"><a href="/insights/" class="ts-global-trigger" aria-haspopup="true">Resources <span class="ts-global-chevron"></span></a><div class="ts-global-dropdown ts-global-resources"><div><strong>EXPLORE TOOLS</strong><a class="ts-nav-feature" href="/ai-tools/"><b>AI Tools Directory</b><small>Discover useful AI products and platforms.</small></a></div><div><strong>LEARN &amp; EXPLORE</strong><a class="ts-nav-feature" href="/insights/"><b>Insights &amp; Articles</b><small>Technical guides, perspectives and practical ideas.</small></a></div></div></div>'+
     '<div class="ts-global-group"><a href="/about/" class="ts-global-trigger" aria-haspopup="true">Company <span class="ts-global-chevron"></span></a><div class="ts-global-dropdown ts-global-company"><div><strong>COMPANY</strong><a href="/about/">About Us</a><a href="/careers/">Careers</a></div></div></div>'+
-    '<a href="/#contact">Contact</a></nav>'+
-    '<a class="ts-global-cta" href="/#contact">Let’s Talk <span aria-hidden="true">→</span></a>'+
+    '<a href="/contact/">Contact</a></nav>'+
+    '<a class="ts-global-cta" href="/contact/">Let’s Talk <span aria-hidden="true">→</span></a>'+
     '<button class="ts-global-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>'+
     '</div><div class="ts-global-mobile"><nav aria-label="Mobile navigation">'+
     '<a href="/">Home</a>'+
@@ -17,7 +17,7 @@
     '<details><summary>Solutions</summary><div class="ts-mobile-sub"><a href="/problems/">Problems We Solve</a><a href="/solution-finder/">Solution Finder</a><a href="/solution-lab/">Solution Lab</a><a href="/studio/">Engineering Studio</a><a href="/architecture/">Architecture Blueprints</a></div></details>'+
     '<details><summary>Resources</summary><div class="ts-mobile-sub"><a href="/ai-tools/">AI Tools Directory</a><a href="/insights/">Insights &amp; Articles</a></div></details>'+
     '<details><summary>Company</summary><div class="ts-mobile-sub"><a href="/about/">About Us</a><a href="/careers/">Careers</a></div></details>'+
-    '<a href="/#contact">Contact</a><a class="ts-global-mobile-cta" href="/#contact">Let’s Talk →</a></nav></div></header>';
+    '<a href="/contact/">Contact</a><a class="ts-global-mobile-cta" href="/contact/">Let’s Talk →</a></nav></div></header>';
   const replace = () => {
     const analyticsScript = document.createElement('script');
     analyticsScript.src = '/assets/js/tier-analytics.js';

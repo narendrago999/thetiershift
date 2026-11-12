@@ -27,6 +27,8 @@ jobs:
         with:
           node-version: 22
       - name: Check JavaScript syntax
-        run: node --check studio/studio.js
+        run: |
+          node --check studio/studio.js
+          node --check assets/js/site-navigation.js
       - name: Run static Studio QA
         run: python3 studio/qa-check.py

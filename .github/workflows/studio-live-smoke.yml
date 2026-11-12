@@ -1,4 +1,4 @@
-name: Engineering Studio live smoke test
+name: TierShift live site smoke test
 
 on:
   push:
@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'studio/**'
+      - 'architecture/**'
+      - 'sitemap.xml'
       - 'assets/js/site-navigation.js'
       - '.github/workflows/studio-live-smoke.yml'
   workflow_run:
@@ -24,7 +26,7 @@ jobs:
     if: ${{ github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Verify the deployed Studio route and assets
+      - name: Verify deployed Studio and architecture routes
         shell: bash
         run: |
           set -euo pipefail
@@ -37,3 +39,22 @@ jobs:
           curl --fail --location --retry 5 --retry-delay 5 --retry-all-errors https://thetiershift.com/assets/js/site-navigation.js -o /tmp/site-navigation.js
           grep -q '/studio/' /tmp/site-navigation.js
           echo "Engineering Studio live route, assets and shared navigation verified."
+          while IFS='|' read -r route marker; do
+            curl --fail --location --retry 12 --retry-delay 10 --retry-all-errors --max-time 30 "https://thetiershift.com${route}" -o /tmp/architecture.html
+            grep -Fq "${marker}" /tmp/architecture.html
+            grep -Fq 'rel="canonical"' /tmp/architecture.html
+            grep -Fq '/assets/js/site-consent.js' /tmp/architecture.html
+            grep -Fq 'ca-pub-2845295883834438' /tmp/architecture.html
+            echo "Verified ${route}"
+          done <<'ROUTES'
+          /architecture/|Architecture Blueprints
+          /architecture/microsoft-fabric-medallion/|Microsoft Fabric Medallion Architecture Blueprint
+          /architecture/databricks-lakehouse/|Enterprise Databricks Lakehouse Architecture
+          /architecture/enterprise-rag-ai-agent/|Enterprise RAG
+          ROUTES
+          curl --fail --location --retry 5 --retry-delay 5 --retry-all-errors https://thetiershift.com/sitemap.xml -o /tmp/sitemap.xml
+          grep -q 'https://thetiershift.com/architecture/' /tmp/sitemap.xml
+          grep -q 'https://thetiershift.com/architecture/microsoft-fabric-medallion/' /tmp/sitemap.xml
+          grep -q 'https://thetiershift.com/architecture/databricks-lakehouse/' /tmp/sitemap.xml
+          grep -q 'https://thetiershift.com/architecture/enterprise-rag-ai-agent/' /tmp/sitemap.xml
+          echo "Architecture routes, metadata, consent, AdSense and sitemap verified."

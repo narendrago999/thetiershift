@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="Design, validate and export data engineering and enterprise AI architectures with TierShift Engineering Studio. Free, browser-based architecture design.">
+<link rel="canonical" href="https://thetiershift.com/studio/">
+<title>Engineering Studio | TierShift Technologies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./studio.css">
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar">
+  <a class="brand" href="/" aria-label="TierShift home"><span class="brand-mark">T<span>S</span></span><span><b>TierShift</b><small>ENGINEERING STUDIO</small></span></a>
+  <nav class="top-nav" aria-label="Studio navigation"><button class="nav-item active" data-view="workspace">Workspace</button><button class="nav-item" data-view="templates">Templates</button><button class="nav-item" data-view="projects">My projects</button><button class="nav-item" data-view="examples">Examples</button><button class="nav-item" data-view="help">Help</button></nav>
+  <div class="top-actions"><span class="save-state" id="saveState"><i></i> Local workspace</span><button class="btn btn-quiet" id="newProject">＋ New</button><button class="btn btn-primary" id="exportTop">Export blueprint ↗</button><button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button></div>
+</header>
+<main>
+<section class="view active" id="workspaceView">
+  <div class="workspace-heading"><div><div class="eyebrow">ARCHITECTURE DESIGN WORKSPACE <span class="live-dot"></span> BROWSER-BASED</div><h1 id="projectTitle">Untitled architecture</h1><p>Design the flow. Connect the systems. Validate the thinking.</p></div><div class="heading-tools"><span class="domain-chip" id="domainChip">DATA ENGINEERING</span><button class="btn btn-quiet" id="fitCanvas">Fit canvas</button><button class="btn btn-quiet" id="validateBtn">✓ Validate</button></div></div>
+  <div class="editor">
+    <aside class="panel catalogue-panel">
+      <div class="panel-head"><div><span class="panel-kicker">BUILD</span><h2>Components</h2></div><button class="icon-btn" id="collapseCatalogue" aria-label="Collapse component catalogue">−</button></div>
+      <label class="search"><span>⌕</span><input id="componentSearch" placeholder="Search components…" autocomplete="off"></label>
+      <div class="category-tabs"><button class="cat-tab active" data-category="all">All</button><button class="cat-tab" data-category="data">Data</button><button class="cat-tab" data-category="ai">AI</button><button class="cat-tab" data-category="control">Controls</button></div>
+      <div id="catalogueList" class="catalogue-list"></div>
+      <div class="catalogue-tip"><span>✦</span><div><b>Build your architecture</b><small>Drag a component onto the canvas, or select it to add.</small></div></div>
+    </aside>
+    <section class="canvas-column">
+      <div class="canvas-toolbar"><div class="canvas-breadcrumb"><span>PROJECT</span><b id="canvasProjectName">Untitled architecture</b></div><div class="canvas-actions"><button class="tool-btn" id="undoBtn" title="Undo">↶</button><button class="tool-btn" id="redoBtn" title="Redo">↷</button><span class="tool-divider"></span><button class="tool-btn" id="zoomOut" title="Zoom out">−</button><span id="zoomValue" class="zoom-value">100%</span><button class="tool-btn" id="zoomIn" title="Zoom in">＋</button></div></div>
+      <div class="canvas-viewport" id="canvasViewport">
+        <div class="canvas-world" id="canvasWorld">
+          <svg class="edge-layer" id="edgeLayer" aria-label="Architecture connections"></svg>
+          <div class="canvas-empty" id="canvasEmpty"><div class="empty-orbit">✳</div><h3>Start with a system</h3><p>Drag a component here or choose a starting point.</p><button class="btn btn-primary" id="addSource">＋ Add a source</button><span>or</span><button class="text-btn" id="loadStarter">Explore a starter architecture →</button></div>
+          <div class="nodes-layer" id="nodesLayer"></div>
+        </div>
+        <div class="canvas-hint"><span>DRAG TO MOVE</span><span>·</span><span>SELECT TO INSPECT</span><span>·</span><span>CONNECT WITH PORTS</span></div>
+        <div class="minimap" id="miniMap"><div class="mini-label">CANVAS MAP</div><div class="mini-dots" id="miniDots"></div></div>
+      </div>
+      <div class="bottom-dock"><div class="dock-tabs"><button class="dock-tab active" data-dock="validation">Validation <span id="issueCount" class="count">0</span></button><button class="dock-tab" data-dock="activity">Activity</button></div><div class="dock-content" id="dockContent"><div class="empty-validation"><span>✓</span><div><b>Ready to review</b><small>Run validation to check your architecture for gaps.</small></div><button class="text-btn" id="dockValidate">Run checks →</button></div></div></div>
+    </section>
+    <aside class="panel inspector-panel" id="inspectorPanel">
+      <div class="panel-head"><div><span class="panel-kicker">CONFIGURE</span><h2>Inspector</h2></div><button class="icon-btn" id="closeInspector" aria-label="Close inspector">×</button></div>
+      <div id="inspectorContent" class="inspector-content"><div class="inspector-empty"><div class="inspect-icon">◈</div><h3>Nothing selected</h3><p>Select a component on the canvas to configure it, or choose a connection to inspect its properties.</p><div class="inspector-note"><b>Quick tip</b><span>Use the small ports on each component to connect the architecture flow.</span></div></div></div>
+    </aside>
+  </div>
+</section>
+<section class="view page-view" id="templatesView"><div class="page-intro"><div class="eyebrow">START WITH A PATTERN</div><h1>Architecture templates</h1><p>Practical starting points for common data and enterprise AI architectures. Every template is editable.</p></div><div class="template-grid" id="templateGrid"></div></section>
+<section class="view page-view" id="projectsView"><div class="page-intro"><div class="eyebrow">SAVED IN THIS BROWSER</div><h1>My projects</h1><p>Your work stays on this device. Export a backup if you need to move it to another browser.</p></div><div class="project-toolbar"><span id="projectCount">0 projects</span><label class="btn btn-quiet file-label">Import project<input type="file" id="importFile" accept=".json,application/json" hidden></label></div><div class="project-grid" id="projectGrid"></div></section>
+<section class="view page-view" id="examplesView"><div class="page-intro"><div class="eyebrow">LEARN BY EXPLORING</div><h1>Architecture examples</h1><p>Explore illustrative patterns and understand the decisions behind them.</p></div><div class="example-grid" id="exampleGrid"></div></section>
+<section class="view page-view" id="helpView"><div class="page-intro"><div class="eyebrow">STUDIO FIELD GUIDE</div><h1>Design with confidence.</h1><p>A quick guide to building, validating and sharing architecture designs.</p></div><div class="help-grid"><article class="help-card"><span>01 / BUILD</span><h2>Compose the flow</h2><p>Drag components from the catalogue onto the canvas. Select any component to configure its name and properties.</p></article><article class="help-card"><span>02 / CONNECT</span><h2>Join the systems</h2><p>Click an output port, then click a compatible input port. Connections can be selected and removed.</p></article><article class="help-card"><span>03 / VALIDATE</span><h2>Review the design</h2><p>Run deterministic checks for structural gaps, missing controls and common data or AI architecture omissions.</p></article><article class="help-card"><span>04 / SHARE</span><h2>Export the blueprint</h2><p>Save a TAPF JSON project or export a visual SVG. Print the blueprint to create a PDF from your browser.</p></article></div><div class="notice-card"><b>Important scope note</b><p>Engineering Studio is a browser-based architecture design and learning tool. It does not connect to, provision, execute or validate live cloud infrastructure. Validation findings are design guidance, not a security or compliance certification.</p></div></section>
+</main>
+<footer class="studio-footer"><span>© TierShift Technologies</span><span>ENGINEERING STUDIO v1.0 · DESIGNED FOR BETTER SYSTEMS</span><a href="/privacy-policy/">Privacy</a></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div class="eyebrow">NEW ARCHITECTURE</div><h2 id="modalTitle">Create a project</h2><p>Give your architecture a name and choose a starting point.</p><label class="field-label">Project name<input id="newName" maxlength="80" value="Untitled architecture"></label><label class="field-label">Architecture domain<select id="newDomain"><option value="data-engineering">Data engineering</option><option value="enterprise-ai">Enterprise AI</option><option value="multi">Data + enterprise AI</option></select></label><div class="modal-actions"><button class="btn btn-quiet" id="modalCancel">Cancel</button><button class="btn btn-primary" id="createProject">Create project →</button></div></section></div>
+<script src="./studio.js" defer></script>
+</body>
+</html>

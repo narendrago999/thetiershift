@@ -58,7 +58,7 @@ const uid=()=> 'n-'+Math.random().toString(36).slice(2,10);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function blank(name='Untitled architecture',domain='data-engineering'){return {format:'TAPF',version:'1.0.0',project:{id:uid(),name,domain,description:'',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()},canvas:{width:2400,height:1600,viewport:{x:0,y:0,zoom:1}},nodes:[],edges:[],groups:[],annotations:[],metadata:{application:'TierShift Engineering Studio'}}}
 function clone(x){return JSON.parse(JSON.stringify(x))}
-function trackEvent(name,params={}){if(typeof window.gtag==='function')window.gtag('event',name,{...params,send_to:'G-3EZB1M014N',page_path:location.pathname});}
+function trackEvent(name,params={}){let consent=false;try{consent=localStorage.getItem('tiershift-analytics-consent')==='granted'}catch(e){}if(consent&&typeof window.gtag==='function')window.gtag('event',name,{...params,send_to:'G-3EZB1M014N',page_path:location.pathname});}
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2300)}
 function getDef(id){return catalog.find(c=>c.id===id)}
 function snapshot(){return clone({nodes:project.nodes,edges:project.edges,groups:project.groups,annotations:project.annotations})}

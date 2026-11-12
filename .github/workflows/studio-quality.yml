@@ -6,6 +6,7 @@ on:
       - "studio/**"
       - "architecture/**"
       - "contact/**"
+      - "intelligence/**"
       - "insights/**"
       - "services/**"
       - "sitemap.xml"
@@ -20,6 +21,11 @@ on:
     paths:
       - "studio/**"
       - "architecture/**"
+      - "contact/**"
+      - "intelligence/**"
+      - "insights/**"
+      - "services/**"
+      - "assets/js/tier-analytics.js"
       - "sitemap.xml"
       - "assets/js/site-navigation.js"
       - ".github/workflows/studio-quality.yml"
@@ -40,6 +46,7 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check studio/studio.js
+          node --check intelligence/intelligence.js
           node --check assets/js/site-navigation.js
           node --check assets/js/tier-analytics.js
       - name: Run static Studio QA

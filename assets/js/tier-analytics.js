@@ -12,7 +12,7 @@
     const href = el.getAttribute('href') || '';
     const text = labelFor(el);
     if (href.startsWith('mailto:')) {
-      send('generate_lead', { method: 'email_link', link_text: text });
+      send('lead_contact_click', { method: 'email_link', link_text: text });
       return;
     }
     if (href === '/#contact' || href === '#contact' || href.endsWith('/#contact')) {
@@ -20,6 +20,11 @@
     }
     if (el.matches('.ts-global-cta,.ts-global-mobile-cta')) {
       send('navigation_cta_click', { cta_text: text });
+    }
+    if (href.startsWith('/problems/')) send('problem_guide_click', { destination: href, link_text: text });
+    if (href.startsWith('/services/')) send('service_page_click', { destination: href, link_text: text });
+    if (href === '/solution-finder/' || href === '/solution-lab/' || href === '/ai-tools/' || href === '/insights/') {
+      send('experience_navigation_click', { destination: href, link_text: text });
     }
     const labButtons = {
       'run-pipeline': 'pipeline_diagnostic',

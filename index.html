@@ -83,7 +83,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', {ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});
   gtag('js', new Date());
-  gtag('config', 'G-3EZB1M014N');
+  gtag('config', 'G-3EZB1M014N', {send_page_view:false});
 </script>
   <!-- Google AdSense site verification and ad code -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2845295883834438"
@@ -1565,6 +1565,7 @@
   var key='tiershift-analytics-consent';
   function apply(value){
     if(typeof gtag==='function')gtag('consent','update',{analytics_storage:value==='granted'?'granted':'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+    if(value==='granted'&&typeof gtag==='function')gtag('event','page_view',{page_location:location.href,page_title:document.title,page_path:location.pathname});
     var banner=document.getElementById('ts-consent');if(banner)banner.style.display='none';
   }
   var saved=null;try{saved=localStorage.getItem(key)}catch(e){}
@@ -1575,6 +1576,6 @@
   if(no)no.addEventListener('click',function(){try{localStorage.setItem(key,'denied')}catch(e){}apply('denied')});
 })();
 </script>
-</body>
+<script src="/assets/js/site-consent.js" defer></script></body>
 </html>
 

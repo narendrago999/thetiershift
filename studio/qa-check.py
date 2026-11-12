@@ -112,6 +112,8 @@ for page in architecture_pages:
             raise SystemExit(f"Architecture page missing required integration {token}: {page}")
     if "application/ld+json" not in source:
         raise SystemExit(f"Missing structured data: {page}")
+    if "ca-pub-2845295883834438" not in source:
+        raise SystemExit(f"Missing configured AdSense publisher code: {page}")
 
 if "/architecture/" not in nav:
     raise SystemExit("Architecture blueprint hub is missing from shared navigation")

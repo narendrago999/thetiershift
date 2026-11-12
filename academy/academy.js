@@ -215,7 +215,7 @@
     $("course-grid").innerHTML = list.map(c => {
       const done = c.modules.filter((m,i)=>progress[c.id+"-"+i]).length;
       const pct = Math.round(done/c.modules.length*100);
-      return '<article class="academy-course-card"><div class="course-card-top"><span class="course-tag">'+esc(c.level)+'</span><span class="course-duration">◷ '+esc(c.duration)+'</span></div><h4>'+esc(c.title)+'</h4><p>'+esc(c.description)+'</p><div class="course-card-meta"><span>'+esc(c.trackName)+'</span><span>'+c.modules.length+' lessons</span></div><div class="course-card-bottom"><span>'+pct+'% completed</span>(c.id==="fabric-platform" ? '<a class="course-open" href="/academy/microsoft-fabric-data-engineering/">Open full course →</a>' : '<button class="course-open" data-course="'+c.id+'">View curriculum →</button>')</div></article>';
+      return '<article class="academy-course-card"><div class="course-card-top"><span class="course-tag">'+esc(c.level)+'</span><span class="course-duration">◷ '+esc(c.duration)+'</span></div><h4>'+esc(c.title)+'</h4><p>'+esc(c.description)+'</p><div class="course-card-meta"><span>'+esc(c.trackName)+'</span><span>'+c.modules.length+' lessons</span></div><div class="course-card-bottom"><span>'+pct+'% completed</span>'+(c.id==="fabric-platform" ? '<a class="course-open" href="/academy/microsoft-fabric-data-engineering/">Open full course →</a>' : '<button class="course-open" data-course="'+c.id+'">View curriculum →</button>')+'</div></article>';
     }).join("");
     $("empty-state").hidden = list.length!==0;
   };

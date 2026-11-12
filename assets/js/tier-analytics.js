@@ -19,6 +19,9 @@
       send('lead_contact_click', { method: 'email_link', link_text: text });
       return;
     }
+    if (href === '/contact/') {
+      send('contact_page_click', { cta_text: text, link_location: el.closest('header') ? 'navigation' : 'content' });
+    }
     if (href === '/#contact' || href === '#contact' || href.endsWith('/#contact')) {
       send('contact_cta_click', { cta_text: text, link_location: el.closest('header') ? 'navigation' : 'content' });
     }

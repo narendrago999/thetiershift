@@ -187,12 +187,13 @@
       "category": "Video",
       "description": "Generative video experience for cinematic clips",
       "website": "https://lumalabs.ai/dream-machine",
-      "pricingUrl": "https://lumalabs.ai/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://luma.ai/pricing",
+      "pricingLabel": "Paid subscriptions from US$9.99/week; one-time credit packs also available",
+      "pricingType": "paid",
       "bestFor": "A tool to explore generative motion and cinematic-style video concepts.",
       "useCase": "Cinematic concept clips and motion studies from text or image prompts.",
-      "checkBeforeChoosing": "Check clip length, generation credits, watermarking, queue priority and commercial-use rights."
+      "checkBeforeChoosing": "Credit use varies by model, duration and generation settings. Confirm the credit cost shown in the product before generating.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "synthesia",
@@ -242,12 +243,13 @@
       "category": "Coding",
       "description": "AI-focused code editor with codebase-aware chat and agentic workflows",
       "website": "https://cursor.com/",
-      "pricingUrl": "https://cursor.com/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://prod.cursor.com/help/account-and-billing/pricing",
+      "pricingLabel": "Free plan with limited usage; paid plans available, including an India-specific plan",
+      "pricingType": "free",
       "bestFor": "A code editor aimed at developers who want AI assistance across a repository.",
       "useCase": "Codebase-aware editing, refactoring and agent-style development in an AI-first editor.",
-      "checkBeforeChoosing": "Review IDE compatibility, repository permissions, code retention, model limits and team security controls."
+      "checkBeforeChoosing": "Plan names and usage pools have changed. Confirm current regional pricing and third-party model charges in Cursor's billing documentation.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "windsurf",
@@ -311,11 +313,12 @@
       "description": "AI marketing platform for campaign content and brand-aware writing",
       "website": "https://www.jasper.ai/",
       "pricingUrl": "https://www.jasper.ai/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingLabel": "Free trial; paid Pro plan from US$59/month billed annually or US$69 monthly",
+      "pricingType": "trial",
       "bestFor": "A marketing-focused platform for teams producing repeated brand-led campaigns.",
       "useCase": "Marketing teams producing campaign content while maintaining brand voice and consistency.",
-      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options."
+      "checkBeforeChoosing": "Jasper is positioned for marketing teams. Check the trial terms, brand limits and included credits before subscribing.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "copy-ai",
@@ -352,11 +355,12 @@
       "description": "Writing suite with paraphrasing, grammar and summarising tools",
       "website": "https://quillbot.com/",
       "pricingUrl": "https://quillbot.com/premium",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingLabel": "Free plan with word and feature limits; Premium plans are paid",
+      "pricingType": "free",
       "bestFor": "Useful for editing and summarising drafts; review rewritten text for meaning and accuracy.",
       "useCase": "Paraphrasing, summarising and improving drafts while retaining the original meaning.",
-      "checkBeforeChoosing": "Check factual review requirements, brand controls, plagiarism/originality expectations and export options."
+      "checkBeforeChoosing": "Free paraphrasing and summarisation have word limits. Premium pricing varies by region and billing period.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "notion-ai",
@@ -364,12 +368,13 @@
       "category": "Productivity",
       "description": "AI features in Notion for drafting, summaries and workspace search",
       "website": "https://www.notion.com/product/ai",
-      "pricingUrl": "https://www.notion.com/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://www.notion.com/help/notion-ai-faqs",
+      "pricingLabel": "Limited complimentary AI responses on Free/Plus; ongoing Notion AI is on Business and Enterprise",
+      "pricingType": "limited",
       "bestFor": "Most useful when project knowledge and documentation already live in Notion.",
       "useCase": "Summarising workspace knowledge, drafting internal docs and finding information across Notion.",
-      "checkBeforeChoosing": "Check workspace permissions, connected-app access, data retention and plan-level AI quotas."
+      "checkBeforeChoosing": "Notion AI availability depends on workspace plan. Premium AI models may consume additional Notion credits.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "gamma",
@@ -545,12 +550,13 @@
       "category": "Data",
       "description": "Analytics platform for visual exploration and business dashboards",
       "website": "https://www.tableau.com/",
-      "pricingUrl": "https://www.tableau.com/pricing/overview",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://www.tableau.com/pricing",
+      "pricingLabel": "Paid Tableau Cloud editions; AI features and license requirements vary by edition",
+      "pricingType": "paid",
       "bestFor": "An established BI platform for governed dashboards and visual analytics.",
       "useCase": "Building interactive dashboards and exploring business metrics across connected data sources.",
-      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated."
+      "checkBeforeChoosing": "Tableau Desktop Free Edition does not provide the same cloud collaboration and AI capabilities as paid editions. Confirm edition and seat requirements.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "power-bi-copilot",
@@ -558,12 +564,13 @@
       "category": "Data",
       "description": "AI capabilities in Fabric and Power BI for reports and data questions",
       "website": "https://www.microsoft.com/en-us/power-platform/products/power-bi",
-      "pricingUrl": "https://www.microsoft.com/en-us/power-platform/products/power-bi/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://learn.microsoft.com/en-us/power-bi/create-reports/copilot-enable-power-bi",
+      "pricingLabel": "Requires paid Fabric F2+ or Power BI Premium P1+ capacity and admin enablement; not a standalone free plan",
+      "pricingType": "paid",
       "bestFor": "Relevant to organisations already using eligible Microsoft Fabric and Power BI capacity.",
       "useCase": "Using eligible Microsoft Fabric and Power BI capacity for AI-assisted report and data experiences.",
-      "checkBeforeChoosing": "Check supported connectors, data residency, governance, model explainability and how outputs can be validated."
+      "checkBeforeChoosing": "Copilot also depends on supported regions, tenant settings and workspace permissions. Trial capacity is not sufficient.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "n8n",
@@ -586,11 +593,12 @@
       "description": "Visual automation platform for connecting apps and workflows",
       "website": "https://www.make.com/",
       "pricingUrl": "https://www.make.com/en/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingLabel": "Free plan available with operation limits; paid plans for higher usage",
+      "pricingType": "free",
       "bestFor": "A visual way to connect apps and orchestrate business processes.",
       "useCase": "Connecting SaaS applications through visual multi-step scenarios and scheduled automations.",
-      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security."
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "zapier",
@@ -612,12 +620,13 @@
       "category": "Automation",
       "description": "AI agent platform for tasks across connected business tools",
       "website": "https://www.lindy.ai/",
-      "pricingUrl": "https://www.lindy.ai/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://lindyhq.com/pricing/",
+      "pricingLabel": "Free plan with 30 monthly scans; Pro and Max plans are paid",
+      "pricingType": "free",
       "bestFor": "An agent-oriented option for delegating repeatable work across connected applications.",
       "useCase": "Delegating repeatable administrative and business tasks to agents connected to work apps.",
-      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security."
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "gumloop",
@@ -626,11 +635,12 @@
       "description": "Visual AI workflow builder connecting models, tools and data",
       "website": "https://www.gumloop.com/",
       "pricingUrl": "https://www.gumloop.com/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingLabel": "14-day free trial; Pro starts at US$37/month, with custom Enterprise pricing",
+      "pricingType": "trial",
       "bestFor": "A visual builder for AI workflows that combine multiple tools and model steps.",
       "useCase": "Building visual AI workflows that combine models, tools and business data.",
-      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security."
+      "checkBeforeChoosing": "Review connector permissions, execution limits, error handling, audit logs and credential security.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "elicit",
@@ -652,12 +662,13 @@
       "category": "Research",
       "description": "Research search engine using scientific literature to answer questions",
       "website": "https://consensus.app/",
-      "pricingUrl": "https://consensus.app/pricing",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://help.consensus.app/en/articles/10087865-subscription-plans",
+      "pricingLabel": "Free tier with monthly limits; Pro starts at US$20/month",
+      "pricingType": "free",
       "bestFor": "Useful for exploring what published scientific literature says about a question.",
       "useCase": "Exploring research questions against scientific papers and comparing evidence.",
-      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources."
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources.",
+      "pricingCheckedOn": "2026-11-12"
     },
     {
       "slug": "scite",
@@ -693,12 +704,13 @@
       "category": "Research",
       "description": "Computational knowledge engine for maths, science and structured queries",
       "website": "https://www.wolframalpha.com/",
-      "pricingUrl": "https://www.wolframalpha.com/pro/",
-      "pricingLabel": "Check provider for current access, plan and regional limits",
-      "pricingType": "verify",
+      "pricingUrl": "https://www.wolframalpha.com/pro/pricing",
+      "pricingLabel": "Free Basic account; Pro starts at US$5/month billed annually",
+      "pricingType": "free",
       "bestFor": "Useful for computational questions where a worked calculation is more helpful than prose.",
       "useCase": "Computational answers for maths, science, unit conversions and structured factual queries.",
-      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources."
+      "checkBeforeChoosing": "Validate claims against original papers, review evidence quality and check access to full-text sources.",
+      "pricingCheckedOn": "2026-11-12"
     }
   ]
 }

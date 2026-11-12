@@ -1,0 +1,23 @@
+LINKEDIN POST — REVIEW DRAFT
+Creative: /assets/social/data-contracts-linkedin-infographic.svg
+
+Your data pipeline can be running successfully — and still be delivering the wrong data.
+
+A column changes type. A business definition drifts. A source arrives late. Downstream dashboards and AI workflows quietly inherit the problem.
+
+Data contracts help teams agree what a data product promises before other teams depend on it.
+
+A useful starting contract covers:
+• Schema — fields, types and keys
+• Business meaning — definitions, units and grain
+• Quality and freshness — the checks that matter
+• Ownership — who responds when something breaks
+• Change management — how updates are versioned and communicated
+
+You do not need to contract every table on day one. Start with one high-value dataset, automate its most important checks, and make ownership clear.
+
+The aim is simple: fewer surprises downstream, and more trust in the data people use to make decisions.
+
+How does your team manage changes to shared datasets today — formal contracts, automated tests, or mostly team-to-team communication?
+
+#DataEngineering #DataGovernance #DataQuality #ModernDataStack #TierShift

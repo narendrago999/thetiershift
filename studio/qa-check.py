@@ -2,6 +2,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 import sys
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent
 html = (ROOT / "index.html").read_text(encoding="utf-8")
@@ -77,5 +78,56 @@ if "tiershift-analytics-consent" not in consent_script or "analytics_storage" no
     raise SystemExit("Shared consent manager must persist visitor choice and update GA4 consent")
 if "send_page_view:false" not in html or "analytics_storage:'denied'" not in html:
     raise SystemExit("Studio must default GA4 analytics consent to denied and disable automatic page views")
+
+
+# Architecture blueprint QA: every published reference design must be discoverable,
+# carry SEO metadata, use the shared consent/navigation stack and link to Studio.
+architecture_root = ROOT.parent / "architecture"
+architecture_pages = [
+    architecture_root / "index.html",
+    architecture_root / "microsoft-fabric-medallion" / "index.html",
+    architecture_root / "databricks-lakehouse" / "index.html",
+    architecture_root / "enterprise-rag-ai-agent" / "index.html",
+]
+required_routes = [
+    "/architecture/",
+    "/architecture/microsoft-fabric-medallion/",
+    "/architecture/databricks-lakehouse/",
+    "/architecture/enterprise-rag-ai-agent/",
+]
+for page in architecture_pages:
+    if not page.is_file():
+        raise SystemExit(f"Missing architecture page: {page.relative_to(ROOT.parent)}")
+    source = page.read_text(encoding="utf-8")
+    parsed = PageParser()
+    parsed.feed(source)
+    if not re.search(r"<title>[^<]+</title>", source, re.I):
+        raise SystemExit(f"Missing page title: {page}")
+    if not re.search(r'<meta name="description" content="[^"]+"', source, re.I):
+        raise SystemExit(f"Missing meta description: {page}")
+    if not re.search(r'<link rel="canonical" href="https://thetiershift.com/architecture/', source, re.I):
+        raise SystemExit(f"Missing canonical URL: {page}")
+    for token in ("/assets/js/site-consent.js", "/assets/js/site-navigation.js", "/studio/"):
+        if token not in source:
+            raise SystemExit(f"Architecture page missing required integration {token}: {page}")
+    if "application/ld+json" not in source:
+        raise SystemExit(f"Missing structured data: {page}")
+
+for route in required_routes:
+    if route not in nav:
+        raise SystemExit(f"Architecture route missing from shared navigation: {route}")
+
+sitemap_path = ROOT.parent / "sitemap.xml"
+try:
+    sitemap_root = ET.parse(sitemap_path).getroot()
+except ET.ParseError as exc:
+    raise SystemExit(f"Invalid sitemap XML: {exc}")
+sitemap_urls = {node.text for node in sitemap_root.iter() if node.tag.endswith("loc")}
+for route in required_routes:
+    full_url = "https://thetiershift.com" + route
+    if full_url not in sitemap_urls:
+        raise SystemExit(f"Architecture route missing from sitemap: {full_url}")
+
+print(f"Architecture QA passed: {len(architecture_pages)} pages, SEO metadata, structured data, shared consent/navigation, Studio CTAs and sitemap entries.")
 
 print(f"Studio QA passed: {len(static_ids)} HTML ids, {len(catalog_ids)} components, {len(template_ids)} templates, {len(parser.assets)} local assets.")

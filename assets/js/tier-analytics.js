@@ -1,8 +1,12 @@
 (() => {
   'use strict';
   const GA_ID = 'G-3EZB1M014N';
+  const hasAnalyticsConsent = () => {
+    try { return window.localStorage.getItem('tiershift-analytics-consent') === 'granted'; }
+    catch (error) { return false; }
+  };
   const send = (name, params = {}) => {
-    if (typeof window.gtag !== 'function') return;
+    if (!hasAnalyticsConsent() || typeof window.gtag !== 'function') return;
     window.gtag('event', name, { ...params, page_path: location.pathname, send_to: GA_ID });
   };
   const labelFor = el => (el.getAttribute('aria-label') || el.textContent || el.getAttribute('href') || 'unknown').trim().replace(/\\s+/g, ' ').slice(0, 70);

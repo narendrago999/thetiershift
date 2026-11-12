@@ -8,6 +8,7 @@ on:
       - 'studio/**'
       - 'architecture/**'
       - 'contact/**'
+      - 'intelligence/**'
       - 'insights/**'
       - 'services/**'
       - 'assets/js/tier-analytics.js'
@@ -69,4 +70,23 @@ jobs:
           grep -Fq "/assets/js/site-consent.js" /tmp/contact.html
           grep -Fq "https://thetiershift.com/contact/" /tmp/sitemap.xml
           grep -Fq '/contact/' /tmp/site-navigation.js
+
           echo "Project enquiry page and contact navigation verified."
+          curl --fail --location --retry 12 --retry-delay 10 --retry-all-errors --max-time 30 https://thetiershift.com/intelligence/ -o /tmp/intelligence.html
+          grep -Fq "TierShift Intelligence Centre" /tmp/intelligence.html
+          grep -Fq 'id="platform-cost"' /tmp/intelligence.html
+          grep -Fq 'id="cloud-cost"' /tmp/intelligence.html
+          grep -Fq 'id="pipeline-performance"' /tmp/intelligence.html
+          grep -Fq 'id="ai-readiness"' /tmp/intelligence.html
+          grep -Fq 'id="powerbi-check"' /tmp/intelligence.html
+          grep -Fq 'id="data-maturity"' /tmp/intelligence.html
+          grep -Fq '/assets/js/site-consent.js' /tmp/intelligence.html
+          grep -Fq 'ca-pub-2845295883834438' /tmp/intelligence.html
+          curl --fail --location --retry 5 --retry-delay 5 --retry-all-errors https://thetiershift.com/intelligence/intelligence.js -o /tmp/intelligence.js
+          grep -Fq 'function platform()' /tmp/intelligence.js
+          grep -Fq 'function performance()' /tmp/intelligence.js
+          curl --fail --location --retry 5 --retry-delay 5 --retry-all-errors https://thetiershift.com/intelligence/intelligence.css -o /tmp/intelligence.css
+          grep -Fq '.ic-workbench' /tmp/intelligence.css
+          grep -Fq 'https://thetiershift.com/intelligence/' /tmp/sitemap.xml
+          grep -Fq '/intelligence/' /tmp/site-navigation.js
+          echo "Intelligence Centre page, six tools, local assets, consent, navigation and sitemap verified."

@@ -58,3 +58,11 @@ jobs:
           grep -q 'https://thetiershift.com/architecture/databricks-lakehouse/' /tmp/sitemap.xml
           grep -q 'https://thetiershift.com/architecture/enterprise-rag-ai-agent/' /tmp/sitemap.xml
           echo "Architecture routes, metadata, consent, AdSense and sitemap verified."
+          curl --fail --location --retry 12 --retry-delay 10 --retry-all-errors --max-time 30 https://thetiershift.com/contact/ -o /tmp/contact.html
+          grep -Fq "Talk to TierShift" /tmp/contact.html
+          grep -Fq "id=\"projectBrief\"" /tmp/contact.html
+          grep -Fq "thetiershift@gmail.com" /tmp/contact.html
+          grep -Fq "/assets/js/site-consent.js" /tmp/contact.html
+          grep -Fq "https://thetiershift.com/contact/" /tmp/sitemap.xml
+          grep -Fq '/contact/' /tmp/site-navigation.js
+          echo "Project enquiry page and contact navigation verified."

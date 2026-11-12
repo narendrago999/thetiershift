@@ -5,6 +5,9 @@ on:
     paths:
       - "studio/**"
       - "architecture/**"
+      - "contact/**"
+      - "insights/**"
+      - "services/**"
       - "sitemap.xml"
       - ".github/workflows/studio-quality.yml"
       - ".github/workflows/studio-live-smoke.yml"

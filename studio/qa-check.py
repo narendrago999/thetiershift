@@ -131,4 +131,18 @@ for route in required_routes:
 
 print(f"Architecture QA passed: {len(architecture_pages)} pages, SEO metadata, structured data, shared consent/navigation, Studio CTAs and sitemap entries.")
 
+
+# Project enquiry route QA: ensure the conversion path is discoverable and honest
+contact_page = ROOT.parent / "contact" / "index.html"
+if not contact_page.is_file():
+    raise SystemExit("Missing project enquiry page")
+contact_html = contact_page.read_text(encoding="utf-8")
+for token in ('<title>Talk to TierShift', 'name="description"', 'id="projectBrief"', 'mailto:thetiershift@gmail.com', 'does not submit or store', '/assets/js/site-consent.js', '/assets/js/site-navigation.js'):
+    if token not in contact_html:
+        raise SystemExit(f"Project enquiry page missing required content: {token}")
+if 'https://thetiershift.com/contact/' not in sitemap_urls:
+    raise SystemExit("Project enquiry page missing from sitemap")
+if 'href="/contact/"' not in nav:
+    raise SystemExit("Shared navigation does not route to the project enquiry page")
+
 print(f"Studio QA passed: {len(static_ids)} HTML ids, {len(catalog_ids)} components, {len(template_ids)} templates, {len(parser.assets)} local assets.")

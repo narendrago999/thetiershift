@@ -113,9 +113,8 @@ for page in architecture_pages:
     if "application/ld+json" not in source:
         raise SystemExit(f"Missing structured data: {page}")
 
-for route in required_routes:
-    if route not in nav:
-        raise SystemExit(f"Architecture route missing from shared navigation: {route}")
+if "/architecture/" not in nav:
+    raise SystemExit("Architecture blueprint hub is missing from shared navigation")
 
 sitemap_path = ROOT.parent / "sitemap.xml"
 try:

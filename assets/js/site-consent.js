@@ -11,6 +11,9 @@
         ad_personalization:'denied'
       });
     }
+    if(value==='granted' && typeof window.gtag==='function'){
+      window.gtag('event','page_view',{page_location:window.location.href,page_title:document.title,page_path:window.location.pathname});
+    }
     var banner=document.getElementById('ts-consent');
     if(banner)banner.hidden=true;
   }

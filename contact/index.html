@@ -57,7 +57,8 @@
    'Challenge / desired outcome:',d.get('challenge'),'',
    'Sent from: https://thetiershift.com/contact/'
   ].join('\n');
-  if(window.gtag && localStorage.getItem('tiershift-analytics-consent')==='granted'){
+  let consent='denied';try{consent=localStorage.getItem('tiershift-analytics-consent')||'denied'}catch(error){}
+  if(window.gtag && consent==='granted'){
    window.gtag('event','project_enquiry_email_prepared',{service_area:d.get('service'),market:d.get('market')||'unspecified',timeline:d.get('timeline')||'unspecified'});
   }
   success.style.display='block';

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "studio/**"
+      - "architecture/**"
+      - "sitemap.xml"
       - ".github/workflows/studio-quality.yml"
       - "assets/js/site-navigation.js"
   push:
@@ -12,6 +14,9 @@ on:
       - "feat/**"
     paths:
       - "studio/**"
+      - "architecture/**"
+      - "sitemap.xml"
+      - "assets/js/site-navigation.js"
       - ".github/workflows/studio-quality.yml"
 
 permissions:

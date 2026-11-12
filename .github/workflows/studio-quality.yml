@@ -1,0 +1,35 @@
+name: Engineering Studio quality checks
+
+on:
+  pull_request:
+    paths:
+      - "studio/**"
+      - ".github/workflows/studio-quality.yml"
+      - "assets/js/site-navigation.js"
+  push:
+    branches:
+      - main
+      - "feat/**"
+    paths:
+      - "studio/**"
+      - ".github/workflows/studio-quality.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  studio-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --check studio/studio.js
+          node --check assets/js/site-navigation.js
+      - name: Run static Studio QA
+        run: python3 studio/qa-check.py

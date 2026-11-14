@@ -44,3 +44,12 @@ $("#discoverFabricButton").addEventListener("click",()=>toast("Connect Microsoft
 ["#addConnectionButton","#uploadKnowledgeButton"].forEach(s=>$(s).addEventListener("click",()=>toast("This setup flow will be enabled after backend and secure credential storage are ready.","warning")));
 $$(".connect-action").forEach(b=>b.addEventListener("click",()=>toast("Secure connection setup will be available after authentication and backend integration.","warning")));
 renderRecent();renderProjects();renderAgents();renderApprovals();renderSettings("general");
+
+/* Theme preference: local preview only; production preference will be user-scoped. */
+(function(){
+ const root=document.documentElement,button=document.getElementById("themeToggle"),meta=document.getElementById("themeColorMeta");
+ let saved="dark";try{saved=localStorage.getItem("tsdf-theme")||"dark"}catch(e){}
+ function applyTheme(theme){root.dataset.theme=theme;const light=theme==="light";if(button){button.textContent=light?"☾":"☼";button.setAttribute("aria-label",light?"Switch to dark theme":"Switch to light theme");button.title=light?"Switch to dark theme":"Switch to light theme"}if(meta)meta.content=light?"#f3f6fb":"#080d18"}
+ applyTheme(saved==="light"?"light":"dark");
+ if(button)button.addEventListener("click",()=>{const next=root.dataset.theme==="dark"?"light":"dark";applyTheme(next);try{localStorage.setItem("tsdf-theme",next)}catch(e){}});
+})();

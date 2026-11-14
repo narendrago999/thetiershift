@@ -9,15 +9,15 @@ from sqlalchemy.orm import Session
 from sqlalchemy import or_
 from .config import get_settings
 from .database import get_db
-from .models import User, Organization, Membership, Invitation, Project, ProjectMembership, AuditEvent
+from .models import User, Organization, Membership, Invitation, Project, ProjectMembership, AuditEvent, Team, TeamMember
 from .security import verify_clerk_token, hash_invitation_token
 from .identity import sync_clerk_user
-from .schemas import OrganizationCreate, OrganizationUpdate, InvitationCreate, InvitationAccept, MemberRoleUpdate, ProjectCreate, ProjectMemberUpsert
+from .schemas import OrganizationCreate, OrganizationUpdate, InvitationCreate, InvitationAccept, MemberRoleUpdate, ProjectCreate, ProjectMemberUpsert, TeamCreate, TeamUpdate, TeamMemberUpsert
 
 router = APIRouter(prefix="/api/v1")
 def current_user(claims=Depends(verify_clerk_token), db: Session=Depends(get_db)) -> User:
     user = db.query(User).filter(User.clerk_user_id == claims["sub"]).one_or_none()
-    if not user or user.status != "active":
+    if not user or user.status != "active" or not user.email_verified:
         raise HTTPException(status_code=403, detail="Complete account synchronization first")
     return user
 
@@ -99,6 +99,8 @@ def list_organizations(user: User=Depends(current_user), db: Session=Depends(get
 
 @router.post("/organizations", status_code=201)
 def create_organization(body: OrganizationCreate, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    if not user.email_verified:
+        raise HTTPException(status_code=403, detail="Verify your email address before creating a workspace")
     if body.org_type == "internal" and user.email.rsplit("@", 1)[-1].lower() not in get_settings().internal_domains:
         raise HTTPException(status_code=403, detail="Only approved TierShift email domains can create internal workspaces")
     org = Organization(id=str(uuid4()), name=body.name.strip(), slug=slugify(body.name), org_type=body.org_type, created_by=user.id)
@@ -173,6 +175,9 @@ def remove_member(org_id: str, member_id: str, user: User=Depends(current_user),
     if target.role == "owner": raise HTTPException(status_code=409, detail="Transfer ownership before removing the owner")
     if actor.role != "owner" and target.role == "admin": raise HTTPException(status_code=403, detail="Only the owner can remove an admin")
     target.status = "removed"
+    project_ids = db.query(Project.id).filter(Project.organization_id == org_id).subquery()
+    db.query(ProjectMembership).filter(ProjectMembership.user_id == member_id, ProjectMembership.project_id.in_(project_ids)).delete(synchronize_session=False)
+    db.query(TeamMember).filter(TeamMember.user_id == member_id, TeamMember.team_id.in_(db.query(Team.id).filter(Team.organization_id == org_id))).delete(synchronize_session=False)
     audit(db, org_id, user, "member.removed", "membership", target.id)
     db.commit()
     return {"ok": True}
@@ -288,6 +293,89 @@ def remove_project_member(project_id: str, member_id: str, user: User=Depends(cu
     if row.role == "project_owner": raise HTTPException(status_code=409, detail="Assign another project owner before removing this member")
     db.delete(row)
     audit(db, project.organization_id, user, "project.member_removed", "project_membership", project_id, member_id)
+    db.commit()
+    return {"ok": True}
+
+
+@router.get("/organizations/{org_id}/teams")
+def list_teams(org_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    membership(db, org_id, user)
+    teams = db.query(Team).filter_by(organization_id=org_id, status="active").order_by(Team.name).all()
+    return [{"id": t.id, "name": t.name, "description": t.description, "member_count": db.query(TeamMember).filter_by(team_id=t.id).count(), "created_at": t.created_at} for t in teams]
+
+@router.post("/organizations/{org_id}/teams", status_code=201)
+def create_team(org_id: str, body: TeamCreate, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    require_org_admin(db, org_id, user)
+    team = Team(id=str(uuid4()), organization_id=org_id, name=body.name.strip(), description=body.description, created_by=user.id)
+    db.add(team)
+    db.flush()
+    db.add(TeamMember(id=str(uuid4()), team_id=team.id, user_id=user.id, role="lead"))
+    audit(db, org_id, user, "team.created", "team", team.id)
+    db.commit()
+    return {"id": team.id, "name": team.name, "description": team.description}
+
+@router.get("/teams/{team_id}/members")
+def list_team_members(team_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    team = db.query(Team).filter_by(id=team_id, status="active").one_or_none()
+    if not team: raise HTTPException(status_code=404, detail="Team not found")
+    membership(db, team.organization_id, user)
+    rows = db.query(TeamMember, User).join(User, TeamMember.user_id == User.id).filter(TeamMember.team_id == team_id).all()
+    return [{"user_id": u.id, "email": u.email, "name": u.full_name, "role": m.role} for m,u in rows]
+
+@router.patch("/teams/{team_id}")
+def update_team(team_id: str, body: TeamUpdate, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    team = db.query(Team).filter_by(id=team_id, status="active").one_or_none()
+    if not team: raise HTTPException(status_code=404, detail="Team not found")
+    require_org_admin(db, team.organization_id, user)
+    if body.name is not None: team.name = body.name.strip()
+    if body.description is not None: team.description = body.description
+    audit(db, team.organization_id, user, "team.updated", "team", team.id)
+    db.commit()
+    return {"id": team.id, "name": team.name, "description": team.description}
+
+@router.delete("/teams/{team_id}")
+def archive_team(team_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    team = db.query(Team).filter_by(id=team_id, status="active").one_or_none()
+    if not team: raise HTTPException(status_code=404, detail="Team not found")
+    require_org_admin(db, team.organization_id, user)
+    team.status = "archived"
+    audit(db, team.organization_id, user, "team.archived", "team", team.id)
+    db.commit()
+    return {"ok": True}
+
+@router.put("/teams/{team_id}/members/{member_id}")
+def upsert_team_member(team_id: str, member_id: str, body: TeamMemberUpsert, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    team = db.query(Team).filter_by(id=team_id, status="active").one_or_none()
+    if not team: raise HTTPException(status_code=404, detail="Team not found")
+    actor_membership = membership(db, team.organization_id, user)
+    actor_team = db.query(TeamMember).filter_by(team_id=team_id, user_id=user.id).one_or_none()
+    if actor_membership.role not in {"owner", "admin"} and (not actor_team or actor_team.role != "lead"):
+        raise HTTPException(status_code=403, detail="Organization admin or team lead access required")
+    target_org_member = db.query(Membership).filter_by(organization_id=team.organization_id, user_id=member_id, status="active").one_or_none()
+    if not target_org_member: raise HTTPException(status_code=400, detail="Team members must belong to this organization")
+    if body.role == "lead" and actor_membership.role not in {"owner", "admin"}:
+        raise HTTPException(status_code=403, detail="Only organization admins can assign team leads")
+    row = db.query(TeamMember).filter_by(team_id=team_id, user_id=member_id).one_or_none()
+    if row: row.role = body.role
+    else: db.add(TeamMember(id=str(uuid4()), team_id=team_id, user_id=member_id, role=body.role))
+    audit(db, team.organization_id, user, "team.member_changed", "team_member", team_id, f"{member_id}:{body.role}")
+    db.commit()
+    return {"user_id": member_id, "role": body.role}
+
+@router.delete("/teams/{team_id}/members/{member_id}")
+def remove_team_member(team_id: str, member_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    team = db.query(Team).filter_by(id=team_id, status="active").one_or_none()
+    if not team: raise HTTPException(status_code=404, detail="Team not found")
+    actor_membership = membership(db, team.organization_id, user)
+    actor_team = db.query(TeamMember).filter_by(team_id=team_id, user_id=user.id).one_or_none()
+    if actor_membership.role not in {"owner", "admin"} and (not actor_team or actor_team.role != "lead"):
+        raise HTTPException(status_code=403, detail="Organization admin or team lead access required")
+    target = db.query(TeamMember).filter_by(team_id=team_id, user_id=member_id).one_or_none()
+    if not target: raise HTTPException(status_code=404, detail="Team member not found")
+    if target.role == "lead" and actor_membership.role not in {"owner", "admin"}:
+        raise HTTPException(status_code=403, detail="Only organization admins can remove a team lead")
+    db.delete(target)
+    audit(db, team.organization_id, user, "team.member_removed", "team_member", team_id, member_id)
     db.commit()
     return {"ok": True}
 

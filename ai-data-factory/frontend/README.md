@@ -19,7 +19,7 @@ For a local static preview, serve this directory with any static file server (fo
 - Audience: internal TierShift teams and external client organizations, using organization/project-scoped access.
 - Theme: dark and light modes with a browser-local preview preference. Production preferences should be stored per authenticated user.
 
-## Current screens
+## Identity and organization onboarding preview\n\n- Sign-in, sign-up, password recovery and email verification screens are UI-only.\n- Organization switcher opens an organization setup panel with internal workspace context, client/internal organization type, and invite preview.\n- Invitation roles are illustrative. No emails, accounts, memberships or permissions are created.\n- Passwords and verification codes are never persisted or transmitted by this preview.\n- Real identity and organization access must be implemented with Clerk plus server-side FastAPI RBAC and tenant checks.\n\n## Current screens
 
 - Overview dashboard
 - Projects (search, filters, create-project preview)
@@ -39,7 +39,7 @@ All displayed projects, agent definitions, counts, and approval requests are ill
 ## Next integration work
 
 1. Define and document API contracts.
-2. Add Clerk authentication UI and protected route behavior.
+2. Replace the identity preview with Clerk sign-up, sign-in, email verification and recovery flows; enforce protected routes through backend authorization.
 3. Connect project/workspace data to FastAPI.
 4. Replace fixture data with authenticated API responses.
 5. Add live run updates through SSE/WebSockets or polling fallback.

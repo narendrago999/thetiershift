@@ -149,6 +149,21 @@ def transfer_ownership(org_id: str, target_user_id: str, user: User=Depends(curr
     db.commit()
     return {"ok": True, "new_owner_user_id": target_user_id}
 
+
+@router.post("/organizations/{org_id}/leave")
+def leave_organization(org_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    row = membership(db, org_id, user)
+    if row.role == "owner":
+        raise HTTPException(status_code=409, detail="Transfer ownership before leaving this organization")
+    row.status = "removed"
+    project_ids = db.query(Project.id).filter(Project.organization_id == org_id).subquery()
+    db.query(ProjectMembership).filter(ProjectMembership.user_id == user.id, ProjectMembership.project_id.in_(project_ids)).delete(synchronize_session=False)
+    team_ids = db.query(Team.id).filter(Team.organization_id == org_id).subquery()
+    db.query(TeamMember).filter(TeamMember.user_id == user.id, TeamMember.team_id.in_(team_ids)).delete(synchronize_session=False)
+    audit(db, org_id, user, "member.left", "membership", row.id)
+    db.commit()
+    return {"ok": True}
+
 @router.get("/organizations/{org_id}/members")
 def list_members(org_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
     membership(db, org_id, user)

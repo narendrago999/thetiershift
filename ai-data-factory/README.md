@@ -26,7 +26,8 @@ The product is browser-only for customers: open the TierShift app, register or s
 | --- | --- |
 | Frontend | HTML, CSS, JavaScript |
 | Frontend hosting | GitHub Pages; keep the current public site unchanged |
-| Backend API | Python + FastAPI on a cloud runtime |\n| Agent execution | Cloud-hosted Python worker(s) for long-running LangGraph jobs |
+| Backend API | Python + FastAPI on a cloud runtime |
+| Agent execution | Cloud-hosted Python worker(s) for long-running LangGraph jobs |
 | Operational database | Neon-hosted PostgreSQL |
 | Database access | SQLAlchemy + psycopg |
 | Migrations | Alembic |
@@ -37,15 +38,21 @@ The product is browser-only for customers: open the TierShift app, register or s
 | Agent/model utilities | LangChain where useful |
 | LLM | Existing hosted model through a provider adapter |
 | Fabric execution | Microsoft Fabric REST APIs through typed Python tools |
-| Live updates | Server-Sent Events or WebSockets, based on host support |\n| CI/CD | GitHub Actions for tests and deployment, not permanent backend hosting |\n| Cloud development | GitHub Codespaces preferred; local Python development optional |
-| Secrets | Local environment variables during development; never commit secrets |
+| Live updates | Server-Sent Events or WebSockets, based on host support |
+| CI/CD | GitHub Actions for tests and deployment, not permanent backend hosting |
+| Cloud development | GitHub Codespaces preferred; local Python development optional |
+| Secrets | Codespaces/host-managed environment secrets; never commit secrets |
 
 ## Cloud hosting strategy
 
 - Use the Neon free tier within its published limits.
-- Target a no/low-cost MVP using verified free-tier services.\n- Deploy FastAPI as an HTTPS API and run long-running agent work in a compatible cloud worker/job runtime.\n- Choose the backend provider only after checking quotas, sleep/cold starts, worker support, job duration, networking, live-update support, secrets, logs, and overage pricing.\n- Use GitHub Actions for CI/CD, not as a permanent API server or durable queue.\n- Use GitHub Codespaces for browser-based development; local Python setup is optional.
+- Target a no/low-cost MVP using verified free-tier services.
+- Deploy FastAPI as an HTTPS API and run long-running agent work in a compatible cloud worker/job runtime.
+- Choose the backend provider only after checking quotas, sleep/cold starts, worker support, job duration, networking, live-update support, secrets, logs, and overage pricing.
+- Use GitHub Actions for CI/CD, not as a permanent API server or durable queue.
+- Use GitHub Codespaces for browser-based development; local Python setup is optional.
 - Keep the existing static website deployment independent.
-- Do not expose a local backend or database credentials to the public browser.
+- Never expose backend secrets or database credentials to the public browser.
 - Track LLM usage, Neon/Clerk quotas, hosting usage, and Fabric capacity; model inference and Fabric capacity may incur separate costs.
 - Track model/API usage and free-tier quotas.
 
@@ -79,7 +86,8 @@ ai-data-factory/
 │   └── fabric/
 └── docs/
     ├── ARCHITECTURE.md
-    └── MASTER_ROADMAP.md
+    ├── MASTER_ROADMAP.md
+    └── DEPLOYMENT_PLAN.md
 ```
 
 ## Security principles
@@ -98,4 +106,5 @@ The project is in the foundation/planning stage. The cloud-first deployment arch
 
 See:
 - [Master development roadmap](docs/MASTER_ROADMAP.md)
-- [Architecture and security decisions](docs/ARCHITECTURE.md)\n- [Cloud deployment plan](docs/DEPLOYMENT_PLAN.md)
+- [Architecture and security decisions](docs/ARCHITECTURE.md)
+- [Cloud deployment plan](docs/DEPLOYMENT_PLAN.md)

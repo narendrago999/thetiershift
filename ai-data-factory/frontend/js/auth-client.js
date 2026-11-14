@@ -308,7 +308,38 @@
   $("authClose")?.addEventListener("click", () => { if (!clerk?.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
   authLayer?.addEventListener("click", e => { if (e.target === authLayer && !clerk?.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !clerk?.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
-  $("orgSwitcher")?.addEventListener("click", () => { if (!clerk?.isSignedIn) { orgLayer.classList.remove("open"); setAuthOpen(true); } });
+  const openOrganizationSwitcher = async () => {
+    if (!clerk?.isSignedIn) {
+      orgLayer?.classList.remove("open");
+      orgLayer?.setAttribute("aria-hidden", "true");
+      setAuthOpen(true);
+      return;
+    }
+    try {
+      await loadOrganizations();
+      orgLayer?.classList.add("open");
+      orgLayer?.setAttribute("aria-hidden", "false");
+    } catch (error) {
+      showError(error);
+    }
+  };
+  $("orgSwitcher")?.addEventListener("click", openOrganizationSwitcher);
+  $("orgSwitcher")?.addEventListener("keydown", event => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openOrganizationSwitcher();
+    }
+  });
+  $("orgClose")?.addEventListener("click", () => {
+    orgLayer?.classList.remove("open");
+    orgLayer?.setAttribute("aria-hidden", "true");
+  });
+  orgLayer?.addEventListener("click", event => {
+    if (event.target === orgLayer) {
+      orgLayer.classList.remove("open");
+      orgLayer.setAttribute("aria-hidden", "true");
+    }
+  });
 
   async function initialize() {
     if (cfg.previewMode === true) {

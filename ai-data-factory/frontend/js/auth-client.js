@@ -311,6 +311,14 @@
   $("orgSwitcher")?.addEventListener("click", () => { if (!clerk?.isSignedIn) { orgLayer.classList.remove("open"); setAuthOpen(true); } });
 
   async function initialize() {
+    if (cfg.previewMode === true) {
+      authLayer?.classList.remove("open");
+      authLayer?.setAttribute("aria-hidden", "true");
+      orgLayer?.classList.remove("open");
+      orgLayer?.setAttribute("aria-hidden", "true");
+      document.body.classList.add("preview-mode");
+      return;
+    }
     document.querySelectorAll(".auth-view").forEach(el => el.style.display = "none");
     if (!cfg.clerkPublishableKey || cfg.clerkPublishableKey.includes("REPLACE_WITH")) {
       showClerkUnavailable("Authentication is not configured yet. Add the Clerk publishable key in frontend/config.js and set the API URL.");

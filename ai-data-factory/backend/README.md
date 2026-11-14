@@ -11,7 +11,7 @@ FastAPI service for Clerk-backed identity, Neon PostgreSQL persistence, organiza
 - Secure email invitations: random one-time tokens, SHA-256 token hashes, expiry, revocation and verified-email acceptance.
 - Member listing, role changes and removal with owner/admin boundaries; removed members also lose project and team memberships.
 - Team create/list/update/archive, team leads and team member assignment/removal.
-- Project creation/listing and project-level roles: project owner, architect, data engineer, BI developer, QA engineer, viewer.
+- Project creation/listing and project-level roles: project owner, architect, data engineer, BI developer, QA engineer, viewer; single-owner transfer is serialized.
 - Organization-scoped audit events.
 - CORS allowlist and health/readiness endpoints.
 - Alembic schema migration.

@@ -100,12 +100,13 @@
 
   async function loadOrganizationDetails() {
     if (!currentOrg) return;
-    const [members, invites] = await Promise.all([
-      api("/organizations/" + currentOrg.id + "/members"),
-      api("/organizations/" + currentOrg.id + "/invitations")
-    ]);
+    const members = await api("/organizations/" + currentOrg.id + "/members");
+    const canManage = ["owner", "admin"].includes(currentOrg.role);
+    const invites = canManage ? await api("/organizations/" + currentOrg.id + "/invitations") : [];
     renderMembers(members);
     renderInvitations(invites);
+    const invitePanel = document.querySelector(".org-invite");
+    if (invitePanel) invitePanel.style.display = canManage ? "block" : "none";
     const status = $("orgManagementStatus");
     if (status) status.textContent = "Managing " + currentOrg.name + " · " + currentOrg.role;
   }
@@ -124,23 +125,23 @@
       email.textContent = member.email;
       identity.append(name, email);
       row.append(identity);
-      if (currentOrg.role === "owner" && member.role !== "owner") {
+      if (["owner", "admin"].includes(currentOrg.role) && member.role !== "owner" && (currentOrg.role === "owner" || member.role === "member")) {
         const select = document.createElement("select");
-        ["member", "admin"].forEach(role => {
+        if (currentOrg.role === "owner") ["member", "admin"].forEach(role => {
           const option = document.createElement("option");
           option.value = role;
           option.textContent = role[0].toUpperCase() + role.slice(1);
           option.selected = role === member.role;
           select.append(option);
         });
-        select.addEventListener("change", async () => {
+        if (currentOrg.role === "owner") select.addEventListener("change", async () => {
           try {
             await api("/organizations/" + currentOrg.id + "/members/" + member.user_id, { method: "PATCH", body: JSON.stringify({ role: select.value }) });
             toast("Member role updated.");
             await loadOrganizationDetails();
           } catch (error) { showError(error); }
         });
-        row.append(select);
+        if (currentOrg.role === "owner") row.append(select);
         const remove = document.createElement("button");
         remove.type = "button"; remove.className = "tenant-remove"; remove.textContent = "Remove";
         remove.addEventListener("click", async () => {

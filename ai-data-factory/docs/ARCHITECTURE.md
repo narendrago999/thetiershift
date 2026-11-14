@@ -179,3 +179,25 @@ For development, use GitHub Codespaces for browser-based Python work if desired;
 - Development: GitHub Codespaces or optional local setup.
 
 This keeps the customer experience browser-only while private credentials and Python execution remain server-side.
+
+
+## 12. Observability and operations
+
+- Structured logs include request/run IDs, agent/tool names, durations, and normalized outcomes.
+- Never log secrets or sensitive source data.
+- Track API/worker health, queue depth, job age, retries, failures, token usage, and hosting quotas.
+- Alert on stuck jobs, repeated failures, and exhausted quotas.
+- Provide cancellation, retry, and operator recovery controls.
+- Document backup, restore, deployment rollback, and incident procedures.
+
+## 13. Initial MVP topology
+
+- Frontend: GitHub Pages.
+- Backend API: cloud-hosted FastAPI staging service.
+- Agent worker: cloud-hosted Python worker/job runtime where supported.
+- Database: Neon PostgreSQL; authentication: Clerk.
+- LLM: existing hosted API through backend only.
+- Fabric operations: dedicated development workspace only, with approval for writes.
+- Development: GitHub Codespaces or optional local setup.
+
+This keeps the customer experience browser-only while private credentials and Python execution remain server-side.

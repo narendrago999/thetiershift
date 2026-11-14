@@ -266,5 +266,11 @@ html[data-theme="light"] .workflow-feature{border-color:#e2e8f0}html[data-theme=
 .workspace-switcher{width:100%;color:inherit;text-align:left;font:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
 .workspace-switcher:active{transform:translateY(1px)}
 
-/* Persistent sign-out action in the workspace sidebar */
-.sign-out-button{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--muted);font:600 12px var(--font);text-align:left;cursor:pointer;appearance:none;-webkit-appearance:none}.sign-out-button:hover,.sign-out-button:focus-visible{background:#182438;color:var(--text);border-color:#53617a;outline:none}
+/* Compact account actions menu anchored to the profile row */
+.user-profile{position:relative}
+.account-menu{position:absolute;right:14px;bottom:72px;z-index:40;min-width:164px;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 32px #0005}
+.account-menu[hidden]{display:none}
+.account-menu-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 11px;border:0;border-radius:7px;background:transparent;color:var(--text);font:500 12px var(--font);text-align:left;cursor:pointer}
+.account-menu-item:hover,.account-menu-item:focus-visible{background:rgba(140,150,170,.13);outline:none}
+.account-menu-icon{color:var(--muted);font-size:15px}
+

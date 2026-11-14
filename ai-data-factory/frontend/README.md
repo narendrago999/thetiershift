@@ -24,6 +24,7 @@ frontend/config.js contains only public settings: clerkPublishableKey and apiBas
 - Organization list and switching.
 - Create client or internal organizations.
 - Member list, role changes and member removal.
+- Team creation, team membership and team lead management.
 - Organization invitations, pending invitation list, revocation and verified-email acceptance.
 - Organization and project roles enforced by FastAPI, not by frontend visibility.
 - User must be authenticated to access tenant controls.

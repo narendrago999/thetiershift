@@ -264,7 +264,11 @@ def list_projects(org_id: str, user: User=Depends(current_user), db: Session=Dep
     query = db.query(Project).filter_by(organization_id=org_id)
     if org_member.role not in {"owner", "admin"}:
         query = query.join(ProjectMembership, ProjectMembership.project_id == Project.id).filter(ProjectMembership.user_id == user.id)
-    return [{"id": p.id, "name": p.name, "description": p.description, "platform": p.platform, "status": p.status, "created_at": p.created_at} for p in query.order_by(Project.created_at.desc()).all()]
+    result = []
+    for project in query.order_by(Project.created_at.desc()).all():
+        project_member = db.query(ProjectMembership).filter_by(project_id=project.id, user_id=user.id).one_or_none()
+        result.append({"id": project.id, "name": project.name, "description": project.description, "platform": project.platform, "status": project.status, "my_role": project_member.role if project_member else org_member.role, "created_at": project.created_at})
+    return result
 
 @router.post("/organizations/{org_id}/projects", status_code=201)
 def create_project(org_id: str, body: ProjectCreate, user: User=Depends(current_user), db: Session=Depends(get_db)):

@@ -86,8 +86,9 @@
   }
 
   async function loadOrganizations() {
+    const previousOrgId = currentOrg?.id;
     organizations = await api("/organizations");
-    if (!currentOrg || !organizations.some(x => x.id === currentOrg.id)) currentOrg = organizations[0] || null;
+    currentOrg = organizations.find(x => x.id === previousOrgId) || organizations[0] || null;
     renderOrganizations();
     if (currentOrg) await loadOrganizationDetails();
     else {
@@ -95,6 +96,8 @@
       $("orgInvitations")?.replaceChildren();
       const status = $("orgManagementStatus");
       if (status) status.textContent = "Create an organization or accept an invitation to get started.";
+      if ($("orgOwnerActions")) $("orgOwnerActions").style.display = "none";
+      if (document.querySelector(".org-invite")) document.querySelector(".org-invite").style.display = "none";
     }
   }
 

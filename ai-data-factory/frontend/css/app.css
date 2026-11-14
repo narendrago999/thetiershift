@@ -296,3 +296,17 @@ html[data-theme="light"] .workflow-feature{border-color:#e2e8f0}html[data-theme=
 }
 .account-menu[hidden]{display:none!important}
 .account-menu-item{min-height:40px;touch-action:manipulation}
+
+
+/* Keep account actions anchored to the profile row (including mobile sidebar). */
+.user-profile{position:relative;isolation:isolate}
+.user-profile .account-menu{
+  position:absolute;
+  right:0;
+  bottom:calc(100% + 10px);
+  top:auto;
+  z-index:100;
+  width:max-content;
+  min-width:176px;
+  max-width:calc(100vw - 48px);
+}

@@ -100,6 +100,11 @@ $$(".filter-pill").forEach(b=>b.addEventListener("click",()=>{state.filter=b.dat
 $("#projectSearch").addEventListener("input",e=>{state.search=e.target.value.toLowerCase();renderProjects()});
 $$(".settings-tab").forEach(b=>b.addEventListener("click",()=>{state.setting=b.dataset.setting;$$(".settings-tab").forEach(x=>x.classList.toggle("active",x===b));renderSettings(state.setting)}));
 $("#mobileMenu").addEventListener("click",()=>$("#sidebar").classList.toggle("open"));
+document.addEventListener("pointerdown",event=>{
+ const sidebar=$("#sidebar"),menu=$("#mobileMenu");
+ if(sidebar.classList.contains("open")&&!sidebar.contains(event.target)&&!menu.contains(event.target)) sidebar.classList.remove("open");
+});
+document.addEventListener("keydown",event=>{if(event.key==="Escape") $("#sidebar").classList.remove("open");});
 $("#refreshButton").addEventListener("click",()=>toast("Preview refreshed. Live data will be available after backend integration."));
 $("#notificationButton").addEventListener("click",()=>toast("You are all caught up. Live notifications are not connected yet."));
 $("#helpButton").addEventListener("click",()=>toast("Help centre and product documentation will be connected in a later phase.","warning"));

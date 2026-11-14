@@ -22,6 +22,8 @@ frontend/config.js contains only public settings: clerkPublishableKey and apiBas
 - Session token sent as an Authorization Bearer token to FastAPI.
 - Server-side user synchronization with Clerk Backend API.
 - Organization list and switching.
+- Organization-scoped live project listing and creation.
+- Project access management with project-level role assignment, transfer and removal.
 - Create client or internal organizations.
 - Member list, role changes and member removal.
 - Team creation, team membership and team lead management.

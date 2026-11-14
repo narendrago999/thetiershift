@@ -335,7 +335,8 @@
       const mountSignIn = () => {
         if (!clerkMount || clerkMount.dataset.mounted === "true" || clerk.isSignedIn) return;
         document.querySelectorAll(".auth-view").forEach(el => el.style.display = "none");
-        clerk.mountSignIn(clerkMount, { routing: "hash", signUpUrl: "#/sign-up", forceRedirectUrl: window.location.pathname + window.location.search + window.location.hash, appearance: { variables: { colorPrimary: "#8f7cff", colorBackground: "#121e32", colorText: "#edf2fc", colorInputBackground: "#0b1424", colorInputText: "#edf2fc", borderRadius: "12px" } } });
+        const lightTheme = document.documentElement.dataset.theme === "light";
+        clerk.mountSignIn(clerkMount, { routing: "hash", signUpUrl: "#/sign-up", forceRedirectUrl: window.location.pathname + window.location.search + window.location.hash, appearance: { variables: { colorPrimary: "#8f7cff", colorBackground: lightTheme ? "#ffffff" : "#121e32", colorText: lightTheme ? "#172337" : "#edf2fc", colorInputBackground: lightTheme ? "#f7f9fc" : "#0b1424", colorInputText: lightTheme ? "#172337" : "#edf2fc", borderRadius: "12px" } } });
         clerkMount.dataset.mounted = "true";
       };
       mountSignIn();

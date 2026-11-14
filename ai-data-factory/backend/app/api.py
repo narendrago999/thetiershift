@@ -6,7 +6,7 @@ from uuid import uuid4
 import re
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from sqlalchemy import or_
+from sqlalchemy import or_, select
 from .config import get_settings
 from .database import get_db
 from .models import User, Organization, Membership, Invitation, Project, ProjectMembership, AuditEvent, Team, TeamMember
@@ -156,9 +156,9 @@ def leave_organization(org_id: str, user: User=Depends(current_user), db: Sessio
     if row.role == "owner":
         raise HTTPException(status_code=409, detail="Transfer ownership before leaving this organization")
     row.status = "removed"
-    project_ids = db.query(Project.id).filter(Project.organization_id == org_id).subquery()
+    project_ids = select(Project.id).where(Project.organization_id == org_id)
     db.query(ProjectMembership).filter(ProjectMembership.user_id == user.id, ProjectMembership.project_id.in_(project_ids)).delete(synchronize_session=False)
-    team_ids = db.query(Team.id).filter(Team.organization_id == org_id).subquery()
+    team_ids = select(Team.id).where(Team.organization_id == org_id)
     db.query(TeamMember).filter(TeamMember.user_id == user.id, TeamMember.team_id.in_(team_ids)).delete(synchronize_session=False)
     audit(db, org_id, user, "member.left", "membership", row.id)
     db.commit()
@@ -192,7 +192,8 @@ def remove_member(org_id: str, member_id: str, user: User=Depends(current_user),
     target.status = "removed"
     project_ids = db.query(Project.id).filter(Project.organization_id == org_id).subquery()
     db.query(ProjectMembership).filter(ProjectMembership.user_id == member_id, ProjectMembership.project_id.in_(project_ids)).delete(synchronize_session=False)
-    db.query(TeamMember).filter(TeamMember.user_id == member_id, TeamMember.team_id.in_(db.query(Team.id).filter(Team.organization_id == org_id))).delete(synchronize_session=False)
+    team_ids = select(Team.id).where(Team.organization_id == org_id)
+    db.query(TeamMember).filter(TeamMember.user_id == member_id, TeamMember.team_id.in_(team_ids)).delete(synchronize_session=False)
     audit(db, org_id, user, "member.removed", "membership", target.id)
     db.commit()
     return {"ok": True}

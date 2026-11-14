@@ -199,6 +199,7 @@
         toast("You have joined the organization.");
       }
     } catch (error) {
+      lastSyncedSession = null;
       setAuthOpen(true);
       showError(error);
     } finally { syncing = false; }
@@ -227,17 +228,20 @@
       await loadScript("https://" + domain + "/npm/@clerk/clerk-js@6/dist/clerk.browser.js");
       clerk = window.Clerk;
       await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
-      if (clerkMount) {
+      const mountSignIn = () => {
+        if (!clerkMount || clerkMount.dataset.mounted === "true" || clerk.isSignedIn) return;
         document.querySelectorAll(".auth-view").forEach(el => el.style.display = "none");
-        clerk.mountSignIn(clerkMount, { routing: "hash", signUpUrl: "#/sign-up", forceRedirectUrl: window.location.pathname, appearance: { variables: { colorPrimary: "#8f7cff", colorBackground: "#121e32", colorText: "#edf2fc", colorInputBackground: "#0b1424", colorInputText: "#edf2fc", borderRadius: "12px" } } });
-      }
+        clerk.mountSignIn(clerkMount, { routing: "hash", signUpUrl: "#/sign-up", forceRedirectUrl: window.location.pathname + window.location.search + window.location.hash, appearance: { variables: { colorPrimary: "#8f7cff", colorBackground: "#121e32", colorText: "#edf2fc", colorInputBackground: "#0b1424", colorInputText: "#edf2fc", borderRadius: "12px" } } });
+        clerkMount.dataset.mounted = "true";
+      };
+      mountSignIn();
       $("accountEntry")?.addEventListener("click", () => {
         setAuthOpen(!clerk.isSignedIn);
         if (clerk.isSignedIn) clerk.openUserProfile();
       });
       clerk.addListener(async ({ session, user }) => {
         if (session && user) await syncIdentity(session, user);
-        else if (session === null) setAuthOpen(true);
+        else if (session === null) { currentUser = null; currentOrg = null; organizations = []; mountSignIn(); setAuthOpen(true); }
       });
       if (clerk.session && clerk.user) await syncIdentity(clerk.session, clerk.user);
       else setAuthOpen(true);
@@ -276,6 +280,7 @@
       $("orgSwitcher")?.addEventListener("click", () => { if (!clerk.isSignedIn) { orgLayer.classList.remove("open"); setAuthOpen(true); } });
       $("authClose")?.addEventListener("click", () => { if (!clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
       authLayer?.addEventListener("click", e => { if (e.target === authLayer && !clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
+      document.addEventListener("keydown", e => { if (e.key === "Escape" && !clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
     } catch (error) {
       showClerkUnavailable(error.message || "Clerk could not initialize. Check the publishable key and allowed domains.");
       setAuthOpen(true);

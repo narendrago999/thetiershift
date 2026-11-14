@@ -47,6 +47,13 @@ def require_project_access(db: Session, project: Project, user: User) -> Project
         raise HTTPException(status_code=404, detail="Project not found")
     return row
 
+def require_project_manager(db: Session, project: Project, user: User):
+    project_role = require_project_access(db, project, user)
+    org_role = membership(db, project.organization_id, user).role
+    if org_role not in {"owner", "admin"} and project_role.role != "project_owner":
+        raise HTTPException(status_code=403, detail="Project owner or organization admin access required")
+    return project_role
+
 def org_payload(org: Organization, role: str):
     return {"id": org.id, "name": org.name, "slug": org.slug, "type": org.org_type, "status": org.status, "role": role, "created_at": org.created_at}
 
@@ -149,7 +156,7 @@ def change_member_role(org_id: str, member_id: str, body: MemberRoleUpdate, user
     target = db.query(Membership).filter_by(organization_id=org_id, user_id=member_id, status="active").one_or_none()
     if not target: raise HTTPException(status_code=404, detail="Member not found")
     if target.role == "owner": raise HTTPException(status_code=409, detail="Transfer ownership before changing the owner role")
-    if actor.role != "owner" and body.role == "admin": raise HTTPException(status_code=403, detail="Only the owner can grant admin access")
+    if actor.role != "owner" and (body.role == "admin" or target.role == "admin"): raise HTTPException(status_code=403, detail="Only the owner can change an admin role")
     target.role = body.role
     audit(db, org_id, user, "member.role_changed", "membership", target.id, body.role)
     db.commit()
@@ -193,7 +200,7 @@ def create_invitation(org_id: str, body: InvitationCreate, user: User=Depends(cu
 
 @router.get("/organizations/{org_id}/invitations")
 def list_invitations(org_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    membership(db, org_id, user)
+    require_org_admin(db, org_id, user)
     rows = db.query(Invitation).filter(Invitation.organization_id == org_id, Invitation.accepted_at.is_(None), Invitation.revoked_at.is_(None), Invitation.expires_at > datetime.now(timezone.utc)).all()
     return [{"id": x.id, "email": x.email, "role": x.role, "expires_at": x.expires_at, "created_at": x.created_at} for x in rows]
 
@@ -254,7 +261,7 @@ def list_project_members(project_id: str, user: User=Depends(current_user), db: 
 def set_project_member(project_id: str, member_id: str, body: ProjectMemberUpsert, user: User=Depends(current_user), db: Session=Depends(get_db)):
     project = db.query(Project).filter_by(id=project_id).one_or_none()
     if not project: raise HTTPException(status_code=404, detail="Project not found")
-    require_org_admin(db, project.organization_id, user)
+    require_project_manager(db, project, user)
     org_member = db.query(Membership).filter_by(organization_id=project.organization_id, user_id=member_id, status="active").one_or_none()
     if not org_member: raise HTTPException(status_code=400, detail="Project members must belong to the organization")
     row = db.query(ProjectMembership).filter_by(project_id=project_id, user_id=member_id).one_or_none()
@@ -268,7 +275,7 @@ def set_project_member(project_id: str, member_id: str, body: ProjectMemberUpser
 def remove_project_member(project_id: str, member_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
     project = db.query(Project).filter_by(id=project_id).one_or_none()
     if not project: raise HTTPException(status_code=404, detail="Project not found")
-    require_org_admin(db, project.organization_id, user)
+    require_project_manager(db, project, user)
     row = db.query(ProjectMembership).filter_by(project_id=project_id, user_id=member_id).one_or_none()
     if not row: raise HTTPException(status_code=404, detail="Project member not found")
     if row.role == "project_owner": raise HTTPException(status_code=409, detail="Assign another project owner before removing this member")

@@ -315,13 +315,11 @@
       setAuthOpen(true);
       return;
     }
-    try {
-      await loadOrganizations();
-      orgLayer?.classList.add("open");
-      orgLayer?.setAttribute("aria-hidden", "false");
-    } catch (error) {
-      showError(error);
-    }
+    // Open immediately on mobile; a slow or temporarily unavailable API
+    // must never make the workspace switcher appear unresponsive.
+    orgLayer?.classList.add("open");
+    orgLayer?.setAttribute("aria-hidden", "false");
+    loadOrganizations().catch(showError);
   };
   $("orgSwitcher")?.addEventListener("click", openOrganizationSwitcher);
   $("orgSwitcher")?.addEventListener("keydown", event => {

@@ -1,23 +1,33 @@
 # TierShift AI Data Factory — Master Development Roadmap
 
+## Product deployment principle
+
+**Browser-only for end users; cloud-hosted execution for the application.** Customers use the product through a browser and never install Python or run a local service. The frontend remains on GitHub Pages; FastAPI runs on a cloud application runtime; long-running LangGraph jobs run in a cloud worker/job runtime; Neon stores durable state; Clerk handles identity. GitHub Actions provides CI/CD, not a permanent API server. GitHub Codespaces is the preferred optional browser-based development environment; local Python setup is optional.
+
+The backend hosting provider will be selected only after its free-tier quotas, sleep/cold-start behavior, background-worker support, job duration, networking, SSE/WebSocket support, secrets, logs, and post-quota pricing have been verified.
+
 ## Delivery principle
 
 Build a vertical slice that works end to end before expanding the workforce. Each phase has measurable acceptance criteria. A phase is not complete merely because code has been written; its tests and evidence must pass.
 
-## Phase 0 — Accounts and local development foundation
+## Phase 0 — Cloud accounts, repository, and development foundation
 
 **Scope**
 - Create Neon project and PostgreSQL database.
 - Create Clerk application for authentication.
 - Confirm the hosted LLM API contract, model identifier, structured-output support, and tool-calling capabilities.
-- Configure local Python environment and FastAPI skeleton.
-- Configure environment variables and Git ignore rules.
+- Prepare GitHub Codespaces as the preferred browser-based Python development path; keep local setup optional.
+- Configure FastAPI skeleton and health endpoint.
+- Add .env.example, secret-handling guidance, and Git ignore rules.
+- Add GitHub Actions checks for linting, tests, and dependency/security checks.
 - Verify Neon SSL connectivity from Python.
 - Enable and verify pgvector.
 - Add SQLAlchemy and Alembic.
 
 **Acceptance**
+- A contributor can start the backend in Codespaces without installing Python on their own machine.
 - Backend health endpoint responds.
+- CI checks run on pull requests.
 - Backend connects to Neon using SSL.
 - pgvector extension is available.
 - LLM connectivity test passes without exposing secrets.
@@ -108,6 +118,22 @@ Build a vertical slice that works end to end before expanding the workforce. Eac
 - Duplicate requests do not duplicate side effects.
 - Concurrent users see consistent task and approval state.
 
+## Phase 5A — Cloud runtime, staging, and CI/CD
+
+**Scope**
+- Evaluate hosting candidates using docs/DEPLOYMENT_PLAN.md; do not choose based only on a free-tier headline.
+- Deploy a non-production FastAPI staging service with HTTPS, health checks, CORS allowlist, and secure environment secrets.
+- Prove a separate worker/job runtime can run and resume LangGraph tasks using persistent PostgreSQL checkpoints.
+- Configure GitHub Actions to test, build, deploy to staging, and run smoke tests.
+- Separate development, staging, and production credentials and Fabric workspaces.
+
+**Acceptance**
+- A user can access staging from a browser without installing Python.
+- No private key or database credential is exposed to frontend assets or browser responses.
+- A worker can resume a test job after restart.
+- Hosting limits, sleep/restart behavior, job duration, and estimated cost are documented.
+- If a free plan cannot safely support a capability, limit the MVP or defer that capability rather than using an unreliable workaround.
+
 ## Phase 6 — Planning, source discovery, and architecture workforce
 
 **Scope**
@@ -194,11 +220,12 @@ Build a vertical slice that works end to end before expanding the workforce. Eac
 - Retrieved knowledge respects tenant and project access policies.
 - Unverified suggestions are not treated as approved engineering standards.
 
-## Phase 11 — Production readiness and deployment
+## Phase 11 — Production readiness and scale
 
 **Scope**
 - Background worker deployment and job processing.
-- Backend hosting only after MVP acceptance.
+- Production-grade API and worker deployment with explicit service ownership.
+- Re-evaluate free-tier suitability; upgrade only when reliability, security, capacity, or usage requires it.
 - Secure frontend-to-backend deployment and CORS configuration.
 - Monitoring, backups, rate limits, secrets management, disaster recovery, and cost controls.
 - Multi-tenant security review and load testing.

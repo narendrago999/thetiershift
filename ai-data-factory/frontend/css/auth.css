@@ -33,3 +33,15 @@ html[data-theme="light"] .tenant-member-row select{background:#fff;color:#172337
 html[data-theme="light"] .tenant-danger{background:#fff1f2;border-color:#f0c6cc;color:#a33142}
 
 .org-member-actions{display:none;border-top:1px solid #2b3951;margin-top:18px;padding-top:12px}
+
+.org-teams{display:grid;gap:8px;margin:10px 0 16px}
+.tenant-team-row{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:11px;background:#17243a;border:1px solid #2e3d57;border-radius:10px}
+.tenant-team-row>div{display:grid;gap:4px;min-width:0}.tenant-team-row strong{font-size:12px}.tenant-team-row small{font-size:10px;color:#98a8c0;overflow-wrap:anywhere}
+.team-create-form{display:grid;gap:8px;padding:12px;background:#121f33;border:1px solid #2b3a54;border-radius:10px;margin:10px 0 16px}
+.team-member-manager{display:none;border-top:1px solid #2b3951;margin:14px 0;padding-top:14px}
+.team-member-manager h4{font:600 13px 'Space Grotesk',sans-serif;margin:0 0 10px}
+.team-member-manager form{display:grid;gap:8px;margin-top:12px}
+.team-member-manager select{width:100%;background:#0b1424;color:#edf2fc;border:1px solid #34435d;border-radius:9px;padding:10px}
+html[data-theme="light"] .tenant-team-row,html[data-theme="light"] .team-create-form{background:#f4f6fa;color:#172337;border-color:#dce4ef}
+html[data-theme="light"] .tenant-team-row small{color:#687991}
+html[data-theme="light"] .team-member-manager select{background:#fff;color:#172337;border-color:#dce4ef}

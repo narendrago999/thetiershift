@@ -26,3 +26,5 @@ jobs:
         run: pip install -r requirements.txt
       - name: Compile backend and migration modules
         run: python -m compileall -q app migrations
+      - name: Run backend unit tests
+        run: pytest -q

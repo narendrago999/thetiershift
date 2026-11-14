@@ -5,7 +5,7 @@
   const orgLayer = document.getElementById("orgOverlay");
   const clerkMount = document.getElementById("clerkMount");
   const apiBase = String(cfg.apiBaseUrl || "").replace(/\/$/, "");
-  let clerk = null, currentOrg = null, organizations = [], currentUser = null, syncing = false, lastSyncedSession = null;
+  let clerk = null, currentOrg = null, organizations = [], currentUser = null, currentTeam = null, organizationMembers = [], syncing = false, lastSyncedSession = null;
 
   const $ = (id) => document.getElementById(id);
   const safe = (v) => String(v == null ? "" : v);
@@ -94,6 +94,9 @@
     else {
       $("orgMembers")?.replaceChildren();
       $("orgInvitations")?.replaceChildren();
+      $("orgTeams")?.replaceChildren();
+      if ($("teamCreateForm")) $("teamCreateForm").style.display = "none";
+      if ($("teamMemberManager")) $("teamMemberManager").style.display = "none";
       const status = $("orgManagementStatus");
       if (status) status.textContent = "Create an organization or accept an invitation to get started.";
       if ($("orgOwnerActions")) $("orgOwnerActions").style.display = "none";
@@ -104,12 +107,22 @@
   async function loadOrganizationDetails() {
     if (!currentOrg) return;
     const members = await api("/organizations/" + currentOrg.id + "/members");
+    organizationMembers = members;
     const canManage = ["owner", "admin"].includes(currentOrg.role);
-    const invites = canManage ? await api("/organizations/" + currentOrg.id + "/invitations") : [];
+    const [invites, teams] = await Promise.all([
+      canManage ? api("/organizations/" + currentOrg.id + "/invitations") : Promise.resolve([]),
+      api("/organizations/" + currentOrg.id + "/teams")
+    ]);
     renderMembers(members);
     renderInvitations(invites);
+    renderTeams(teams);
     const invitePanel = document.querySelector(".org-invite");
     if (invitePanel) invitePanel.style.display = canManage ? "block" : "none";
+    if ($("teamCreateForm")) $("teamCreateForm").style.display = canManage ? "grid" : "none";
+    if (!currentTeam || !teams.some(t => t.id === currentTeam.id)) {
+      currentTeam = null;
+      if ($("teamMemberManager")) $("teamMemberManager").style.display = "none";
+    }
     const status = $("orgManagementStatus");
     if (status) status.textContent = "Managing " + currentOrg.name + " · " + currentOrg.role;
     const ownerActions = $("orgOwnerActions");
@@ -165,6 +178,77 @@
     });
   }
 
+  async function loadTeamMembers(team) {
+    currentTeam = team;
+    const root = $("teamMemberManager");
+    if (root) root.style.display = "block";
+    if ($("selectedTeamName")) $("selectedTeamName").textContent = team.name + " · members";
+    const members = await api("/teams/" + team.id + "/members");
+    const isOrgAdmin = ["owner", "admin"].includes(currentOrg.role);
+    const isTeamLead = members.some(m => m.user_id === currentUser?.id && m.role === "lead");
+    const canManage = isOrgAdmin || isTeamLead;
+    const list = $("teamMembers");
+    if (list) {
+      list.replaceChildren();
+      members.forEach(member => {
+        const row = document.createElement("div"); row.className = "tenant-member-row";
+        const label = document.createElement("span"); label.textContent = (member.name || member.email) + " · " + member.role;
+        row.append(label);
+        if (canManage && (member.role !== "lead" || isOrgAdmin)) {
+          const remove = document.createElement("button"); remove.type = "button"; remove.className = "tenant-remove"; remove.textContent = "Remove";
+          remove.addEventListener("click", async () => {
+            try { await api("/teams/" + team.id + "/members/" + member.user_id, { method: "DELETE" }); toast("Team member removed."); await loadTeamMembers(team); await loadOrganizationDetails(); }
+            catch (error) { showError(error); }
+          });
+          row.append(remove);
+        }
+        list.append(row);
+      });
+    }
+    const form = $("teamMemberForm");
+    if (form) form.style.display = canManage ? "grid" : "none";
+    const select = $("teamMemberUser");
+    if (select) {
+      select.replaceChildren();
+      organizationMembers.filter(m => !members.some(tm => tm.user_id === m.user_id)).forEach(m => {
+        const option = document.createElement("option"); option.value = m.user_id; option.textContent = m.name || m.email; select.append(option);
+      });
+    }
+    const roleSelect = $("teamMemberRole");
+    if (roleSelect) {
+      roleSelect.replaceChildren();
+      ["member", ...(isOrgAdmin ? ["lead"] : [])].forEach(role => { const option = document.createElement("option"); option.value = role; option.textContent = role === "lead" ? "Team lead" : "Member"; roleSelect.append(option); });
+    }
+  }
+
+  function renderTeams(teams) {
+    const root = $("orgTeams");
+    if (!root) return;
+    root.replaceChildren();
+    if (!teams.length) {
+      const empty = document.createElement("p"); empty.className = "org-management-status"; empty.textContent = "No teams created yet."; root.append(empty); return;
+    }
+    teams.forEach(team => {
+      const row = document.createElement("div"); row.className = "tenant-team-row";
+      const detail = document.createElement("div");
+      const name = document.createElement("strong"); name.textContent = team.name;
+      const description = document.createElement("small"); description.textContent = (team.description || "No description") + " · " + team.member_count + " members";
+      detail.append(name, description); row.append(detail);
+      const manage = document.createElement("button"); manage.type = "button"; manage.className = "auth-link"; manage.textContent = "Manage";
+      manage.addEventListener("click", () => loadTeamMembers(team).catch(showError)); row.append(manage);
+      if (["owner", "admin"].includes(currentOrg.role)) {
+        const archive = document.createElement("button"); archive.type = "button"; archive.className = "tenant-remove"; archive.textContent = "Archive";
+        archive.addEventListener("click", async () => {
+          if (!window.confirm("Archive team " + team.name + "?")) return;
+          try { await api("/teams/" + team.id, { method: "DELETE" }); currentTeam = null; await loadOrganizationDetails(); toast("Team archived."); }
+          catch (error) { showError(error); }
+        });
+        row.append(archive);
+      }
+      root.append(row);
+    });
+  }
+
   function renderInvitations(invites) {
     const root = $("orgInvitations");
     if (!root) return;
@@ -186,7 +270,7 @@
   }
 
   async function syncIdentity(session, user) {
-    if (!session || syncing) return;
+    if (!session || syncing || session.id === lastSyncedSession) return;
     syncing = true;
     try {
       const token = await session.getToken();
@@ -194,18 +278,21 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.detail || "Account synchronization failed.");
       currentUser = data.user;
+      lastSyncedSession = session.id;
       updateProfile(user);
       setAuthOpen(false);
       await loadOrganizations();
       const params = new URLSearchParams(window.location.search);
       const inviteToken = params.get("invite");
       if (inviteToken) {
-        await api("/invitations/accept", { method: "POST", body: JSON.stringify({ token: inviteToken }) });
-        params.delete("invite");
-        const next = window.location.pathname + (params.toString() ? "?" + params.toString() : "") + window.location.hash;
-        window.history.replaceState({}, "", next);
-        await loadOrganizations();
-        toast("You have joined the organization.");
+        try {
+          await api("/invitations/accept", { method: "POST", body: JSON.stringify({ token: inviteToken }) });
+          params.delete("invite");
+          const next = window.location.pathname + (params.toString() ? "?" + params.toString() : "") + window.location.hash;
+          window.history.replaceState({}, "", next);
+          await loadOrganizations();
+          toast("You have joined the organization.");
+        } catch (inviteError) { showError(inviteError); }
       }
     } catch (error) {
       lastSyncedSession = null;
@@ -255,6 +342,27 @@
       if (clerk.session && clerk.user) await syncIdentity(clerk.session, clerk.user);
       else setAuthOpen(true);
 
+      $("teamCreateForm")?.addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!currentOrg) return;
+        const name = $("teamName").value.trim();
+        if (!name) return;
+        try {
+          await api("/organizations/" + currentOrg.id + "/teams", { method: "POST", body: JSON.stringify({ name, description: $("teamDescription").value.trim() }) });
+          $("teamName").value = ""; $("teamDescription").value = "";
+          await loadOrganizationDetails(); toast("Team created.");
+        } catch (error) { showError(error); }
+      });
+      $("teamMemberForm")?.addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!currentTeam) return;
+        const memberId = $("teamMemberUser").value;
+        if (!memberId) return;
+        try {
+          await api("/teams/" + currentTeam.id + "/members/" + memberId, { method: "PUT", body: JSON.stringify({ role: $("teamMemberRole").value }) });
+          await loadTeamMembers(currentTeam); await loadOrganizationDetails(); toast("Team membership updated.");
+        } catch (error) { showError(error); }
+      });
       $("orgCreateForm")?.addEventListener("submit", async e => {
         e.preventDefault();
         if (!currentUser) return toast("Sign in before creating an organization.", "warning");

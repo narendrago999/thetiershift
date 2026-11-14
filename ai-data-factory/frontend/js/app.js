@@ -34,7 +34,7 @@ function renderProjects(){
   const statusLabel=p.statusLabel||(p.status==="review"?"In review":p.status.charAt(0).toUpperCase()+p.status.slice(1));
   return '<article class="project-card"><div class="project-card-top"><div class="project-symbol '+p.tone+'">'+p.initials+'</div><span class="project-status '+statusClass+'">'+escapeHtml(statusLabel)+'</span></div><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.description)+'</p><div class="project-card-meta"><span class="meta-chip">'+escapeHtml(p.platform)+'</span><span class="meta-chip">'+escapeHtml(p.stage)+'</span>'+p.sources.map(s=>'<span class="meta-chip">'+escapeHtml(s)+'</span>').join("")+'</div><div class="project-card-footer"><span>'+escapeHtml(p.updated)+'</span><button class="text-button project-open" data-id="'+p.id+'" data-manage="'+(canManage?"true":"false")+'">'+(canManage?"Manage access →":"Open project →")+'</button></div></article>';
  }).join(""):'<div class="empty-search">No projects in this organization match your search.</div>';
- $(".project-open").forEach(b=>b.addEventListener("click",()=>b.dataset.manage==="true"?openProjectAccess(b.dataset.id):toast("Project workspace screens are the next delivery milestone.","warning")));
+ document.querySelectorAll(".project-open").forEach(b=>b.addEventListener("click",()=>b.dataset.manage==="true"?openProjectAccess(b.dataset.id):toast("Project workspace screens are the next delivery milestone.","warning")));
 }
 function renderAgents(){$("#agentGrid").innerHTML=agents.map(a=>'<article class="agent-card"><span class="agent-avatar '+a.tone+'">'+a.icon+'</span><h3>'+a.name+'</h3><span class="connection-type">'+a.role.toUpperCase()+'</span><p>'+a.desc+'</p><div class="agent-capabilities">'+a.skills.map(s=>'<span>'+s+'</span>').join("")+'</div></article>').join("")}
 function renderApprovals(){$("#approvalList").innerHTML=approvals.map(a=>'<article class="approval-card"><div class="approval-card-top"><span class="connection-type">REQUEST #'+String(a.id).padStart(3,"0")+' · '+a.project+'</span><span class="risk-pill">'+a.risk+'</span></div><h3>'+a.title+'</h3><p>'+a.detail+'</p><div class="approval-meta"><span>Requested by '+a.requester+'</span><span>Illustrative preview request</span></div><div class="approval-actions"><button class="secondary-button approval-review" data-id="'+a.id+'">Review details</button><button class="secondary-button approval-disabled">Approve (preview)</button><button class="secondary-button approval-disabled">Reject (preview)</button></div></article>').join("");$$(".approval-review").forEach(b=>b.addEventListener("click",()=>{const a=approvals.find(x=>x.id===Number(b.dataset.id));toast(a.action,"warning")}));$$(".approval-disabled").forEach(b=>b.addEventListener("click",()=>toast("Approval actions are disabled until authentication, audit logging and backend execution are connected.","warning")))}
@@ -43,14 +43,14 @@ function renderSettings(tab){const data={general:["Workspace preferences","Manag
 let activeProjectId=null;
 async function loadLiveProjects(org){
  const client=window.TSDF;
- if(!client||!org){projects=[];renderProjects();renderRecent();return}
+ if(!client||!org){projects=[];["#newProjectButton","#projectsNewButton"].forEach(sel=>{const button=$(sel);if(button)button.style.display="none"});renderProjects();renderRecent();return}
  try{
   const rows=await client.api("/organizations/"+org.id+"/projects");
   projects=rows.map((p,i)=>({id:p.id,name:p.name,description:p.description||"",platform:p.platform,stage:"Workspace",status:"active",statusLabel:p.status==="active"?"Active":p.status,initials:p.name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase(),tone:["project-purple","project-blue","project-green"][i%3],sources:[],myRole:p.my_role,updated:p.created_at?"Created "+new Date(p.created_at).toLocaleDateString():"Recently created"}));
   const canCreate=["owner","admin"].includes(org.role);
   ["#newProjectButton","#projectsNewButton"].forEach(sel=>{const button=$(sel);if(button)button.style.display=canCreate?"inline-flex":"none"});
   renderProjects();renderRecent();
- }catch(error){toast(error.message||"Could not load organization projects.","warning")}
+ }catch(error){projects=[];renderProjects();renderRecent();toast(error.message||"Could not load organization projects.","warning")}
 }
 async function openProjectAccess(projectId){
  const client=window.TSDF,org=client?.getCurrentOrganization();

@@ -273,6 +273,9 @@
       });
 
       await loadOrganizations();
+      $("orgSwitcher")?.addEventListener("click", () => { if (!clerk.isSignedIn) { orgLayer.classList.remove("open"); setAuthOpen(true); } });
+      $("authClose")?.addEventListener("click", () => { if (!clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
+      authLayer?.addEventListener("click", e => { if (e.target === authLayer && !clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
     } catch (error) {
       showClerkUnavailable(error.message || "Clerk could not initialize. Check the publishable key and allowed domains.");
       setAuthOpen(true);

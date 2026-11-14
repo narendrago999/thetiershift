@@ -19,3 +19,12 @@ class ProjectCreate(BaseModel):
     platform: str = Field(default="Microsoft Fabric", max_length=60)
 class ProjectMemberUpsert(BaseModel):
     role: Literal["project_owner", "architect", "data_engineer", "bi_developer", "qa_engineer", "viewer"]
+
+class TeamCreate(BaseModel):
+    name: str = Field(min_length=2, max_length=100)
+    description: str = Field(default="", max_length=2000)
+class TeamUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=100)
+    description: str | None = Field(default=None, max_length=2000)
+class TeamMemberUpsert(BaseModel):
+    role: Literal["lead", "member"] = "member"

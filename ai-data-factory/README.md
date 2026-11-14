@@ -1,8 +1,14 @@
 # TierShift AI Data Factory
 
-**Autonomous AI workforce for planning, building, validating, and documenting Microsoft Fabric data platforms.**
+**A browser-based AI workforce for planning, building, validating, and documenting Microsoft Fabric data platforms.**
 
 TierShift AI Data Factory is an independent application module within the TierShift Technologies repository. It is designed as a multi-user, multi-organization platform where human teams collaborate with specialized AI agents on data engineering projects.
+
+## End-user experience
+
+The product is browser-only for customers: open the TierShift app, register or sign in, create or join a project, provide requirements, approve proposed actions, and monitor agent runs and deliverables in the dashboard.
+
+**End users do not install Python, create virtual environments, install packages, or run a local backend.** Python and LangGraph execute on cloud-hosted application services and workers.
 
 ## Product goals
 
@@ -19,8 +25,8 @@ TierShift AI Data Factory is an independent application module within the TierSh
 | Area | Initial choice |
 | --- | --- |
 | Frontend | HTML, CSS, JavaScript |
-| Existing website | GitHub Pages; keep the current public site unchanged |
-| Backend | Python + FastAPI, initially run locally |
+| Frontend hosting | GitHub Pages; keep the current public site unchanged |
+| Backend API | Python + FastAPI on a cloud runtime |\n| Agent execution | Cloud-hosted Python worker(s) for long-running LangGraph jobs |
 | Operational database | Neon-hosted PostgreSQL |
 | Database access | SQLAlchemy + psycopg |
 | Migrations | Alembic |
@@ -31,16 +37,16 @@ TierShift AI Data Factory is an independent application module within the TierSh
 | Agent/model utilities | LangChain where useful |
 | LLM | Existing hosted model through a provider adapter |
 | Fabric execution | Microsoft Fabric REST APIs through typed Python tools |
-| Live updates | Server-Sent Events or WebSockets, selected per use case |
+| Live updates | Server-Sent Events or WebSockets, based on host support |\n| CI/CD | GitHub Actions for tests and deployment, not permanent backend hosting |\n| Cloud development | GitHub Codespaces preferred; local Python development optional |
 | Secrets | Local environment variables during development; never commit secrets |
 
-## Cost-conscious development model
+## Cloud hosting strategy
 
 - Use the Neon free tier within its published limits.
-- Run FastAPI and background workers locally during initial development.
+- Target a no/low-cost MVP using verified free-tier services.\n- Deploy FastAPI as an HTTPS API and run long-running agent work in a compatible cloud worker/job runtime.\n- Choose the backend provider only after checking quotas, sleep/cold starts, worker support, job duration, networking, live-update support, secrets, logs, and overage pricing.\n- Use GitHub Actions for CI/CD, not as a permanent API server or durable queue.\n- Use GitHub Codespaces for browser-based development; local Python setup is optional.
 - Keep the existing static website deployment independent.
 - Do not expose a local backend or database credentials to the public browser.
-- Do not introduce paid hosting until the MVP has passed its acceptance tests.
+- Track LLM usage, Neon/Clerk quotas, hosting usage, and Fabric capacity; model inference and Fabric capacity may incur separate costs.
 - Track model/API usage and free-tier quotas.
 
 ## Repository layout
@@ -88,8 +94,8 @@ ai-data-factory/
 
 ## Current status
 
-The project is in the foundation/planning stage. No database, Clerk application, Fabric connection, or live AI agent is assumed to exist until it has been configured and tested.
+The project is in the foundation/planning stage. The cloud-first deployment architecture and evaluation plan are documented; no backend host, database, Clerk application, Fabric connection, or live AI agent is assumed to exist until configured and tested.
 
 See:
 - [Master development roadmap](docs/MASTER_ROADMAP.md)
-- [Architecture and security decisions](docs/ARCHITECTURE.md)
+- [Architecture and security decisions](docs/ARCHITECTURE.md)\n- [Cloud deployment plan](docs/DEPLOYMENT_PLAN.md)

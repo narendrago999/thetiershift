@@ -8,3 +8,20 @@
 html[data-theme="light"] .auth-shell,html[data-theme="light"] .auth-card,html[data-theme="light"] .org-dialog{background:#fff;color:#172337;border-color:#dce4ef}html[data-theme="light"] .auth-story>p,html[data-theme="light"] .auth-card>p,html[data-theme="light"] .org-dialog>p{color:#687991}html[data-theme="light"] .auth-card input,html[data-theme="light"] .org-dialog input,html[data-theme="light"] .org-dialog select{background:#f7f9fc;color:#172337;border-color:#dce4ef}html[data-theme="light"] .org-choice,html[data-theme="light"] .invite-row{background:#f2f5fa;border-color:#dce4ef;color:#34435a}html[data-theme="light"] .auth-secondary{background:#f1f4f9;color:#34435a;border-color:#dce4ef}
 @media(max-width:850px){.auth-layout{grid-template-columns:1fr;gap:28px;margin:35px auto}.auth-story{display:none}.auth-shell{padding:22px;min-height:auto}.auth-card{max-width:460px;margin:auto;width:100%}.auth-bottom{margin-top:24px}.auth-overlay{padding:12px}.org-dialog{padding:24px}}
 @media(max-width:420px){.org-invite form{grid-template-columns:1fr}.org-invite form button{grid-column:auto}.auth-card{padding:22px}}
+
+/* Live tenant controls and Clerk mounted components */
+.clerk-mount{display:block;width:100%;min-height:440px}.clerk-mount:empty{display:none}
+.auth-card:has(.clerk-mount:not(:empty)){padding:18px;background:transparent;border:0;box-shadow:none}
+.org-management-status{font-size:11px;color:#9caac0;padding:10px 0}
+.org-list,.org-members,.org-invitations{display:grid;gap:8px;margin:10px 0 18px}
+.org-list-item{display:grid;text-align:left;gap:4px;padding:12px;border-radius:10px;border:1px solid #33425d;background:#17243a;color:#eef3fc;cursor:pointer}
+.org-list-item small{font-size:10px;color:#99a8bf}.org-list-item.selected{border-color:#9a8aff;background:#252348}
+.tenant-management{border-top:1px solid #2b3951;margin-top:20px;padding-top:14px}
+.tenant-management h3{font:600 14px 'Space Grotesk',sans-serif;margin:12px 0 8px}
+.tenant-member-row,.tenant-invite-row{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:9px 10px;background:#17243a;border:1px solid #2e3d57;border-radius:9px;font-size:11px}
+.tenant-member-row>div{display:grid;gap:3px;min-width:0}.tenant-member-row small{font-size:10px;color:#98a8c0;overflow-wrap:anywhere}
+.tenant-member-row select{max-width:95px;padding:6px;background:#0b1424;color:#edf2fc;border:1px solid #394963;border-radius:7px}
+.tenant-remove,.tenant-invite-row button{border:0;background:transparent;color:#f19b9b;font-size:10px;cursor:pointer}
+.tenant-role{color:#b6aaff;font-size:10px}.tenant-invite-row span{overflow-wrap:anywhere}
+html[data-theme="light"] .org-list-item,html[data-theme="light"] .tenant-member-row,html[data-theme="light"] .tenant-invite-row{background:#f4f6fa;color:#172337;border-color:#dce4ef}
+html[data-theme="light"] .tenant-member-row select{background:#fff;color:#172337;border-color:#dce4ef}

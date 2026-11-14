@@ -265,3 +265,6 @@ html[data-theme="light"] .workflow-feature{border-color:#e2e8f0}html[data-theme=
 /* Native button reset for reliable iOS/Safari workspace switching */
 .workspace-switcher{width:100%;color:inherit;text-align:left;font:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
 .workspace-switcher:active{transform:translateY(1px)}
+
+/* Persistent sign-out action in the workspace sidebar */
+.sign-out-button{display:flex;align-items:center;gap:10px;width:100%;margin-top:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:transparent;color:var(--muted);font:600 12px var(--font);text-align:left;cursor:pointer;appearance:none;-webkit-appearance:none}.sign-out-button:hover,.sign-out-button:focus-visible{background:#182438;color:var(--text);border-color:#53617a;outline:none}

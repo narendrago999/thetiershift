@@ -2,7 +2,7 @@ name: AI Data Factory backend checks
 
 on:
   push:
-    branches: [feat/ai-data-factory-foundation]
+    branches: [main, feat/ai-data-factory-foundation]
     paths:
       - "ai-data-factory/backend/**"
       - "ai-data-factory/frontend/**"
@@ -10,10 +10,14 @@ on:
   pull_request:
     paths:
       - "ai-data-factory/backend/**"
+      - "ai-data-factory/frontend/**"
       - ".github/workflows/ai-data-factory-backend.yml"
 
+permissions:
+  contents: read
+
 jobs:
-  compile:
+  compile-and-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,11 +27,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+          cache: "pip"
+          cache-dependency-path: ai-data-factory/backend/requirements.txt
+      - name: Install application dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
       - name: Compile backend and migration modules
         run: python -m compileall -q app migrations
       - name: Run backend unit tests
         run: pytest -q
+      - name: Audit Python dependencies
+        run: |
+          pip install pip-audit
+          pip-audit -r requirements.txt
       - name: Check frontend JavaScript syntax
         run: node --check ../frontend/config.js && node --check ../frontend/js/app.js && node --check ../frontend/js/auth-client.js

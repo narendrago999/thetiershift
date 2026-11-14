@@ -98,6 +98,8 @@ def list_organizations(user: User=Depends(current_user), db: Session=Depends(get
 
 @router.post("/organizations", status_code=201)
 def create_organization(body: OrganizationCreate, user: User=Depends(current_user), db: Session=Depends(get_db)):
+    if body.org_type == "internal" and user.email.rsplit("@", 1)[-1].lower() not in get_settings().internal_domains:
+        raise HTTPException(status_code=403, detail="Only approved TierShift email domains can create internal workspaces")
     org = Organization(id=str(uuid4()), name=body.name.strip(), slug=slugify(body.name), org_type=body.org_type, created_by=user.id)
     db.add(org)
     db.flush()

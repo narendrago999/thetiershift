@@ -21,6 +21,9 @@ def verify_clerk_token(credentials: HTTPAuthorizationCredentials | None = Depend
         claims = jwt.decode(credentials.credentials, signing_key.key, algorithms=["RS256"], issuer=settings.clerk_issuer, options={"verify_aud": False})
         if not claims.get("sub"):
             raise ValueError("Missing subject")
+        authorized_party = claims.get("azp")
+        if authorized_party and authorized_party not in settings.allowed_origins:
+            raise ValueError("Untrusted authorized party")
         return claims
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid or expired session token")

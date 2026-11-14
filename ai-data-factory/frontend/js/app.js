@@ -1,7 +1,4 @@
-let projects=[
-{id:1,name:"Peli BioThermal Data Platform",description:"Modernize rental asset, customer and financial reporting through a governed Fabric lakehouse.",platform:"Microsoft Fabric",stage:"Discovery",status:"planning",initials:"PB",tone:"project-purple",sources:["SAP BW","Salesforce","Redshift"],updated:"Updated recently"},
-{id:2,name:"Sales Analytics Modernization",description:"Build a scalable medallion architecture for sales operations and enterprise reporting.",platform:"Microsoft Fabric",stage:"Architecture",status:"draft",initials:"SA",tone:"project-blue",sources:["SQL Server","REST API"],updated:"Created this week"},
-{id:3,name:"Customer 360 Lakehouse",description:"Unify customer data and create trusted dimensional models for analytics.",platform:"Azure Databricks",stage:"Discovery",status:"review",initials:"CU",tone:"project-green",sources:["Salesforce","Azure Blob"],updated:"Updated this week"}];
+let projects=[];
 const agents=[
 {name:"Orchestrator",role:"Workforce coordination",desc:"Breaks business goals into tasks, routes work to specialist agents and manages dependencies.",icon:"✳",tone:"agent-orchestrator",skills:["Task planning","Routing","State management"]},
 {name:"Business Analyst",role:"Requirements intelligence",desc:"Captures business objectives, KPIs, rules, constraints and unanswered questions.",icon:"◈",tone:"agent-architect",skills:["Requirements","KPIs","Business rules"]},
@@ -11,9 +8,7 @@ const agents=[
 {name:"Transformation Engineer",role:"Data transformation",desc:"Builds validated PySpark and SQL transformations across Bronze, Silver and Gold.",icon:"⌘",tone:"agent-orchestrator",skills:["PySpark","SQL","SCD Type 2"]},
 {name:"Quality Analyst",role:"Data assurance",desc:"Runs reconciliation, schema, duplicate, null, aggregate and business-rule checks.",icon:"✓",tone:"agent-quality",skills:["Reconciliation","DQ rules","Exceptions"]},
 {name:"BI & Release Engineer",role:"Analytics delivery",desc:"Plans semantic models, measures, deployment controls, monitoring and release evidence.",icon:"▤",tone:"agent-quality",skills:["Power BI","Deployment","Monitoring"]}];
-const approvals=[
-{id:1,title:"Provision a development Lakehouse",project:"Peli BioThermal Data Platform",requester:"Solution Architect",risk:"Medium risk",detail:"Create the proposed Bronze, Silver and Gold lakehouse structures in the selected development workspace. No production resources are affected.",action:"Provisioning requires an authorized Fabric connection and explicit approval."},
-{id:2,title:"Approve source metadata profiling",project:"Sales Analytics Modernization",requester:"Source Discovery Agent",risk:"Low risk",detail:"Allow read-only metadata discovery against the registered SQL Server source to inspect schemas, tables and column definitions.",action:"Read-only discovery is not active until source credentials are configured."}];
+const approvals=[];
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const state={view:"overview",filter:"all",search:"",setting:"general"};
 function toast(message,type){const el=document.createElement("div");el.className="toast "+(type||"success");el.textContent=message;$("#toastRegion").append(el);setTimeout(()=>el.remove(),3300)}
@@ -37,7 +32,8 @@ function renderProjects(){
  document.querySelectorAll(".project-open").forEach(b=>b.addEventListener("click",()=>b.dataset.manage==="true"?openProjectAccess(b.dataset.id):toast("Project workspace screens are the next delivery milestone.","warning")));
 }
 function renderAgents(){$("#agentGrid").innerHTML=agents.map(a=>'<article class="agent-card"><span class="agent-avatar '+a.tone+'">'+a.icon+'</span><h3>'+a.name+'</h3><span class="connection-type">'+a.role.toUpperCase()+'</span><p>'+a.desc+'</p><div class="agent-capabilities">'+a.skills.map(s=>'<span>'+s+'</span>').join("")+'</div></article>').join("")}
-function renderApprovals(){$("#approvalList").innerHTML=approvals.map(a=>'<article class="approval-card"><div class="approval-card-top"><span class="connection-type">REQUEST #'+String(a.id).padStart(3,"0")+' · '+a.project+'</span><span class="risk-pill">'+a.risk+'</span></div><h3>'+a.title+'</h3><p>'+a.detail+'</p><div class="approval-meta"><span>Requested by '+a.requester+'</span><span>Illustrative preview request</span></div><div class="approval-actions"><button class="secondary-button approval-review" data-id="'+a.id+'">Review details</button><button class="secondary-button approval-disabled">Approve (preview)</button><button class="secondary-button approval-disabled">Reject (preview)</button></div></article>').join("");$$(".approval-review").forEach(b=>b.addEventListener("click",()=>{const a=approvals.find(x=>x.id===Number(b.dataset.id));toast(a.action,"warning")}));$$(".approval-disabled").forEach(b=>b.addEventListener("click",()=>toast("Approval actions are disabled until authentication, audit logging and backend execution are connected.","warning")))}
+function renderApprovals(){const root=$("#approvalList");if(root)root.innerHTML='<div class="activity-empty"><span class="empty-icon">✓</span><strong>No pending approvals</strong><p>Approval requests will appear here when a connected workflow submits an action for review.</p></div>'}
+
 function renderSettings(tab){const data={general:["Workspace preferences","Manage the basic identity and defaults for this workspace.",[["Workspace name","TierShift Workspace"],["Default data platform","Microsoft Fabric"],["Time zone","Asia / Kolkata"],["Product environment","Foundation preview"]]],team:["Team & access","Manage organization members, roles, teams, invitations and project-level access from the workspace switcher.",[["Organization roles","Owner · Admin · Member"],["Project roles","Architect · Data Engineer · BI Developer · QA · Viewer"],["Invitations","Clerk integration required"]]],security:["Security","Security controls for a multi-tenant data engineering platform.",[["Authentication","Clerk session verification via FastAPI"],["Authorization","Server-side organization and project RBAC"],["Tenant isolation","Organization and project scoped"],["Secrets","Server-side only"]]],integrations:["Integrations","Configure providers and connected services.",[["Database","Neon PostgreSQL · Not connected"],["AI provider","Hosted LLM API · Not connected"],["Data platform","Microsoft Fabric · Not connected"]] ]}[tab];$("#settingsContent").innerHTML="<h3>"+data[0]+"</h3><p>"+data[1]+"</p>"+data[2].map(x=>'<div class="setting-row"><div><strong>'+x[0]+'</strong><small>Workspace configuration</small></div><span class="setting-value">'+x[1]+"</span></div>").join("")}
 
 let activeProjectId=null;
@@ -46,7 +42,7 @@ async function loadLiveProjects(org){
  if(!client||!org){projects=[];["#newProjectButton","#projectsNewButton"].forEach(sel=>{const button=$(sel);if(button)button.style.display="none"});renderProjects();renderRecent();return}
  try{
   const rows=await client.api("/organizations/"+org.id+"/projects");
-  projects=rows.map((p,i)=>({id:p.id,name:p.name,description:p.description||"",platform:p.platform,stage:"Workspace",status:"active",statusLabel:p.status==="active"?"Active":p.status,initials:p.name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase(),tone:["project-purple","project-blue","project-green"][i%3],sources:[],myRole:p.my_role,updated:p.created_at?"Created "+new Date(p.created_at).toLocaleDateString():"Recently created"}));
+  projects=rows.map((p,i)=>({id:p.id,name:p.name,description:p.description||"",platform:p.platform,stage:"Workspace",status:p.status||"active",statusLabel:p.status||"Active",initials:p.name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase(),tone:["project-purple","project-blue","project-green"][i%3],sources:[],myRole:p.my_role,updated:p.created_at?"Created "+new Date(p.created_at).toLocaleDateString():"Recently created"}));
   const canCreate=["owner","admin"].includes(org.role);
   ["#newProjectButton","#projectsNewButton"].forEach(sel=>{const button=$(sel);if(button)button.style.display=canCreate?"inline-flex":"none"});
   renderProjects();renderRecent();
@@ -121,7 +117,7 @@ document.addEventListener("pointerdown",event=>{
  if(sidebar.classList.contains("open")&&!sidebar.contains(event.target)&&!menu.contains(event.target)) sidebar.classList.remove("open");
 });
 document.addEventListener("keydown",event=>{if(event.key==="Escape") $("#sidebar").classList.remove("open");});
-$("#refreshButton").addEventListener("click",()=>toast("Preview refreshed. Live data will be available after backend integration."));
+$("#refreshButton").addEventListener("click",async()=>{const org=window.TSDF?.getCurrentOrganization();if(!org)return toast("Select an organization to refresh workspace data.","warning");await loadLiveProjects(org);toast("Workspace data refreshed.");});
 $("#notificationButton").addEventListener("click",()=>toast("You are all caught up. Live notifications are not connected yet."));
 $("#helpButton").addEventListener("click",()=>toast("Help centre and product documentation will be connected in a later phase.","warning"));
 $("#workflowCreateButton").addEventListener("click",()=>toast("Workflow builder is planned for the orchestration phase.","warning"));

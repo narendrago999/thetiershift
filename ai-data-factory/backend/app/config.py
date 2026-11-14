@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     clerk_issuer: str
     clerk_jwks_url: str
     cors_origins: str = "http://localhost:5500"
+    internal_email_domains: str = "thetiershift.com"
     invitation_token_ttl_hours: int = 168
     smtp_host: str | None = None
     smtp_port: int = 587
@@ -34,6 +35,10 @@ class Settings(BaseSettings):
     @property
     def allowed_origins(self) -> list[str]:
         return [v.strip() for v in self.cors_origins.split(",") if v.strip()]
+
+    @property
+    def internal_domains(self) -> set[str]:
+        return {v.strip().lower() for v in self.internal_email_domains.split(",") if v.strip()}
 
     @property
     def smtp_ready(self) -> bool:

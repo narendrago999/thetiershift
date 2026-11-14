@@ -53,3 +53,30 @@ renderRecent();renderProjects();renderAgents();renderApprovals();renderSettings(
  applyTheme(saved==="light"?"light":"dark");
  if(button)button.addEventListener("click",()=>{const next=root.dataset.theme==="dark"?"light":"dark";applyTheme(next);try{localStorage.setItem("tsdf-theme",next)}catch(e){}});
 })();
+
+
+/* Identity and organization onboarding preview. Real identity, invitations and access
+   must be handled by Clerk + the FastAPI authorization layer, never by browser state. */
+(function(){
+ const auth=document.getElementById("authOverlay"),org=document.getElementById("orgOverlay");
+ const views=["signin","signup","forgot","verify"];
+ function authView(name){views.forEach(v=>document.getElementById("auth-"+v).classList.toggle("active",v===name));}
+ function openAuth(view){auth.classList.add("open");auth.setAttribute("aria-hidden","false");authView(view||"signin");}
+ function closeAuth(){auth.classList.remove("open");auth.setAttribute("aria-hidden","true");}
+ function openOrg(){org.classList.add("open");org.setAttribute("aria-hidden","false");}
+ function closeOrg(){org.classList.remove("open");org.setAttribute("aria-hidden","true");}
+ document.getElementById("accountEntry")?.addEventListener("click",()=>openAuth("signin"));
+ document.getElementById("authClose")?.addEventListener("click",closeAuth);
+ document.getElementById("orgSwitcher")?.addEventListener("click",openOrg);
+ document.getElementById("orgSwitcher")?.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openOrg();}});
+ document.getElementById("orgClose")?.addEventListener("click",closeOrg);
+ document.querySelectorAll("[data-auth-view]").forEach(b=>b.addEventListener("click",()=>authView(b.dataset.authView)));
+ document.getElementById("signInForm")?.addEventListener("submit",e=>{e.preventDefault();toast("Sign-in is a UI preview. Clerk authentication is not connected, and no credentials were submitted.","warning");});
+ document.getElementById("signUpForm")?.addEventListener("submit",e=>{e.preventDefault();authView("verify");toast("Account registration is not active yet. No account or password was stored.","warning");});
+ document.getElementById("forgotForm")?.addEventListener("submit",e=>{e.preventDefault();toast("Password recovery will be handled by Clerk after integration.","warning");});
+ document.getElementById("verifyForm")?.addEventListener("submit",e=>{e.preventDefault();toast("Email verification is not active until Clerk is connected.","warning");});
+ document.getElementById("orgCreateForm")?.addEventListener("submit",e=>{e.preventDefault();const name=document.getElementById("orgName").value.trim();if(!name){toast("Enter an organization name first.","warning");return;}toast('"'+name.replace(/["<>]/g,"")+'" added as a local preview only. No tenant or access controls were created.','warning');document.getElementById("orgName").value="";});
+ document.getElementById("inviteForm")?.addEventListener("submit",e=>{e.preventDefault();const email=document.getElementById("inviteEmail").value.trim();if(!email){toast("Enter a teammate email address.","warning");return;}const item=document.createElement("div");item.className="invite-row";const role=document.getElementById("inviteRole").value;item.textContent=email+" · "+role+" · preview";document.getElementById("invitePreview").append(item);document.getElementById("inviteEmail").value="";toast("Invite added to this browser preview. No email was sent.","warning");});
+ [auth,org].forEach(layer=>layer?.addEventListener("click",e=>{if(e.target===layer){layer.classList.remove("open");layer.setAttribute("aria-hidden","true");}}));
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeAuth();closeOrg();}});
+})();

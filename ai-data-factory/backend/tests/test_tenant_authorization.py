@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 from app.database import Base
 from app.models import User, Organization, Membership, Project, ProjectMembership, Team, TeamMember
-from app.api import membership, require_org_admin, require_project_access, require_project_manager, remove_member, leave_organization
+from app.schemas import ProjectMemberUpsert
+from app.api import membership, require_org_admin, require_project_access, require_project_manager, remove_member, leave_organization, set_project_member, remove_project_member
 
 @pytest.fixture
 def db():
@@ -109,4 +110,40 @@ def test_owner_must_transfer_before_leaving_org(db):
     db.commit()
     with pytest.raises(HTTPException) as error:
         leave_organization(org.id, owner, db)
+    assert error.value.status_code == 409
+
+def test_project_owner_transfer_demotes_previous_owner(db):
+    org_owner = seed_user(db, "orgadmin@example.com")
+    old_owner = seed_user(db, "oldprojectowner@example.com")
+    new_owner = seed_user(db, "newprojectowner@example.com")
+    org = seed_org(db, org_owner, "Client Project Roles")
+    db.add_all([
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=org_owner.id, role="owner", status="active"),
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=old_owner.id, role="member", status="active"),
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=new_owner.id, role="member", status="active"),
+    ])
+    project = Project(id=str(uuid4()), organization_id=org.id, name="Role Transfer", description="", platform="Fabric", status="active", created_by=org_owner.id)
+    db.add(project)
+    db.flush()
+    db.add(ProjectMembership(id=str(uuid4()), project_id=project.id, user_id=old_owner.id, role="project_owner"))
+    db.commit()
+    set_project_member(project.id, new_owner.id, ProjectMemberUpsert(role="project_owner"), org_owner, db)
+    assert db.query(ProjectMembership).filter_by(project_id=project.id, user_id=old_owner.id).one().role == "architect"
+    assert db.query(ProjectMembership).filter_by(project_id=project.id, user_id=new_owner.id).one().role == "project_owner"
+
+def test_project_owner_cannot_remove_self_without_transfer(db):
+    org_owner = seed_user(db, "orgadmin2@example.com")
+    project_owner = seed_user(db, "projectowner2@example.com")
+    org = seed_org(db, org_owner, "Client Project Owner")
+    db.add_all([
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=org_owner.id, role="owner", status="active"),
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=project_owner.id, role="member", status="active"),
+    ])
+    project = Project(id=str(uuid4()), organization_id=org.id, name="Owner Guard", description="", platform="Fabric", status="active", created_by=org_owner.id)
+    db.add(project)
+    db.flush()
+    db.add(ProjectMembership(id=str(uuid4()), project_id=project.id, user_id=project_owner.id, role="project_owner"))
+    db.commit()
+    with pytest.raises(HTTPException) as error:
+        remove_project_member(project.id, project_owner.id, project_owner, db)
     assert error.value.status_code == 409

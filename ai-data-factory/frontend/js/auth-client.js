@@ -302,6 +302,7 @@
   }
 
   async function initialize() {
+    document.querySelectorAll(".auth-view").forEach(el => el.style.display = "none");
     if (!cfg.clerkPublishableKey || cfg.clerkPublishableKey.includes("REPLACE_WITH")) {
       showClerkUnavailable("Authentication is not configured yet. Add the Clerk publishable key in frontend/config.js and set the API URL.");
       setAuthOpen(true);

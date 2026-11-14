@@ -78,6 +78,7 @@ Use two separate test accounts and two separate client organizations.
 - User A cannot list members, projects, teams, invitations or audit records from User B's organization.
 - Team membership requires active membership in the parent organization; team leads cannot grant lead privileges.
 - A project member must have both active organization membership and project membership.
+- Project access can be granted, updated, transferred to a new project owner or removed; only one project owner is maintained.
 - Organization admins cannot grant admin access, modify/remove the owner, transfer ownership or archive the organization.
 - Only the owner can transfer ownership and archive.
 - Invitation tokens expire, are one-time, are stored hashed, and are bound to the verified invited email.

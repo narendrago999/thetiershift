@@ -1,0 +1,146 @@
+let projects=[
+{id:1,name:"Peli BioThermal Data Platform",description:"Modernize rental asset, customer and financial reporting through a governed Fabric lakehouse.",platform:"Microsoft Fabric",stage:"Discovery",status:"planning",initials:"PB",tone:"project-purple",sources:["SAP BW","Salesforce","Redshift"],updated:"Updated recently"},
+{id:2,name:"Sales Analytics Modernization",description:"Build a scalable medallion architecture for sales operations and enterprise reporting.",platform:"Microsoft Fabric",stage:"Architecture",status:"draft",initials:"SA",tone:"project-blue",sources:["SQL Server","REST API"],updated:"Created this week"},
+{id:3,name:"Customer 360 Lakehouse",description:"Unify customer data and create trusted dimensional models for analytics.",platform:"Azure Databricks",stage:"Discovery",status:"review",initials:"CU",tone:"project-green",sources:["Salesforce","Azure Blob"],updated:"Updated this week"}];
+const agents=[
+{name:"Orchestrator",role:"Workforce coordination",desc:"Breaks business goals into tasks, routes work to specialist agents and manages dependencies.",icon:"✳",tone:"agent-orchestrator",skills:["Task planning","Routing","State management"]},
+{name:"Business Analyst",role:"Requirements intelligence",desc:"Captures business objectives, KPIs, rules, constraints and unanswered questions.",icon:"◈",tone:"agent-architect",skills:["Requirements","KPIs","Business rules"]},
+{name:"Source Discovery",role:"Data profiling",desc:"Discovers source systems, schemas, columns, data types, volumes and quality signals.",icon:"⌕",tone:"agent-engineer",skills:["Profiling","Metadata","Schema drift"]},
+{name:"Solution Architect",role:"Platform architecture",desc:"Designs medallion architecture, data models, mappings, lineage and security boundaries.",icon:"⌂",tone:"agent-architect",skills:["Architecture","Modelling","Lineage"]},
+{name:"Ingestion Engineer",role:"Data acquisition",desc:"Plans and configures full, incremental and metadata-driven ingestion patterns.",icon:"⇢",tone:"agent-engineer",skills:["Pipelines","Watermarks","Connectors"]},
+{name:"Transformation Engineer",role:"Data transformation",desc:"Builds validated PySpark and SQL transformations across Bronze, Silver and Gold.",icon:"⌘",tone:"agent-orchestrator",skills:["PySpark","SQL","SCD Type 2"]},
+{name:"Quality Analyst",role:"Data assurance",desc:"Runs reconciliation, schema, duplicate, null, aggregate and business-rule checks.",icon:"✓",tone:"agent-quality",skills:["Reconciliation","DQ rules","Exceptions"]},
+{name:"BI & Release Engineer",role:"Analytics delivery",desc:"Plans semantic models, measures, deployment controls, monitoring and release evidence.",icon:"▤",tone:"agent-quality",skills:["Power BI","Deployment","Monitoring"]}];
+const approvals=[
+{id:1,title:"Provision a development Lakehouse",project:"Peli BioThermal Data Platform",requester:"Solution Architect",risk:"Medium risk",detail:"Create the proposed Bronze, Silver and Gold lakehouse structures in the selected development workspace. No production resources are affected.",action:"Provisioning requires an authorized Fabric connection and explicit approval."},
+{id:2,title:"Approve source metadata profiling",project:"Sales Analytics Modernization",requester:"Source Discovery Agent",risk:"Low risk",detail:"Allow read-only metadata discovery against the registered SQL Server source to inspect schemas, tables and column definitions.",action:"Read-only discovery is not active until source credentials are configured."}];
+const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
+const state={view:"overview",filter:"all",search:"",setting:"general"};
+function toast(message,type){const el=document.createElement("div");el.className="toast "+(type||"success");el.textContent=message;$("#toastRegion").append(el);setTimeout(()=>el.remove(),3300)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function showView(name){const target=$("#view-"+name);if(!target)return;state.view=name;$$(".view").forEach(v=>v.classList.toggle("active",v===target));$$(".nav-item[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===name));$("#breadcrumbCurrent").textContent=name==="overview"?"Overview":name.charAt(0).toUpperCase()+name.slice(1);$("#sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"})}
+function renderRecent(){
+ const root=$("#recentProjects");
+ root.innerHTML=projects.length?projects.slice(0,3).map(p=>'<article class="project-row"><div class="project-symbol '+p.tone+'">'+p.initials+'</div><div class="project-main"><strong>'+escapeHtml(p.name)+'</strong><span>'+escapeHtml(p.platform)+' · '+escapeHtml(p.stage)+'</span></div><span class="project-status '+(["planning","active"].includes(p.status)?"status-planning":p.status==="draft"?"status-draft":"status-review")+'">'+escapeHtml(p.statusLabel||(p.status==="review"?"In review":p.status.charAt(0).toUpperCase()+p.status.slice(1)))+'</span></article>').join(""):'<div class="empty-search">No projects in this organization yet.</div>';
+ $("#metricProjects").textContent=String(projects.length).padStart(2,"0");
+}
+function renderProjects(){
+ const list=projects.filter(p=>(state.filter==="all"||p.status===state.filter)&&(p.name+" "+p.description+" "+p.platform).toLowerCase().includes(state.search));
+ const org=window.TSDF?.getCurrentOrganization();
+ const orgManager=["owner","admin"].includes(org?.role);
+ $("#projectCards").innerHTML=list.length?list.map(p=>{
+  const canManage=orgManager||p.myRole==="project_owner";
+  const statusClass=["planning","active"].includes(p.status)?"status-planning":p.status==="draft"?"status-draft":"status-review";
+  const statusLabel=p.statusLabel||(p.status==="review"?"In review":p.status.charAt(0).toUpperCase()+p.status.slice(1));
+  return '<article class="project-card"><div class="project-card-top"><div class="project-symbol '+p.tone+'">'+p.initials+'</div><span class="project-status '+statusClass+'">'+escapeHtml(statusLabel)+'</span></div><h3>'+escapeHtml(p.name)+'</h3><p>'+escapeHtml(p.description)+'</p><div class="project-card-meta"><span class="meta-chip">'+escapeHtml(p.platform)+'</span><span class="meta-chip">'+escapeHtml(p.stage)+'</span>'+p.sources.map(s=>'<span class="meta-chip">'+escapeHtml(s)+'</span>').join("")+'</div><div class="project-card-footer"><span>'+escapeHtml(p.updated)+'</span><button class="text-button project-open" data-id="'+p.id+'" data-manage="'+(canManage?"true":"false")+'">'+(canManage?"Manage access →":"Open project →")+'</button></div></article>';
+ }).join(""):'<div class="empty-search">No projects in this organization match your search.</div>';
+ document.querySelectorAll(".project-open").forEach(b=>b.addEventListener("click",()=>b.dataset.manage==="true"?openProjectAccess(b.dataset.id):toast("Project workspace screens are the next delivery milestone.","warning")));
+}
+function renderAgents(){$("#agentGrid").innerHTML=agents.map(a=>'<article class="agent-card"><span class="agent-avatar '+a.tone+'">'+a.icon+'</span><h3>'+a.name+'</h3><span class="connection-type">'+a.role.toUpperCase()+'</span><p>'+a.desc+'</p><div class="agent-capabilities">'+a.skills.map(s=>'<span>'+s+'</span>').join("")+'</div></article>').join("")}
+function renderApprovals(){$("#approvalList").innerHTML=approvals.map(a=>'<article class="approval-card"><div class="approval-card-top"><span class="connection-type">REQUEST #'+String(a.id).padStart(3,"0")+' · '+a.project+'</span><span class="risk-pill">'+a.risk+'</span></div><h3>'+a.title+'</h3><p>'+a.detail+'</p><div class="approval-meta"><span>Requested by '+a.requester+'</span><span>Illustrative preview request</span></div><div class="approval-actions"><button class="secondary-button approval-review" data-id="'+a.id+'">Review details</button><button class="secondary-button approval-disabled">Approve (preview)</button><button class="secondary-button approval-disabled">Reject (preview)</button></div></article>').join("");$$(".approval-review").forEach(b=>b.addEventListener("click",()=>{const a=approvals.find(x=>x.id===Number(b.dataset.id));toast(a.action,"warning")}));$$(".approval-disabled").forEach(b=>b.addEventListener("click",()=>toast("Approval actions are disabled until authentication, audit logging and backend execution are connected.","warning")))}
+function renderSettings(tab){const data={general:["Workspace preferences","Manage the basic identity and defaults for this workspace.",[["Workspace name","TierShift Workspace"],["Default data platform","Microsoft Fabric"],["Time zone","Asia / Kolkata"],["Product environment","Foundation preview"]]],team:["Team & access","Manage organization members, roles, teams, invitations and project-level access from the workspace switcher.",[["Organization roles","Owner · Admin · Member"],["Project roles","Architect · Data Engineer · BI Developer · QA · Viewer"],["Invitations","Clerk integration required"]]],security:["Security","Security controls for a multi-tenant data engineering platform.",[["Authentication","Clerk session verification via FastAPI"],["Authorization","Server-side organization and project RBAC"],["Tenant isolation","Organization and project scoped"],["Secrets","Server-side only"]]],integrations:["Integrations","Configure providers and connected services.",[["Database","Neon PostgreSQL · Not connected"],["AI provider","Hosted LLM API · Not connected"],["Data platform","Microsoft Fabric · Not connected"]] ]}[tab];$("#settingsContent").innerHTML="<h3>"+data[0]+"</h3><p>"+data[1]+"</p>"+data[2].map(x=>'<div class="setting-row"><div><strong>'+x[0]+'</strong><small>Workspace configuration</small></div><span class="setting-value">'+x[1]+"</span></div>").join("")}
+
+let activeProjectId=null;
+async function loadLiveProjects(org){
+ const client=window.TSDF;
+ if(!client||!org){projects=[];["#newProjectButton","#projectsNewButton"].forEach(sel=>{const button=$(sel);if(button)button.style.display="none"});renderProjects();renderRecent();return}
+ try{
+  const rows=await client.api("/organizations/"+org.id+"/projects");
+  projects=rows.map((p,i)=>({id:p.id,name:p.name,description:p.description||"",platform:p.platform,stage:"Workspace",status:"active",statusLabel:p.status==="active"?"Active":p.status,initials:p.name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase(),tone:["project-purple","project-blue","project-green"][i%3],sources:[],myRole:p.my_role,updated:p.created_at?"Created "+new Date(p.created_at).toLocaleDateString():"Recently created"}));
+  const canCreate=["owner","admin"].includes(org.role);
+  ["#newProjectButton","#projectsNewButton"].forEach(sel=>{const button=$(sel);if(button)button.style.display=canCreate?"inline-flex":"none"});
+  renderProjects();renderRecent();
+ }catch(error){projects=[];renderProjects();renderRecent();toast(error.message||"Could not load organization projects.","warning")}
+}
+async function openProjectAccess(projectId){
+ const client=window.TSDF,org=client?.getCurrentOrganization();
+ if(!client||!org)return toast("Sign in and select an organization first.","warning");
+ const project=projects.find(p=>String(p.id)===String(projectId));
+ if(!project)return;
+ try{
+  activeProjectId=projectId;
+  const [members,orgMembers]=await Promise.all([client.api("/projects/"+projectId+"/members"),client.api("/organizations/"+org.id+"/members")]);
+  const me=client.getCurrentUser(),myRole=members.find(m=>m.user_id===me?.id)?.role;
+  const canManage=["owner","admin"].includes(org.role)||myRole==="project_owner";
+  const list=$("#projectAccessMembers");list.replaceChildren();
+  members.forEach(member=>{
+   const row=document.createElement("div");row.className="tenant-member-row";
+   const label=document.createElement("span");label.textContent=(member.name||member.email);row.append(label);
+   if(canManage){
+    const roleSelect=document.createElement("select");roleSelect.className="project-role-select";
+    ["viewer","qa_engineer","bi_developer","data_engineer","architect","project_owner"].forEach(role=>{const option=document.createElement("option");option.value=role;option.textContent=role.replace(/_/g," ");option.selected=role===member.role;roleSelect.append(option)});
+    roleSelect.addEventListener("change",async()=>{try{await client.api("/projects/"+projectId+"/members/"+member.user_id,{method:"PUT",body:JSON.stringify({role:roleSelect.value})});await openProjectAccess(projectId);toast("Project role updated.")}catch(error){toast(error.message||"Could not update project role.","warning")}});
+    row.append(roleSelect);
+   }
+   if(canManage&&member.role!=="project_owner"){
+    const remove=document.createElement("button");remove.type="button";remove.className="tenant-remove";remove.textContent="Remove";
+    remove.addEventListener("click",async()=>{try{await client.api("/projects/"+projectId+"/members/"+member.user_id,{method:"DELETE"});await openProjectAccess(projectId);toast("Project access removed.")}catch(error){toast(error.message||"Could not remove project access.","warning")}});
+    row.append(remove);
+   }
+   list.append(row);
+  });
+  const select=$("#projectAccessUser");select.replaceChildren();
+  orgMembers.filter(m=>!members.some(pm=>pm.user_id===m.user_id)).forEach(m=>{const option=document.createElement("option");option.value=m.user_id;option.textContent=m.name||m.email;select.append(option)});
+  $("#projectAccessForm").style.display=canManage?"grid":"none";
+  $("#projectAccessTitle").textContent=project.name+" · Access";
+  $("#projectAccessBackdrop").classList.add("open");$("#projectAccessBackdrop").setAttribute("aria-hidden","false");
+ }catch(error){toast(error.message||"Could not load project access.","warning")}
+}
+function closeProjectAccess(){const modal=$("#projectAccessBackdrop");if(modal){modal.classList.remove("open");modal.setAttribute("aria-hidden","true")}activeProjectId=null}
+
+function openModal(){$("#modalBackdrop").classList.add("open");$("#modalBackdrop").setAttribute("aria-hidden","false");setTimeout(()=>$("#projectName").focus(),80)}
+function closeModal(){$("#modalBackdrop").classList.remove("open");$("#modalBackdrop").setAttribute("aria-hidden","true");$("#projectForm").reset()}
+$$(".nav-item[data-view]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
+["#newProjectButton","#projectsNewButton"].forEach(s=>$(s).addEventListener("click",openModal));
+$("#modalClose").addEventListener("click",closeModal);$("#cancelProject").addEventListener("click",closeModal);$("#projectAccessClose").addEventListener("click",closeProjectAccess);$("#projectAccessCancel").addEventListener("click",closeProjectAccess);$("#projectAccessBackdrop").addEventListener("click",e=>{if(e.target===$("#projectAccessBackdrop"))closeProjectAccess()});$("#modalBackdrop").addEventListener("click",e=>{if(e.target===$("#modalBackdrop"))closeModal()});document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();closeProjectAccess()}});
+$("#projectAccessForm").addEventListener("submit",async e=>{e.preventDefault();const client=window.TSDF,org=client?.getCurrentOrganization(),memberId=$("#projectAccessUser").value;if(!client||!org||!activeProjectId||!memberId)return;try{await client.api("/projects/"+activeProjectId+"/members/"+memberId,{method:"PUT",body:JSON.stringify({role:$("#projectAccessRole").value})});await openProjectAccess(activeProjectId);toast("Project role saved.")}catch(error){toast(error.message||"Could not update project role.","warning")}});
+$("#projectForm").addEventListener("submit",async e=>{e.preventDefault();const name=$("#projectName").value.trim();if(!name)return;const client=window.TSDF,org=client?.getCurrentOrganization();if(!client||!org)return toast("Create or select an organization before creating a project.","warning");try{await client.api("/organizations/"+org.id+"/projects",{method:"POST",body:JSON.stringify({name,description:$("#projectDescription").value.trim(),platform:$("#projectPlatform").value})});closeModal();state.filter="all";state.search="";$("#projectSearch").value="";await loadLiveProjects(org);showView("projects");toast("Project created in "+org.name+".")}catch(error){toast(error.message||"Project creation failed.","warning")}});
+$$(".filter-pill").forEach(b=>b.addEventListener("click",()=>{state.filter=b.dataset.filter;$$(".filter-pill").forEach(x=>x.classList.toggle("active",x===b));renderProjects()}));
+$("#projectSearch").addEventListener("input",e=>{state.search=e.target.value.toLowerCase();renderProjects()});
+$$(".settings-tab").forEach(b=>b.addEventListener("click",()=>{state.setting=b.dataset.setting;$$(".settings-tab").forEach(x=>x.classList.toggle("active",x===b));renderSettings(state.setting)}));
+$("#mobileMenu").addEventListener("click",()=>$("#sidebar").classList.toggle("open"));
+$("#refreshButton").addEventListener("click",()=>toast("Preview refreshed. Live data will be available after backend integration."));
+$("#notificationButton").addEventListener("click",()=>toast("You are all caught up. Live notifications are not connected yet."));
+$("#helpButton").addEventListener("click",()=>toast("Help centre and product documentation will be connected in a later phase.","warning"));
+$("#workflowCreateButton").addEventListener("click",()=>toast("Workflow builder is planned for the orchestration phase.","warning"));
+$("#workflowExplore").addEventListener("click",()=>toast("This is an illustrative workflow blueprint, not an executable workflow.","warning"));
+$("#discoverFabricButton").addEventListener("click",()=>toast("Connect Microsoft Fabric first. No discovery request was sent.","warning"));
+["#addConnectionButton","#uploadKnowledgeButton"].forEach(s=>$(s).addEventListener("click",()=>toast("This setup flow will be enabled after backend and secure credential storage are ready.","warning")));
+$$(".connect-action").forEach(b=>b.addEventListener("click",()=>toast("Secure connection setup will be available after authentication and backend integration.","warning")));
+renderRecent();renderProjects();renderAgents();renderApprovals();renderSettings("general");
+window.addEventListener("tsdf:organization-changed",e=>loadLiveProjects(e.detail));
+
+/* Theme preference: local preview only; production preference will be user-scoped. */
+(function(){
+ const root=document.documentElement,button=document.getElementById("themeToggle"),meta=document.getElementById("themeColorMeta");
+ let saved="dark";try{saved=localStorage.getItem("tsdf-theme")||"dark"}catch(e){}
+ function applyTheme(theme){root.dataset.theme=theme;const light=theme==="light";if(button){button.textContent=light?"☾":"☼";button.setAttribute("aria-label",light?"Switch to dark theme":"Switch to light theme");button.title=light?"Switch to dark theme":"Switch to light theme"}if(meta)meta.content=light?"#f3f6fb":"#080d18"}
+ applyTheme(saved==="light"?"light":"dark");
+ if(button)button.addEventListener("click",()=>{const next=root.dataset.theme==="dark"?"light":"dark";applyTheme(next);try{localStorage.setItem("tsdf-theme",next)}catch(e){}});
+})();
+
+
+/* Identity and organization onboarding preview. Real identity, invitations and access
+   must be handled by Clerk + the FastAPI authorization layer, never by browser state. */
+(function(){
+ const auth=document.getElementById("authOverlay"),org=document.getElementById("orgOverlay");
+ const views=["signin","signup","forgot","verify"];
+ function authView(name){views.forEach(v=>document.getElementById("auth-"+v).classList.toggle("active",v===name));}
+ function openAuth(view){auth.classList.add("open");auth.setAttribute("aria-hidden","false");authView(view||"signin");}
+ function closeAuth(){auth.classList.remove("open");auth.setAttribute("aria-hidden","true");}
+ function openOrg(){org.classList.add("open");org.setAttribute("aria-hidden","false");}
+ function closeOrg(){org.classList.remove("open");org.setAttribute("aria-hidden","true");}
+ document.getElementById("accountEntry")?.addEventListener("click",()=>openAuth("signin"));
+ document.getElementById("authClose")?.addEventListener("click",closeAuth);
+ document.getElementById("orgSwitcher")?.addEventListener("click",openOrg);
+ document.getElementById("orgSwitcher")?.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openOrg();}});
+ document.getElementById("orgClose")?.addEventListener("click",closeOrg);
+ document.querySelectorAll("[data-auth-view]").forEach(b=>b.addEventListener("click",()=>authView(b.dataset.authView)));
+ document.getElementById("signInForm")?.addEventListener("submit",e=>{e.preventDefault();toast("Sign-in is a UI preview. Clerk authentication is not connected, and no credentials were submitted.","warning");});
+ document.getElementById("signUpForm")?.addEventListener("submit",e=>{e.preventDefault();authView("verify");toast("Account registration is not active yet. No account or password was stored.","warning");});
+ document.getElementById("forgotForm")?.addEventListener("submit",e=>{e.preventDefault();toast("Password recovery will be handled by Clerk after integration.","warning");});
+ document.getElementById("verifyForm")?.addEventListener("submit",e=>{e.preventDefault();toast("Email verification is not active until Clerk is connected.","warning");});
+ [auth,org].forEach(layer=>layer?.addEventListener("click",e=>{if(e.target===layer){layer.classList.remove("open");layer.setAttribute("aria-hidden","true");}}));
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeAuth();closeOrg();}});
+})();

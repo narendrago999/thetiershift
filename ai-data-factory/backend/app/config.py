@@ -31,6 +31,12 @@ class Settings(BaseSettings):
     smtp_password: str | None = None
     smtp_from_email: str | None = None
     smtp_use_tls: bool = True
+    # Provider-neutral LLM settings. Placeholder values must never be used
+    # for outbound requests; configure real credentials before enabling calls.
+    llm_base_url: str | None = None
+    llm_api_key: str | None = None
+    llm_model: str | None = None
+    llm_timeout_seconds: int = 60
 
     @property
     def allowed_origins(self) -> list[str]:

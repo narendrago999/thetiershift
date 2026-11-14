@@ -54,3 +54,6 @@ html[data-theme="light"] .team-member-manager select{background:#fff;color:#1723
 html[data-theme="light"] .project-access-help{color:#687991}
 html[data-theme="light"] .project-access-modal form label{color:#34435a}
 html[data-theme="light"] .project-access-modal form select{background:#fff;color:#172337;border-color:#dce4ef}
+
+.project-role-select{max-width:145px;min-width:110px;padding:7px;background:#0b1424;color:#edf2fc;border:1px solid #34435d;border-radius:7px;font-size:10px;text-transform:capitalize}
+html[data-theme="light"] .project-role-select{background:#fff;color:#172337;border-color:#dce4ef}

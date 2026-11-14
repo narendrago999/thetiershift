@@ -1,48 +1,37 @@
-# Frontend — TierShift AI Data Factory
+# TierShift AI Data Factory — Frontend
 
-This is the static frontend foundation for the TierShift AI Data Factory SaaS application.
+Static HTML, CSS and JavaScript application shell. ClerkJS provides the real authentication UI; FastAPI is the authorization and tenant API.
 
-## Preview
+## Local development
 
-The frontend is plain HTML, CSS, and JavaScript. ClerkJS is loaded from the Clerk Frontend API at runtime; FastAPI is the authenticated application API.
+1. Edit frontend/config.js.
+2. Set clerkPublishableKey to the Clerk publishable key (public browser key only).
+3. Set apiBaseUrl to the FastAPI URL, for example http://localhost:8000.
+4. Serve this directory over HTTP using VS Code Live Server or python -m http.server 5500.
+5. Start the backend separately; see ../backend/README.md.
 
-- Entry point: `index.html`
-- Styles: `css/app.css`
-- Interactions and preview fixtures: `js/app.js`
+The Clerk SDK and Clerk UI bundle are loaded from the Frontend API domain encoded in the publishable key. Clerk handles registration, sign-in, password recovery, verification and session lifecycle.
 
-For local development, serve this directory with a static file server and run the FastAPI backend separately. Set the public Clerk publishable key and API base URL in config.js.
+## Configuration
 
-## Product identity and deployment target
+frontend/config.js contains only public settings: clerkPublishableKey and apiBaseUrl. Never place Clerk secret keys, Neon connection strings, SMTP passwords, LLM keys or Fabric credentials in frontend assets.
 
-- Product identity: **TierShift Data Factory**, a distinct product identity under TierShift Technologies.
-- Deployment target: `https://thetiershift.com/ai-data-factory` (path-based deployment; DNS remains on the existing domain).
-- Audience: internal TierShift teams and external client organizations, using organization/project-scoped access.
-- Theme: dark and light modes with a browser-local preview preference. Production preferences should be stored per authenticated user.
+## Live identity and tenant features
 
-## Identity and organization onboarding preview\n\n- Sign-in, sign-up, password recovery and email verification screens are UI-only.\n- Organization switcher opens an organization setup panel with internal workspace context, client/internal organization type, and invite preview.\n- Invitation roles are illustrative. No emails, accounts, memberships or permissions are created.\n- Passwords and verification codes are never persisted or transmitted by this preview.\n- Real identity and organization access must be implemented with Clerk plus server-side FastAPI RBAC and tenant checks.\n\n## Current screens
+- Clerk prebuilt sign-in UI with sign-up, password recovery and verification.
+- Session token sent as an Authorization Bearer token to FastAPI.
+- Server-side user synchronization with Clerk Backend API.
+- Organization list and switching.
+- Create client or internal organizations.
+- Member list, role changes and member removal.
+- Organization invitations, pending invitation list, revocation and verified-email acceptance.
+- Organization and project roles enforced by FastAPI, not by frontend visibility.
+- User must be authenticated to access tenant controls.
 
-- Overview dashboard
-- Projects (search, filters, create-project preview)
-- AI Workforce
-- Workflow blueprint
-- Live Operations
-- Connections
-- Fabric Resources
-- Knowledge Base
-- Approvals
-- Settings
+## Current product boundary
 
-## Important preview behavior
+Authentication and organization controls call live APIs when correctly configured. The rest of the dashboard still contains foundation/demo project, agent and operations fixtures. Those areas must not be mistaken for live business data until their APIs are connected.
 
-All displayed projects, agent definitions, counts, and approval requests are illustrative frontend fixtures. Creating a project only updates in-memory browser state; refreshing the page resets it. No Fabric, LLM, database, or authentication API is called. Approval controls do not execute actions. This is intentional until the backend and identity layer are implemented.
+## Deployment
 
-## Next integration work
-
-1. Define and document API contracts.
-2. Replace the identity preview with Clerk sign-up, sign-in, email verification and recovery flows; enforce protected routes through backend authorization.
-3. Connect project/workspace data to FastAPI.
-4. Replace fixture data with authenticated API responses.
-5. Add live run updates through SSE/WebSockets or polling fallback.
-6. Add secure connection setup and approval flows.
-
-Never put Neon credentials, Clerk secret keys, LLM API keys, or Microsoft Fabric credentials in frontend JavaScript. Only public client-side configuration may be exposed in browser assets.
+The target public path remains https://thetiershift.com/ai-data-factory/. Configure the Clerk application with that domain and set the deployed API URL in config.js. Keep the existing TierShift public site and main branch untouched while validating this feature branch.

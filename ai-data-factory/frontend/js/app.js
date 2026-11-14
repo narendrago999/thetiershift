@@ -65,7 +65,13 @@ async function openProjectAccess(projectId){
   const list=$("#projectAccessMembers");list.replaceChildren();
   members.forEach(member=>{
    const row=document.createElement("div");row.className="tenant-member-row";
-   const label=document.createElement("span");label.textContent=(member.name||member.email)+" · "+member.role;row.append(label);
+   const label=document.createElement("span");label.textContent=(member.name||member.email);row.append(label);
+   if(canManage){
+    const roleSelect=document.createElement("select");roleSelect.className="project-role-select";
+    ["viewer","qa_engineer","bi_developer","data_engineer","architect","project_owner"].forEach(role=>{const option=document.createElement("option");option.value=role;option.textContent=role.replace(/_/g," ");option.selected=role===member.role;roleSelect.append(option)});
+    roleSelect.addEventListener("change",async()=>{try{await client.api("/projects/"+projectId+"/members/"+member.user_id,{method:"PUT",body:JSON.stringify({role:roleSelect.value})});await openProjectAccess(projectId);toast("Project role updated.")}catch(error){toast(error.message||"Could not update project role.","warning")}});
+    row.append(roleSelect);
+   }
    if(canManage&&member.role!=="project_owner"){
     const remove=document.createElement("button");remove.type="button";remove.className="tenant-remove";remove.textContent="Remove";
     remove.addEventListener("click",async()=>{try{await client.api("/projects/"+projectId+"/members/"+member.user_id,{method:"DELETE"});await openProjectAccess(projectId);toast("Project access removed.")}catch(error){toast(error.message||"Could not remove project access.","warning")}});

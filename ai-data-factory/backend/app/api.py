@@ -190,7 +190,7 @@ def remove_member(org_id: str, member_id: str, user: User=Depends(current_user),
     if target.role == "owner": raise HTTPException(status_code=409, detail="Transfer ownership before removing the owner")
     if actor.role != "owner" and target.role == "admin": raise HTTPException(status_code=403, detail="Only the owner can remove an admin")
     target.status = "removed"
-    project_ids = db.query(Project.id).filter(Project.organization_id == org_id).subquery()
+    project_ids = select(Project.id).where(Project.organization_id == org_id)
     db.query(ProjectMembership).filter(ProjectMembership.user_id == member_id, ProjectMembership.project_id.in_(project_ids)).delete(synchronize_session=False)
     team_ids = select(Team.id).where(Team.organization_id == org_id)
     db.query(TeamMember).filter(TeamMember.user_id == member_id, TeamMember.team_id.in_(team_ids)).delete(synchronize_session=False)

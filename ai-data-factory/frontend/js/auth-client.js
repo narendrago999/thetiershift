@@ -391,6 +391,11 @@
         setAuthOpen(!clerk.isSignedIn);
         if (clerk.isSignedIn) clerk.openUserProfile();
       });
+      $("signOutButton")?.addEventListener("click", async () => {
+        if (!clerk?.isSignedIn) { setAuthOpen(true); return; }
+        try { await clerk.signOut(); toast("You have been signed out."); }
+        catch (error) { showError(error); }
+      });
       clerk.addListener(async ({ session, user }) => {
         if (session && user) await syncIdentity(session, user);
         else if (session === null) { currentUser = null; currentOrg = null; organizations = []; mountSignIn(); setAuthOpen(true); }

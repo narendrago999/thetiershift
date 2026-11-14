@@ -50,3 +50,128 @@ html[data-theme="light"] .usage-top{color:#34435a}
 html[data-theme="light"] .filter-pill{color:#687991}
 html[data-theme="light"] .filter-pill.active{background:#eeebff;border-color:#d9d3fa;color:#5848ad}
 html[data-theme="light"] .toast{background:#fff;color:#172337;border-color:#dce4ef}
+
+
+/* Mobile usability pass: touch targets, safe areas, compact layouts and no horizontal overflow */
+html{scroll-padding-top:calc(64px + env(safe-area-inset-top))}
+body{overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button,a{touch-action:manipulation}
+@media(max-width:850px){
+  .sidebar{width:min(86vw,320px);padding:calc(18px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain}
+  .sidebar.open{box-shadow:18px 0 50px #0009}
+  .main-area{width:100%;min-width:0}
+  .topbar{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));padding-top:env(safe-area-inset-top);height:calc(62px + env(safe-area-inset-top))}
+  .topbar-left,.topbar-actions{min-width:0}
+  .mobile-menu{width:44px;height:44px;min-width:44px;align-items:center;justify-content:center;border-radius:12px;background:#17243a;margin-right:8px}
+  .topbar-actions{gap:7px}
+  .icon-button{width:40px;height:40px;min-width:40px}
+  .breadcrumb{gap:6px;font-size:10px;white-space:nowrap}
+  .page-content{width:100%;padding:24px 16px calc(28px + env(safe-area-inset-bottom))}
+  .view-title-row{gap:12px;margin-bottom:20px}
+  .welcome-row{gap:14px}
+  .welcome-row h1{font-size:clamp(28px,8vw,36px);letter-spacing:-1.2px}
+  .welcome-subtitle{font-size:13px;line-height:1.6}
+  .section-heading{gap:10px;align-items:flex-start}
+  .section-heading h2{font-size:17px}
+  .section-heading p,.panel-heading p{font-size:11px;line-height:1.5}
+  .metric-card{min-width:0}
+  .metric-top{font-size:10px}
+  .metric-foot{font-size:9px;flex-wrap:wrap}
+  .panel{min-width:0}
+  .project-row{min-width:0}
+  .project-main{min-width:0}
+  .project-main strong{white-space:normal;overflow-wrap:anywhere;line-height:1.35}
+  .agent-mini{min-width:0}
+  .agent-mini>span:nth-child(2){min-width:0}
+  .agent-mini strong,.agent-mini small{overflow-wrap:anywhere}
+  .agent-state{flex:none}
+  .workflow-feature,.workforce-banner{min-width:0}
+  .connection-card,.project-card,.agent-card,.template-card,.approval-card{min-width:0}
+  .connection-footer{gap:8px;flex-wrap:wrap}
+  .connection-footer .text-button{min-height:40px}
+  .settings-menu{max-width:100%;padding-bottom:4px}
+  .settings-content{min-width:0}
+  .setting-row{align-items:flex-start;gap:12px}
+  .setting-value{overflow-wrap:anywhere;text-align:right}
+  .modal-backdrop{align-items:flex-end;padding:0}
+  .modal{width:100%;max-height: min(90dvh, 760px);overflow-y:auto;overscroll-behavior:contain;border-radius:18px 18px 0 0;padding:22px 18px calc(20px + env(safe-area-inset-bottom))}
+  .modal-actions{position:sticky;bottom:calc(-20px - env(safe-area-inset-bottom));background:#111c2d;padding:12px 0 calc(8px + env(safe-area-inset-bottom));margin-top:16px}
+  html[data-theme="light"] .modal-actions{background:#fff}
+}
+@media(max-width:580px){
+  .environment-pill{display:none}
+  .topbar{height:calc(58px + env(safe-area-inset-top))}
+  .breadcrumb span,.breadcrumb b{display:none}
+  .breadcrumb strong{font-size:12px}
+  .topbar-actions{gap:5px}
+  .topbar-actions .icon-button:not(.theme-toggle){display:none}
+  .top-avatar{width:36px;height:36px;min-width:36px}
+  .page-content{padding:20px 14px calc(26px + env(safe-area-inset-bottom))}
+  .welcome-row .primary-button{width:100%;justify-content:center;min-height:46px}
+  .notice-banner{padding:12px;gap:10px}
+  .notice-copy strong{font-size:11px;line-height:1.4}
+  .notice-copy p{font-size:10px}
+  .section-heading{flex-wrap:wrap}
+  .subtle-button{min-height:40px}
+  .metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .metric-card{padding:12px 11px;min-height:112px}
+  .metric-value{font-size:23px}
+  .dashboard-grid{gap:11px}
+  .panel{padding:14px 12px}
+  .panel-heading{gap:8px}
+  .panel-heading h3{font-size:13px}
+  .project-row{align-items:flex-start;padding:12px 0}
+  .project-symbol{width:32px;height:32px}
+  .project-main span{font-size:9px;line-height:1.45;white-space:normal}
+  .agent-mini{gap:8px}
+  .agent-mini strong{font-size:10px}
+  .agent-mini small{font-size:9px;line-height:1.4}
+  .agent-state{font-size:8px;padding:4px}
+  .view-title-row h1{font-size:28px;letter-spacing:-1px}
+  .view-title-row p{font-size:12px;line-height:1.55}
+  .view-title-row>.primary-button,.view-title-row>.secondary-button{width:100%;justify-content:center;min-height:44px}
+  .project-card{padding:15px}
+  .project-card h3{font-size:14px;line-height:1.35}
+  .project-card p{font-size:11px;line-height:1.55}
+  .project-card-footer{gap:8px;align-items:flex-start;flex-wrap:wrap}
+  .project-card-footer button{min-height:40px}
+  .agent-grid{grid-template-columns:1fr}
+  .agent-card{padding:15px}
+  .agent-card h3{font-size:14px}
+  .agent-card p{font-size:11px;min-height:0}
+  .workforce-banner{display:block;padding:18px}
+  .workforce-banner h2{font-size:23px}
+  .workforce-banner p{font-size:11px;max-width:none}
+  .orbit-art{display:none}
+  .workflow-feature{padding:18px;gap:16px}
+  .workflow-feature h2{font-size:21px}
+  .workflow-feature p{font-size:11px}
+  .flow-preview{padding:13px}
+  .template-grid,.connection-grid,.project-cards,.knowledge-layout,.settings-layout{grid-template-columns:minmax(0,1fr)}
+  .connection-card{padding:15px}
+  .connection-card p{font-size:11px;min-height:0}
+  .connection-state{font-size:10px}
+  .operations-summary{gap:8px}
+  .ops-stat{padding:12px}
+  .ops-stat small{font-size:10px}
+  .ops-stat strong{font-size:22px}
+  .approval-card{padding:14px}
+  .approval-card-top{align-items:flex-start;gap:8px;flex-wrap:wrap}
+  .approval-card h3{font-size:14px}
+  .approval-card p{font-size:11px}
+  .approval-actions{display:grid;grid-template-columns:1fr}
+  .approval-actions button{min-height:42px}
+  .page-footer{font-size:9px;flex-wrap:wrap}
+  .toast-region{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom))}
+  .toast{font-size:12px}
+}
+@media(max-width:380px){
+  .topbar{padding-left:10px;padding-right:10px}
+  .mobile-menu{margin-right:5px}
+  .topbar-actions{gap:3px}
+  .metrics-grid{gap:7px}
+  .metric-card{padding:10px}
+  .metric-value{font-size:21px}
+  .metric-foot{font-size:8px}
+}

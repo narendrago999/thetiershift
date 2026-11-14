@@ -297,6 +297,9 @@ def set_project_member(project_id: str, member_id: str, body: ProjectMemberUpser
     org_member = db.query(Membership).filter_by(organization_id=project.organization_id, user_id=member_id, status="active").one_or_none()
     if not org_member: raise HTTPException(status_code=400, detail="Project members must belong to the organization")
     row = db.query(ProjectMembership).filter_by(project_id=project_id, user_id=member_id).one_or_none()
+    if row and row.role == "project_owner" and body.role != "project_owner":
+        another_owner = db.query(ProjectMembership).filter(ProjectMembership.project_id == project_id, ProjectMembership.role == "project_owner", ProjectMembership.user_id != member_id).first()
+        if not another_owner: raise HTTPException(status_code=409, detail="Assign another project owner before changing this role")
     if body.role == "project_owner":
         previous_owner = db.query(ProjectMembership).filter_by(project_id=project_id, role="project_owner").one_or_none()
         if previous_owner and previous_owner.user_id != member_id:

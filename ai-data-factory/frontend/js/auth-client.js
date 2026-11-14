@@ -109,12 +109,17 @@
     if (invitePanel) invitePanel.style.display = canManage ? "block" : "none";
     const status = $("orgManagementStatus");
     if (status) status.textContent = "Managing " + currentOrg.name + " · " + currentOrg.role;
+    const ownerActions = $("orgOwnerActions");
+    if (ownerActions) ownerActions.style.display = currentOrg.role === "owner" ? "block" : "none";
+    if ($("orgRename")) $("orgRename").value = currentOrg.name;
   }
 
   function renderMembers(members) {
     const root = $("orgMembers");
     if (!root) return;
     root.replaceChildren();
+    const transfer = $("transferTarget");
+    if (transfer) { transfer.replaceChildren(); members.filter(m => m.role !== "owner").forEach(m => { const option = document.createElement("option"); option.value = m.user_id; option.textContent = m.name || m.email; transfer.append(option); }); }
     members.forEach(member => {
       const row = document.createElement("div");
       row.className = "tenant-member-row";
@@ -277,7 +282,37 @@
         } catch (error) { showError(error); }
       });
 
+      $("orgRenameForm")?.addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!currentOrg) return;
+        try {
+          await api("/organizations/" + currentOrg.id, { method: "PATCH", body: JSON.stringify({ name: $("orgRename").value.trim() }) });
+          await loadOrganizations();
+          toast("Organization name updated.");
+        } catch (error) { showError(error); }
+      });
+      $("transferOwnershipForm")?.addEventListener("submit", async e => {
+        e.preventDefault();
+        if (!currentOrg || currentOrg.role !== "owner") return;
+        const target = $("transferTarget").value;
+        if (!target || !window.confirm("Transfer organization ownership? Your role will become Admin.")) return;
+        try {
+          await api("/organizations/" + currentOrg.id + "/transfer-ownership?target_user_id=" + encodeURIComponent(target), { method: "POST" });
+          await loadOrganizations();
+          toast("Organization ownership transferred.");
+        } catch (error) { showError(error); }
+      });
+      $("archiveOrgButton")?.addEventListener("click", async () => {
+        if (!currentOrg || currentOrg.role !== "owner" || !window.confirm("Archive this organization? Members will lose access.")) return;
+        try {
+          await api("/organizations/" + currentOrg.id + "/archive", { method: "POST" });
+          currentOrg = null;
+          await loadOrganizations();
+          toast("Organization archived.");
+        } catch (error) { showError(error); }
+      });
       await loadOrganizations();
+      if (!organizations.length) { orgLayer.classList.add("open"); orgLayer.setAttribute("aria-hidden", "false"); }
       $("orgSwitcher")?.addEventListener("click", () => { if (!clerk.isSignedIn) { orgLayer.classList.remove("open"); setAuthOpen(true); } });
       $("authClose")?.addEventListener("click", () => { if (!clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });
       authLayer?.addEventListener("click", e => { if (e.target === authLayer && !clerk.isSignedIn) window.setTimeout(() => setAuthOpen(true), 0); });

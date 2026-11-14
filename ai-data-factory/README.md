@@ -102,7 +102,7 @@ ai-data-factory/
 
 ## Current status
 
-The project is in the foundation/planning stage. The cloud-first deployment architecture and evaluation plan are documented; no backend host, database, Clerk application, Fabric connection, or live AI agent is assumed to exist until configured and tested.
+The identity and tenant foundation is now implemented in this feature branch: ClerkJS frontend integration, FastAPI JWT verification, Neon/PostgreSQL models and migrations, organization RBAC, invitations, project membership, audit events, Render deployment blueprint and GitHub Actions checks. It is not yet live because a real Clerk application, Neon database, SMTP sender and deployed API still need to be configured. The remaining dashboard data and AI/Fabric execution modules are not yet connected.
 
 See:
 - [Master development roadmap](docs/MASTER_ROADMAP.md)

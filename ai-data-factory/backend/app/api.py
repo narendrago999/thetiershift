@@ -189,7 +189,7 @@ def change_member_role(org_id: str, member_id: str, body: MemberRoleUpdate, user
 @router.delete("/organizations/{org_id}/members/{member_id}")
 def remove_member(org_id: str, member_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
     actor = require_org_admin(db, org_id, user)
-    target = db.query(Membership).filter_by(organization_id=org_id, user_id=member_id, status="active").one_or_none()
+    target = db.query(Membership).filter_by(organization_id=org_id, user_id=member_id, status="active").with_for_update().one_or_none()
     if not target: raise HTTPException(status_code=404, detail="Member not found")
     if target.role == "owner": raise HTTPException(status_code=409, detail="Transfer ownership before removing the owner")
     if actor.role != "owner" and target.role == "admin": raise HTTPException(status_code=403, detail="Only the owner can remove an admin")

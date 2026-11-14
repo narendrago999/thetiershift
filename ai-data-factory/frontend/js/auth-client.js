@@ -391,7 +391,22 @@
         setAuthOpen(!clerk.isSignedIn);
         if (clerk.isSignedIn) clerk.openUserProfile();
       });
+      const accountMenu = $("accountMenu");
+      const accountMenuButton = $("accountMenuButton");
+      accountMenuButton?.addEventListener("click", () => {
+        const opening = accountMenu?.hidden !== false;
+        if (accountMenu) accountMenu.hidden = !opening;
+        accountMenuButton.setAttribute("aria-expanded", String(opening));
+      });
+      document.addEventListener("pointerdown", event => {
+        if (accountMenu && !accountMenu.hidden && !accountMenu.contains(event.target) && !accountMenuButton?.contains(event.target)) {
+          accountMenu.hidden = true;
+          accountMenuButton?.setAttribute("aria-expanded", "false");
+        }
+      });
       $("signOutButton")?.addEventListener("click", async () => {
+        if (accountMenu) accountMenu.hidden = true;
+        accountMenuButton?.setAttribute("aria-expanded", "false");
         if (!clerk?.isSignedIn) { setAuthOpen(true); return; }
         try { await clerk.signOut(); toast("You have been signed out."); }
         catch (error) { showError(error); }

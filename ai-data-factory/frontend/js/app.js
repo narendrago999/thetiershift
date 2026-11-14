@@ -145,6 +145,7 @@ window.addEventListener("tsdf:organization-changed",e=>loadLiveProjects(e.detail
 /* Identity and organization onboarding preview. Real identity, invitations and access
    must be handled by Clerk + the FastAPI authorization layer, never by browser state. */
 (function(){
+ if (window.TSDF_CONFIG?.previewMode !== true) return;
  const auth=document.getElementById("authOverlay"),org=document.getElementById("orgOverlay");
  const views=["signin","signup","forgot","verify"];
  function authView(name){views.forEach(v=>document.getElementById("auth-"+v).classList.toggle("active",v===name));}

@@ -332,15 +332,23 @@
     }
     try {
       const domain = atob(cfg.clerkPublishableKey.split("_")[2]).slice(0, -1);
-      const loadScript = (src) => new Promise((resolve, reject) => {
+      const loadScript = (src, attributes = {}) => new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.src = src; script.async = true; script.crossOrigin = "anonymous";
+        Object.entries(attributes).forEach(([name, value]) => script.setAttribute(name, value));
         script.onload = resolve; script.onerror = () => reject(new Error("Could not load Clerk authentication resources."));
         document.head.append(script);
       });
       await loadScript("https://" + domain + "/npm/@clerk/ui@1/dist/ui.browser.js");
-      await loadScript("https://" + domain + "/npm/@clerk/clerk-js@6/dist/clerk.browser.js");
+      // ClerkJS only exposes the initialized window.Clerk instance when the
+      // publishable key is provided on its script tag.
+      await loadScript("https://" + domain + "/npm/@clerk/clerk-js@6/dist/clerk.browser.js", {
+        "data-clerk-publishable-key": cfg.clerkPublishableKey
+      });
       clerk = window.Clerk;
+      if (!clerk || typeof clerk.load !== "function") {
+        throw new Error("Clerk did not initialize. Check the Clerk publishable key and Frontend API domain.");
+      }
       await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
       const mountSignIn = () => {
         if (!clerkMount || clerkMount.dataset.mounted === "true" || clerk.isSignedIn) return;

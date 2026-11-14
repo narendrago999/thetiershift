@@ -25,3 +25,9 @@ html[data-theme="light"] .auth-shell,html[data-theme="light"] .auth-card,html[da
 .tenant-role{color:#b6aaff;font-size:10px}.tenant-invite-row span{overflow-wrap:anywhere}
 html[data-theme="light"] .org-list-item,html[data-theme="light"] .tenant-member-row,html[data-theme="light"] .tenant-invite-row{background:#f4f6fa;color:#172337;border-color:#dce4ef}
 html[data-theme="light"] .tenant-member-row select{background:#fff;color:#172337;border-color:#dce4ef}
+
+.org-owner-actions{display:none;border-top:1px solid #2b3951;margin-top:20px;padding-top:16px}
+.org-owner-actions h3{font:600 14px 'Space Grotesk',sans-serif;margin:12px 0}
+.org-owner-actions form{display:grid;gap:8px;margin:12px 0}
+.tenant-danger{width:100%;padding:11px;border:1px solid #70434b;background:#3a202a;color:#ffb4bb;border-radius:9px;cursor:pointer;margin-top:8px}
+html[data-theme="light"] .tenant-danger{background:#fff1f2;border-color:#f0c6cc;color:#a33142}

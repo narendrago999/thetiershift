@@ -5,7 +5,7 @@
   const orgLayer = document.getElementById("orgOverlay");
   const clerkMount = document.getElementById("clerkMount");
   const apiBase = String(cfg.apiBaseUrl || "").replace(/\/$/, "");
-  let clerk = null, currentOrg = null, organizations = [], currentUser = null, syncing = false;
+  let clerk = null, currentOrg = null, organizations = [], currentUser = null, syncing = false, lastSyncedSession = null;
 
   const $ = (id) => document.getElementById(id);
   const safe = (v) => String(v == null ? "" : v);
@@ -229,7 +229,7 @@
       await clerk.load({ ui: { ClerkUI: window.__internal_ClerkUICtor } });
       if (clerkMount) {
         document.querySelectorAll(".auth-view").forEach(el => el.style.display = "none");
-        clerk.mountSignIn(clerkMount, { signUpUrl: "#/sign-up", forceRedirectUrl: window.location.pathname });
+        clerk.mountSignIn(clerkMount, { routing: "hash", signUpUrl: "#/sign-up", forceRedirectUrl: window.location.pathname, appearance: { variables: { colorPrimary: "#8f7cff", colorBackground: "#121e32", colorText: "#edf2fc", colorInputBackground: "#0b1424", colorInputText: "#edf2fc", borderRadius: "12px" } } });
       }
       $("accountEntry")?.addEventListener("click", () => {
         setAuthOpen(!clerk.isSignedIn);

@@ -99,6 +99,7 @@
       if ($("teamMemberManager")) $("teamMemberManager").style.display = "none";
       const status = $("orgManagementStatus");
       if (status) status.textContent = "Create an organization or accept an invitation to get started.";
+      window.dispatchEvent(new CustomEvent("tsdf:organization-changed", { detail: null }));
       if ($("orgOwnerActions")) $("orgOwnerActions").style.display = "none";
       if (document.querySelector(".org-invite")) document.querySelector(".org-invite").style.display = "none";
     }
@@ -125,6 +126,7 @@
     }
     const status = $("orgManagementStatus");
     if (status) status.textContent = "Managing " + currentOrg.name + " · " + currentOrg.role;
+    window.dispatchEvent(new CustomEvent("tsdf:organization-changed", { detail: currentOrg }));
     const ownerActions = $("orgOwnerActions");
     if (ownerActions) ownerActions.style.display = currentOrg.role === "owner" ? "block" : "none";
     const memberActions = $("orgMemberActions");
@@ -444,6 +446,6 @@
       setAuthOpen(true);
     }
   }
-  window.TSDF = { api, getCurrentOrganization: () => currentOrg, refreshOrganizations: loadOrganizations };
+  window.TSDF = { api, getCurrentOrganization: () => currentOrg, getCurrentUser: () => currentUser, refreshOrganizations: loadOrganizations };
   window.addEventListener("load", initialize);
 })();

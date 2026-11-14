@@ -16,13 +16,25 @@ FastAPI service for Clerk-backed identity, Neon PostgreSQL persistence, organiza
 - CORS allowlist and health/readiness endpoints.
 - Alembic schema migration.
 
+## Browser-based development with GitHub Codespaces
+
+The repository includes a root `.devcontainer/devcontainer.json` for a Python 3.12 and Node 22 Codespace. Open the repository in GitHub Codespaces; dependency installation runs automatically and ports 8000 (API) and 5500 (frontend) are forwarded.
+
+1. In the Codespaces terminal, copy `ai-data-factory/backend/.env.example` to `ai-data-factory/backend/.env`.
+2. Populate development-only Clerk and Neon values using GitHub Codespaces Secrets or a local untracked `.env`. Never paste secrets into committed files.
+3. Start the API from `ai-data-factory/backend` with `.venv/bin/uvicorn app.main:app --reload --port 8000`.
+4. In a second terminal, serve `ai-data-factory/frontend` on port 5500 (for example, `npx http-server ai-data-factory/frontend -p 5500` from the repository root).
+5. Check `/health/live` and `/health/ready` on the forwarded API port. The readiness endpoint requires a reachable configured database.
+
+Codespaces is a development environment, not production hosting. Its setup has been defined in the repository; an actual Codespaces launch still needs to be exercised by a repository contributor.
+
 ## Local setup
 
 1. Create a Clerk application. Enable the sign-in methods you want and require email verification.
 2. Create a Neon PostgreSQL database.
 3. Copy .env.example to .env and set the database URL, Clerk publishable/secret keys, exact issuer, JWKS URL, frontend origins and app base URL.
 4. Install dependencies with python -m venv .venv, activate it, then pip install -r requirements.txt.
-5. Run alembic upgrade head.
+5. Run alembic upgrade head. This creates the tenant core schema and enables PostgreSQL pgvector through migration 0002.
 6. Start with uvicorn app.main:app --reload --port 8000.
 7. Check /health/ready and inspect /docs in development.
 
@@ -52,10 +64,11 @@ Required production values:
 - CLERK_ISSUER and CLERK_JWKS_URL from the Clerk instance.
 - CORS_ORIGINS — exact allowed frontend origins.
 - APP_BASE_URL — https://thetiershift.com/ai-data-factory/
-- SMTP settings for invitations.
+- SMTP settings for invitations (deferred until a real provider and verified sender are supplied).
+- LLM_BASE_URL, LLM_API_KEY, LLM_MODEL and LLM_TIMEOUT_SECONDS when the LLM adapter is implemented; current example values are placeholders and must not be used for requests.
 
 Never commit .env. Use HTTPS and managed secrets. Configure database backups, monitoring, rate limiting and retention before onboarding external customers.
 
 ## Not yet live
 
-The source code is committed, but it is not connected to a real Clerk instance, Neon database or deployed API until you configure those accounts and deploy the service. Do not onboard client data before staging integration tests and a security review.
+Neon, Clerk and Render provisioning have been confirmed by the product owner. Repository-side integration code is present, but live connectivity and staging security tests still need to be run against those environments. SMTP delivery and LLM inference remain intentionally unavailable until real provider credentials are supplied. Do not onboard client data before staging integration tests and a security review.

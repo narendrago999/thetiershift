@@ -293,6 +293,10 @@ def set_project_member(project_id: str, member_id: str, body: ProjectMemberUpser
     org_member = db.query(Membership).filter_by(organization_id=project.organization_id, user_id=member_id, status="active").one_or_none()
     if not org_member: raise HTTPException(status_code=400, detail="Project members must belong to the organization")
     row = db.query(ProjectMembership).filter_by(project_id=project_id, user_id=member_id).one_or_none()
+    if body.role == "project_owner":
+        previous_owner = db.query(ProjectMembership).filter_by(project_id=project_id, role="project_owner").one_or_none()
+        if previous_owner and previous_owner.user_id != member_id:
+            previous_owner.role = "architect"
     if row: row.role = body.role
     else: db.add(ProjectMembership(id=str(uuid4()), project_id=project_id, user_id=member_id, role=body.role))
     audit(db, project.organization_id, user, "project.member_changed", "project_membership", project_id, f"{member_id}:{body.role}")
@@ -306,7 +310,7 @@ def remove_project_member(project_id: str, member_id: str, user: User=Depends(cu
     require_project_manager(db, project, user)
     row = db.query(ProjectMembership).filter_by(project_id=project_id, user_id=member_id).one_or_none()
     if not row: raise HTTPException(status_code=404, detail="Project member not found")
-    if row.role == "project_owner": raise HTTPException(status_code=409, detail="Assign another project owner before removing this member")
+    if row.role == "project_owner": raise HTTPException(status_code=409, detail="Transfer project ownership before removing this member")
     db.delete(row)
     audit(db, project.organization_id, user, "project.member_removed", "project_membership", project_id, member_id)
     db.commit()

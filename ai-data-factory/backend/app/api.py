@@ -25,7 +25,7 @@ def audit(db: Session, org_id: str, actor: User, action: str, kind: str, resourc
     db.add(AuditEvent(id=str(uuid4()), organization_id=org_id, actor_user_id=actor.id, action=action, resource_type=kind, resource_id=resource_id, detail=detail))
 
 def membership(db: Session, org_id: str, user: User) -> Membership:
-    row = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").with_for_update().one_or_none()
+    row = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").one_or_none()
     org = db.query(Organization).filter_by(id=org_id, status="active").one_or_none()
     if not row or not org:
         raise HTTPException(status_code=404, detail="Organization not found")
@@ -155,7 +155,8 @@ def transfer_ownership(org_id: str, target_user_id: str, user: User=Depends(curr
 
 @router.post("/organizations/{org_id}/leave")
 def leave_organization(org_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    row = membership(db, org_id, user)
+    row = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").with_for_update().one_or_none()
+    if not row or not db.query(Organization).filter_by(id=org_id, status="active").one_or_none(): raise HTTPException(status_code=404, detail="Organization not found")
     if row.role == "owner":
         raise HTTPException(status_code=409, detail="Transfer ownership before leaving this organization")
     row.status = "removed"
@@ -286,7 +287,7 @@ def create_project(org_id: str, body: ProjectCreate, user: User=Depends(current_
 
 @router.get("/projects/{project_id}/members")
 def list_project_members(project_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    project = db.query(Project).filter_by(id=project_id).with_for_update().one_or_none()
+    project = db.query(Project).filter_by(id=project_id).one_or_none()
     if not project: raise HTTPException(status_code=404, detail="Project not found")
     require_project_access(db, project, user)
     rows = db.query(ProjectMembership, User).join(User, ProjectMembership.user_id == User.id).filter(ProjectMembership.project_id == project_id).all()
@@ -294,7 +295,7 @@ def list_project_members(project_id: str, user: User=Depends(current_user), db: 
 
 @router.put("/projects/{project_id}/members/{member_id}")
 def set_project_member(project_id: str, member_id: str, body: ProjectMemberUpsert, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    project = db.query(Project).filter_by(id=project_id).one_or_none()
+    project = db.query(Project).filter_by(id=project_id).with_for_update().one_or_none()
     if not project: raise HTTPException(status_code=404, detail="Project not found")
     require_project_manager(db, project, user)
     org_member = db.query(Membership).filter_by(organization_id=project.organization_id, user_id=member_id, status="active").one_or_none()
@@ -315,7 +316,7 @@ def set_project_member(project_id: str, member_id: str, body: ProjectMemberUpser
 
 @router.delete("/projects/{project_id}/members/{member_id}")
 def remove_project_member(project_id: str, member_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    project = db.query(Project).filter_by(id=project_id).one_or_none()
+    project = db.query(Project).filter_by(id=project_id).with_for_update().one_or_none()
     if not project: raise HTTPException(status_code=404, detail="Project not found")
     require_project_manager(db, project, user)
     row = db.query(ProjectMembership).filter_by(project_id=project_id, user_id=member_id).one_or_none()

@@ -5,8 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 from app.database import Base
-from app.models import User, Organization, Membership, Project, ProjectMembership
-from app.api import membership, require_org_admin, require_project_access, require_project_manager
+from app.models import User, Organization, Membership, Project, ProjectMembership, Team, TeamMember
+from app.api import membership, require_org_admin, require_project_access, require_project_manager, remove_member, leave_organization
 
 @pytest.fixture
 def db():
@@ -79,3 +79,34 @@ def test_project_owner_can_manage_project_members(db):
     db.add(ProjectMembership(id=str(uuid4()), project_id=project.id, user_id=project_owner.id, role="project_owner"))
     db.commit()
     assert require_project_manager(db, project, project_owner).role == "project_owner"
+
+def test_removing_org_member_clears_project_and_team_memberships(db):
+    owner = seed_user(db, "owner2@example.com")
+    member = seed_user(db, "member2@example.com")
+    org = seed_org(db, owner, "Client Cleanup")
+    db.add_all([
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=owner.id, role="owner", status="active"),
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=member.id, role="member", status="active"),
+    ])
+    project = Project(id=str(uuid4()), organization_id=org.id, name="Project", description="", platform="Fabric", status="active", created_by=owner.id)
+    team = Team(id=str(uuid4()), organization_id=org.id, name="Engineering", description="", status="active", created_by=owner.id)
+    db.add_all([project, team])
+    db.flush()
+    db.add_all([
+        ProjectMembership(id=str(uuid4()), project_id=project.id, user_id=member.id, role="viewer"),
+        TeamMember(id=str(uuid4()), team_id=team.id, user_id=member.id, role="member"),
+    ])
+    db.commit()
+    remove_member(org.id, member.id, owner, db)
+    assert db.query(Membership).filter_by(organization_id=org.id, user_id=member.id, status="active").count() == 0
+    assert db.query(ProjectMembership).filter_by(project_id=project.id, user_id=member.id).count() == 0
+    assert db.query(TeamMember).filter_by(team_id=team.id, user_id=member.id).count() == 0
+
+def test_owner_must_transfer_before_leaving_org(db):
+    owner = seed_user(db, "owner3@example.com")
+    org = seed_org(db, owner, "Client Owner")
+    db.add(Membership(id=str(uuid4()), organization_id=org.id, user_id=owner.id, role="owner", status="active"))
+    db.commit()
+    with pytest.raises(HTTPException) as error:
+        leave_organization(org.id, owner, db)
+    assert error.value.status_code == 409

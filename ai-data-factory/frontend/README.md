@@ -12,6 +12,13 @@ The frontend is plain HTML, CSS, and JavaScript. It does not require Python or a
 
 For a local static preview, serve this directory with any static file server (for example, the VS Code Live Server extension). The browser loads the frontend only; no backend is connected yet.
 
+## Product identity and deployment target
+
+- Product identity: **TierShift Data Factory**, a distinct product identity under TierShift Technologies.
+- Deployment target: `https://thetiershift.com/ai-data-factory` (path-based deployment; DNS remains on the existing domain).
+- Audience: internal TierShift teams and external client organizations, using organization/project-scoped access.
+- Theme: dark and light modes with a browser-local preview preference. Production preferences should be stored per authenticated user.
+
 ## Current screens
 
 - Overview dashboard

@@ -147,3 +147,20 @@ def test_project_owner_cannot_remove_self_without_transfer(db):
     with pytest.raises(HTTPException) as error:
         remove_project_member(project.id, project_owner.id, project_owner, db)
     assert error.value.status_code == 409
+
+def test_only_project_owner_cannot_be_demoted_without_transfer(db):
+    org_owner = seed_user(db, "orgadmin3@example.com")
+    project_owner = seed_user(db, "projectowner3@example.com")
+    org = seed_org(db, org_owner, "Client Owner Guard")
+    db.add_all([
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=org_owner.id, role="owner", status="active"),
+        Membership(id=str(uuid4()), organization_id=org.id, user_id=project_owner.id, role="member", status="active"),
+    ])
+    project = Project(id=str(uuid4()), organization_id=org.id, name="Only Owner", description="", platform="Fabric", status="active", created_by=org_owner.id)
+    db.add(project)
+    db.flush()
+    db.add(ProjectMembership(id=str(uuid4()), project_id=project.id, user_id=project_owner.id, role="project_owner"))
+    db.commit()
+    with pytest.raises(HTTPException) as error:
+        set_project_member(project.id, project_owner.id, ProjectMemberUpsert(role="architect"), project_owner, db)
+    assert error.value.status_code == 409

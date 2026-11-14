@@ -31,3 +31,5 @@ html[data-theme="light"] .tenant-member-row select{background:#fff;color:#172337
 .org-owner-actions form{display:grid;gap:8px;margin:12px 0}
 .tenant-danger{width:100%;padding:11px;border:1px solid #70434b;background:#3a202a;color:#ffb4bb;border-radius:9px;cursor:pointer;margin-top:8px}
 html[data-theme="light"] .tenant-danger{background:#fff1f2;border-color:#f0c6cc;color:#a33142}
+
+.org-member-actions{display:none;border-top:1px solid #2b3951;margin-top:18px;padding-top:12px}

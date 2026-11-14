@@ -4,13 +4,13 @@ This is the static frontend foundation for the TierShift AI Data Factory SaaS ap
 
 ## Preview
 
-The frontend is plain HTML, CSS, and JavaScript. It does not require Python or a build step.
+The frontend is plain HTML, CSS, and JavaScript. ClerkJS is loaded from the Clerk Frontend API at runtime; FastAPI is the authenticated application API.
 
 - Entry point: `index.html`
 - Styles: `css/app.css`
 - Interactions and preview fixtures: `js/app.js`
 
-For a local static preview, serve this directory with any static file server (for example, the VS Code Live Server extension). The browser loads the frontend only; no backend is connected yet.
+For local development, serve this directory with a static file server and run the FastAPI backend separately. Set the public Clerk publishable key and API base URL in config.js.
 
 ## Product identity and deployment target
 

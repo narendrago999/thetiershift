@@ -127,6 +127,8 @@
     if (status) status.textContent = "Managing " + currentOrg.name + " · " + currentOrg.role;
     const ownerActions = $("orgOwnerActions");
     if (ownerActions) ownerActions.style.display = currentOrg.role === "owner" ? "block" : "none";
+    const memberActions = $("orgMemberActions");
+    if (memberActions) memberActions.style.display = currentOrg.role === "owner" ? "none" : "block";
     if ($("orgRename")) $("orgRename").value = currentOrg.name;
   }
 
@@ -394,6 +396,11 @@
         } catch (error) { showError(error); }
       });
 
+      $("leaveOrgButton")?.addEventListener("click", async () => {
+        if (!currentOrg || currentOrg.role === "owner" || !window.confirm("Leave " + currentOrg.name + "? You will lose access to its projects and teams.")) return;
+        try { await api("/organizations/" + currentOrg.id + "/leave", { method: "POST" }); currentOrg = null; currentTeam = null; await loadOrganizations(); toast("You left the organization."); }
+        catch (error) { showError(error); }
+      });
       $("orgRenameForm")?.addEventListener("submit", async e => {
         e.preventDefault();
         if (!currentOrg) return;

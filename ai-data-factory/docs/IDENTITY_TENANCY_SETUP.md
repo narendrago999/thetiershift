@@ -75,7 +75,8 @@ The API stores only a SHA-256 hash of each random invitation token. In developme
 Use two separate test accounts and two separate client organizations.
 
 - User A can only list and read organizations where A has active membership.
-- User A cannot list members, projects, invitations or audit records from User B's organization.
+- User A cannot list members, projects, teams, invitations or audit records from User B's organization.
+- Team membership requires active membership in the parent organization; team leads cannot grant lead privileges.
 - A project member must have both active organization membership and project membership.
 - Organization admins cannot grant admin access, modify/remove the owner, transfer ownership or archive the organization.
 - Only the owner can transfer ownership and archive.

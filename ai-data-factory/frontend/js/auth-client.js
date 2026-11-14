@@ -391,26 +391,6 @@
         setAuthOpen(!clerk.isSignedIn);
         if (clerk.isSignedIn) clerk.openUserProfile();
       });
-      const accountMenu = $("accountMenu");
-      const accountMenuButton = $("accountMenuButton");
-      accountMenuButton?.addEventListener("click", () => {
-        const opening = accountMenu?.hidden !== false;
-        if (accountMenu) accountMenu.hidden = !opening;
-        accountMenuButton.setAttribute("aria-expanded", String(opening));
-      });
-      document.addEventListener("pointerdown", event => {
-        if (accountMenu && !accountMenu.hidden && !accountMenu.contains(event.target) && !accountMenuButton?.contains(event.target)) {
-          accountMenu.hidden = true;
-          accountMenuButton?.setAttribute("aria-expanded", "false");
-        }
-      });
-      $("signOutButton")?.addEventListener("click", async () => {
-        if (accountMenu) accountMenu.hidden = true;
-        accountMenuButton?.setAttribute("aria-expanded", "false");
-        if (!clerk?.isSignedIn) { setAuthOpen(true); return; }
-        try { await clerk.signOut(); toast("You have been signed out."); }
-        catch (error) { showError(error); }
-      });
       clerk.addListener(async ({ session, user }) => {
         if (session && user) await syncIdentity(session, user);
         else if (session === null) { currentUser = null; currentOrg = null; organizations = []; mountSignIn(); setAuthOpen(true); }
@@ -511,6 +491,39 @@
       setAuthOpen(true);
     }
   }
+
+  // Account menu is initialized independently of Clerk so the control remains clickable
+  // even while authentication is loading or temporarily unavailable.
+  const accountMenu = $("accountMenu");
+  const accountMenuButton = $("accountMenuButton");
+  const closeAccountMenu = () => {
+    if (accountMenu) accountMenu.hidden = true;
+    accountMenuButton?.setAttribute("aria-expanded", "false");
+  };
+  accountMenuButton?.addEventListener("click", event => {
+    event.preventDefault();
+    event.stopPropagation();
+    const opening = accountMenu?.hidden !== false;
+    if (accountMenu) accountMenu.hidden = !opening;
+    accountMenuButton.setAttribute("aria-expanded", String(opening));
+  });
+  accountMenu?.addEventListener("click", event => event.stopPropagation());
+  document.addEventListener("pointerdown", event => {
+    if (accountMenu && !accountMenu.hidden && !accountMenu.contains(event.target) && !accountMenuButton?.contains(event.target)) closeAccountMenu();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && accountMenu && !accountMenu.hidden) {
+      closeAccountMenu();
+      accountMenuButton?.focus();
+    }
+  });
+  $("signOutButton")?.addEventListener("click", async () => {
+    closeAccountMenu();
+    if (!clerk?.isSignedIn) { setAuthOpen(true); return; }
+    try { await clerk.signOut(); toast("You have been signed out."); }
+    catch (error) { showError(error); }
+  });
+
   window.TSDF = { api, getCurrentOrganization: () => currentOrg, getCurrentUser: () => currentUser, refreshOrganizations: loadOrganizations };
   window.addEventListener("load", initialize);
 })();

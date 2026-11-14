@@ -16,7 +16,7 @@ A phase is not complete merely because code exists.
 
 | Roadmap phase | Status | Evidence / remaining work |
 |---|---|---|
-| 0 — Cloud accounts and development foundation | Partial | FastAPI, SQLAlchemy, Alembic, Clerk JWT verification, Neon configuration, health endpoint and CI exist. LLM connectivity and pgvector are not implemented/verified. Actual Neon/Clerk/API deployment and Codespaces setup require live verification. CI was updated to run on pushes to main and to audit Python dependencies; its resulting run must pass. |
+| 0 — Cloud accounts and development foundation | Partial | Owner confirms Neon, Clerk and Render provisioning/setup are already complete. FastAPI, SQLAlchemy, Alembic, Clerk JWT verification, Neon configuration, health endpoint and CI exist. Still required: verify deployed API-to-Neon connectivity, Clerk token flow and Render health; verify CI run; implement/verify pgvector; configure and test the LLM adapter when real endpoint/key are supplied. Placeholder LLM values may be used in development configuration only. |
 | 1 — Product shell and command-centre UI | Partial | Responsive application shell, navigation, dashboard, projects and authentication UI exist. The AI command centre, real agent/workflow activity, artifacts and approval experience remain incomplete. |
 | 2 — Identity, organizations and authorization | Implemented in code; live verification pending | Clerk integration, organizations, memberships, teams, projects, invitations, roles, audit events and tenant authorization tests exist. Invitation delivery/acceptance needs end-to-end staging verification. |
 | 3 — Operational database and AI Brain | Partial | Tenant-core SQLAlchemy models and one initial migration exist. AI schemas, project requirements/context, source metadata, decisions, workflow records, knowledge chunks, embeddings, pgvector and scoped retrieval remain outstanding. |
@@ -38,11 +38,13 @@ A phase is not complete merely because code exists.
 - The current database models cover users, organizations, organization memberships, invitations, projects, project memberships, audit events, teams and team members.
 - The current backend API is documented as the identity and tenant core.
 - The current backend CI workflow compiles modules, runs pytest and checks frontend JavaScript syntax. It has been updated to run on pushes to main as well as the foundation branch, and to run a Python dependency audit. The new workflow run is not yet verified.
-- No claim is made here that Clerk, Neon, SMTP, Render, LLM or Microsoft Fabric is live and correctly configured; those require external environment verification.
+- Product-owner confirmation (2026-11-14): Neon, Clerk and Render setup/provisioning are already complete. This is recorded as owner-confirmed, not independently live-verified by this repository review.
+- SMTP is intentionally deferred. Use clearly marked placeholders in examples/development configuration; do not insert fake credentials into Render or claim email delivery works. Invitation email delivery remains unverified until a real SMTP provider and sender are supplied.
+- The LLM endpoint and API key will be supplied later. Use clearly marked non-secret placeholders for now; do not send requests using dummy credentials or claim provider connectivity. The adapter/configuration can be prepared, with live connectivity testing deferred.
 
 ## Execution order and gates
 
-1. **Phase 0:** Verify development foundation, CI, live Clerk/Neon/API configuration, LLM access and pgvector. Do not proceed to AI feature implementation until required development services are available.
+1. **Phase 0:** Verify the already-provisioned Neon, Clerk and Render integrations, development foundation and CI; implement pgvector and prepare LLM configuration/adapter with placeholders. Defer live LLM connectivity until the real endpoint/key are supplied. SMTP is not a Phase 0 blocker; defer invitation-delivery verification until real SMTP details are supplied.
 2. **Phase 1:** Complete the AI-first project workspace using real API contracts and honest empty/loading/error states.
 3. **Phase 2:** Run end-to-end authentication, invitation, RBAC and cross-tenant tests in staging.
 4. **Phase 3:** Design and migrate the operational/AI database schema; verify project-scoped knowledge access.
@@ -55,11 +57,9 @@ A phase is not complete merely because code exists.
 
 ## Product-owner dependencies (to collect when reached)
 
-- Access to the actual Clerk staging instance and its configuration.
-- Access to Neon project settings and a non-production database connection.
-- Access to Render service settings/logs and permission to configure environment secrets.
-- SMTP provider and verified sender details for invitation delivery.
-- Confirmation of the existing hosted LLM provider, API endpoint, model identifier and non-production API credentials.
+- Access to the already-provisioned Clerk, Neon and Render environments may be needed for live verification or changes; no new provisioning is assumed.
+- SMTP provider and verified sender details for invitation delivery (deferred; not a blocker for current foundation work).
+- Existing hosted LLM provider, API endpoint, model identifier and non-production API credentials (deferred until the LLM adapter is ready for live testing).
 - Microsoft Entra/Fabric development tenant, workspace and least-privilege test permissions before Fabric integration.
 - Approval before introducing any paid hosting, model usage or Fabric capacity costs.
 

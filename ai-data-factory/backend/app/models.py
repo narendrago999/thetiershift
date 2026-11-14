@@ -86,3 +86,24 @@ class AuditEvent(Base):
 
 Index("ix_projects_org_status", Project.organization_id, Project.status)
 Index("ix_audit_org_created", AuditEvent.organization_id, AuditEvent.created_at)
+
+class Team(Base):
+    __tablename__ = "teams"
+    __table_args__ = (UniqueConstraint("organization_id", "name", name="uq_org_team_name"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    organization_id: Mapped[str] = mapped_column(ForeignKey("organizations.id", ondelete="CASCADE"), index=True)
+    name: Mapped[str] = mapped_column(String(100))
+    description: Mapped[str] = mapped_column(Text, default="")
+    status: Mapped[str] = mapped_column(String(20), default="active")
+    created_by: Mapped[str] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now_utc)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now_utc, onupdate=now_utc)
+
+class TeamMember(Base):
+    __tablename__ = "team_members"
+    __table_args__ = (UniqueConstraint("team_id", "user_id", name="uq_team_user"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    team_id: Mapped[str] = mapped_column(ForeignKey("teams.id", ondelete="CASCADE"), index=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    role: Mapped[str] = mapped_column(String(20), default="member")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now_utc)

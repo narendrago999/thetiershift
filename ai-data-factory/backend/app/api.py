@@ -26,7 +26,8 @@ def audit(db: Session, org_id: str, actor: User, action: str, kind: str, resourc
 
 def membership(db: Session, org_id: str, user: User) -> Membership:
     row = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").one_or_none()
-    if not row:
+    org = db.query(Organization).filter_by(id=org_id, status="active").one_or_none()
+    if not row or not org:
         raise HTTPException(status_code=404, detail="Organization not found")
     return row
 
@@ -193,6 +194,9 @@ def create_invitation(org_id: str, body: InvitationCreate, user: User=Depends(cu
     invite_url = f"{get_settings().app_base_url.rstrip('/')}/?invite={raw}"
     try:
         sent = send_invite(email, org, body.role, invite_url)
+    except HTTPException:
+        db.rollback()
+        raise
     except Exception:
         db.rollback()
         raise HTTPException(status_code=502, detail="Invitation email could not be sent")
@@ -219,9 +223,10 @@ def revoke_invitation(org_id: str, invitation_id: str, user: User=Depends(curren
 @router.post("/invitations/accept")
 def accept_invitation(body: InvitationAccept, user: User=Depends(current_user), db: Session=Depends(get_db)):
     if not user.email_verified: raise HTTPException(status_code=403, detail="Verify your email address before accepting invitations")
-    item = db.query(Invitation).filter_by(token_hash=hash_invitation_token(body.token), accepted_at=None, revoked_at=None).one_or_none()
+    item = db.query(Invitation).filter_by(token_hash=hash_invitation_token(body.token), accepted_at=None, revoked_at=None).with_for_update().one_or_none()
     if not item or item.expires_at < datetime.now(timezone.utc): raise HTTPException(status_code=404, detail="Invitation is invalid or expired")
     if item.email.lower() != user.email.lower(): raise HTTPException(status_code=403, detail="This invitation belongs to a different email address")
+    if not db.query(Organization).filter_by(id=item.organization_id, status="active").one_or_none(): raise HTTPException(status_code=404, detail="Organization not found")
     existing = db.query(Membership).filter_by(organization_id=item.organization_id, user_id=user.id).one_or_none()
     if existing:
         existing.status, existing.role = "active", item.role

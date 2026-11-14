@@ -261,3 +261,7 @@ html[data-theme="light"] .workflow-feature{border-color:#e2e8f0}html[data-theme=
 }
 @media(max-width:380px){.page-content{padding-left:13px;padding-right:13px}.topbar{padding-left:9px;padding-right:9px}.mobile-menu{margin-right:6px}.metrics-grid{gap:8px}.metric-card{padding:11px}.metric-value{font-size:23px}.agent-state{display:none}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Native button reset for reliable iOS/Safari workspace switching */
+.workspace-switcher{width:100%;color:inherit;text-align:left;font:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
+.workspace-switcher:active{transform:translateY(1px)}

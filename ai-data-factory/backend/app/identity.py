@@ -14,6 +14,8 @@ def clerk_user(clerk_user_id: str) -> dict:
 
 def sync_clerk_user(db: Session, clerk_user_id: str) -> User:
     payload = clerk_user(clerk_user_id)
+    if payload.get("banned") or payload.get("locked"):
+        raise HTTPException(status_code=403, detail="This account is disabled")
     addresses = payload.get("email_addresses", [])
     primary_id = payload.get("primary_email_address_id")
     primary = next((x for x in addresses if x.get("id") == primary_id), None) or (addresses[0] if addresses else None)

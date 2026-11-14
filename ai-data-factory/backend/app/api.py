@@ -25,7 +25,7 @@ def audit(db: Session, org_id: str, actor: User, action: str, kind: str, resourc
     db.add(AuditEvent(id=str(uuid4()), organization_id=org_id, actor_user_id=actor.id, action=action, resource_type=kind, resource_id=resource_id, detail=detail))
 
 def membership(db: Session, org_id: str, user: User) -> Membership:
-    row = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").one_or_none()
+    row = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").with_for_update().one_or_none()
     org = db.query(Organization).filter_by(id=org_id, status="active").one_or_none()
     if not row or not org:
         raise HTTPException(status_code=404, detail="Organization not found")
@@ -141,8 +141,11 @@ def archive_organization(org_id: str, user: User=Depends(current_user), db: Sess
 
 @router.post("/organizations/{org_id}/transfer-ownership")
 def transfer_ownership(org_id: str, target_user_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    current = require_org_admin(db, org_id, user, owner_only=True)
-    target = db.query(Membership).filter_by(organization_id=org_id, user_id=target_user_id, status="active").one_or_none()
+    org = db.query(Organization).filter_by(id=org_id, status="active").with_for_update().one_or_none()
+    if not org: raise HTTPException(status_code=404, detail="Organization not found")
+    current = db.query(Membership).filter_by(organization_id=org_id, user_id=user.id, status="active").with_for_update().one_or_none()
+    if not current or current.role != "owner": raise HTTPException(status_code=403, detail="Only the current owner can transfer ownership")
+    target = db.query(Membership).filter_by(organization_id=org_id, user_id=target_user_id, status="active").with_for_update().one_or_none()
     if not target: raise HTTPException(status_code=404, detail="Target member not found")
     current.role, target.role = "admin", "owner"
     audit(db, org_id, user, "organization.ownership_transferred", "membership", target.id)
@@ -173,7 +176,7 @@ def list_members(org_id: str, user: User=Depends(current_user), db: Session=Depe
 @router.patch("/organizations/{org_id}/members/{member_id}")
 def change_member_role(org_id: str, member_id: str, body: MemberRoleUpdate, user: User=Depends(current_user), db: Session=Depends(get_db)):
     actor = require_org_admin(db, org_id, user)
-    target = db.query(Membership).filter_by(organization_id=org_id, user_id=member_id, status="active").one_or_none()
+    target = db.query(Membership).filter_by(organization_id=org_id, user_id=member_id, status="active").with_for_update().one_or_none()
     if not target: raise HTTPException(status_code=404, detail="Member not found")
     if target.role == "owner": raise HTTPException(status_code=409, detail="Transfer ownership before changing the owner role")
     if actor.role != "owner" and (body.role == "admin" or target.role == "admin"): raise HTTPException(status_code=403, detail="Only the owner can change an admin role")
@@ -283,7 +286,7 @@ def create_project(org_id: str, body: ProjectCreate, user: User=Depends(current_
 
 @router.get("/projects/{project_id}/members")
 def list_project_members(project_id: str, user: User=Depends(current_user), db: Session=Depends(get_db)):
-    project = db.query(Project).filter_by(id=project_id).one_or_none()
+    project = db.query(Project).filter_by(id=project_id).with_for_update().one_or_none()
     if not project: raise HTTPException(status_code=404, detail="Project not found")
     require_project_access(db, project, user)
     rows = db.query(ProjectMembership, User).join(User, ProjectMembership.user_id == User.id).filter(ProjectMembership.project_id == project_id).all()

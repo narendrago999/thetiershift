@@ -29,7 +29,8 @@
       <div class="field"><label for="name">Full name *</label><input id="name" name="name" autocomplete="name" maxlength="100" required></div>
       <div class="row"><div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="160" required></div><div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div></div>
       <div class="row"><div class="field"><label for="location">Current location *</label><input id="location" name="location" maxlength="120" required></div><div class="field"><label for="experience">Experience *</label><select id="experience" name="experience" required><option value="">Select experience</option><option>Fresher</option><option>Less than 1 year</option><option>1–2 years</option><option>2–3 years</option><option>3–5 years</option><option>5–8 years</option><option>8+ years</option></select></div></div>
-      <div class="field"><label for="skills">Key skills / technologies *</label><textarea id="skills" name="skills" maxlength="1200" placeholder="e.g. JavaScript, React, Node.js, SQL" required></textarea></div>
+      <div class="field"><label for="skills" id="skillsLabel">Key skills / technologies *</label><textarea id="skills" name="skills" maxlength="1200" placeholder="Select a position to see relevant examples." required></textarea><p class="note" id="skillsHint">List the skills most relevant to the position you selected.</p></div>
+      <div class="field"><label for="roleDetails" id="roleDetailsLabel">Relevant project / experience (optional)</label><textarea id="roleDetails" name="roleDetails" maxlength="2000" placeholder="Briefly describe a project, your contribution and the technologies used."></textarea><p class="note" id="roleDetailsHint">Help us understand the work you have done that best matches this role.</p></div>
       <div class="row"><div class="field"><label for="linkedin">LinkedIn profile</label><input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/..."></div><div class="field"><label for="portfolio">GitHub / Portfolio</label><input id="portfolio" name="portfolio" type="url" placeholder="https://github.com/..."></div></div>
       <div class="field"><label for="notice">Notice period / availability</label><input id="notice" name="notice" maxlength="120" placeholder="e.g. Immediate, 30 days"></div>
       <div class="field"><label for="resume">Resume (PDF, up to 5 MB) *</label><input id="resume" name="resume" type="file" accept=".pdf,application/pdf" required></div>
@@ -55,6 +56,60 @@
     window.addEventListener('load',notifyParentHeight);
     if(window.ResizeObserver){new ResizeObserver(notifyParentHeight).observe(document.documentElement);}
     const form=document.getElementById('applicationForm');
+    const roleSelect=document.getElementById('role');
+    const skills=document.getElementById('skills');
+    const skillsLabel=document.getElementById('skillsLabel');
+    const skillsHint=document.getElementById('skillsHint');
+    const roleDetailsLabel=document.getElementById('roleDetailsLabel');
+    const roleDetails=document.getElementById('roleDetails');
+    const roleDetailsHint=document.getElementById('roleDetailsHint');
+    const roleGuidance={
+      'Senior Software Engineer':{
+        skillsLabel:'Software engineering skills / technology stack *',
+        skillsPlaceholder:'e.g. TypeScript, React, Node.js, system design, REST APIs, SQL/NoSQL, Azure/AWS, Docker, CI/CD, testing',
+        skillsHint:'Highlight your engineering strengths, architecture and system design experience, backend/frontend depth, cloud and delivery practices.',
+        detailsLabel:'Relevant software systems / technical leadership (optional)',
+        detailsPlaceholder:'Describe a system you designed or led: architecture, scale, your ownership, key technical decisions and measurable outcomes.',
+        detailsHint:'For senior applicants, include architecture ownership, mentoring, code reviews, delivery leadership or production responsibilities.'
+      },
+      'Software Engineer':{
+        skillsLabel:'Software development skills / technologies *',
+        skillsPlaceholder:'e.g. JavaScript, TypeScript, React, Node.js, HTML/CSS, SQL, Git, REST APIs',
+        skillsHint:'List the languages, frameworks, databases and tools you have used. Include coursework, internships and personal projects where relevant.',
+        detailsLabel:'Relevant software project / internship (optional)',
+        detailsPlaceholder:'Describe an application or project you built, your contribution, the technologies used and what you learned.',
+        detailsHint:'Freshers and early-career applicants can describe academic projects, internships, open-source work or personal projects.'
+      },
+      'AI Engineer':{
+        skillsLabel:'AI / machine learning skills and tools *',
+        skillsPlaceholder:'e.g. Python, LLMs, prompt engineering, RAG, embeddings, LangChain/LangGraph, vector databases, model evaluation, Azure AI',
+        skillsHint:'Highlight practical experience with Python, generative AI, LLM applications, RAG, agents, embeddings, evaluation, APIs and cloud AI platforms.',
+        detailsLabel:'Relevant AI project / use case (optional)',
+        detailsPlaceholder:'Describe an AI solution you built: problem, model/provider, RAG or agent approach, data sources, evaluation, deployment and your contribution.',
+        detailsHint:'Include prototypes, production use cases, academic work or personal projects. Be clear about what you personally implemented.'
+      }
+    };
+    function updateRoleGuidance(role){
+      const config=roleGuidance[role];
+      if(!config)return;
+      skillsLabel.textContent=config.skillsLabel;
+      skills.placeholder=config.skillsPlaceholder;
+      skillsHint.textContent=config.skillsHint;
+      roleDetailsLabel.textContent=config.detailsLabel;
+      roleDetails.placeholder=config.detailsPlaceholder;
+      roleDetailsHint.textContent=config.detailsHint;
+      notifyParentHeight();
+    }
+    roleSelect.addEventListener('change',function(){updateRoleGuidance(roleSelect.value);});
+    window.addEventListener('message',function(event){
+      if(event.origin!==parentOrigin||!event.data||event.data.type!=='TIERSHIFT_SET_ROLE')return;
+      const requested=String(event.data.role||'');
+      if(Array.from(roleSelect.options).some(option=>option.value===requested||option.text===requested)){
+        roleSelect.value=requested;
+        updateRoleGuidance(requested);
+      }
+    });
+    updateRoleGuidance(roleSelect.value);
     const tokenInput=document.createElement('input');tokenInput.type='hidden';tokenInput.name='turnstileToken';tokenInput.id='turnstileToken';form.appendChild(tokenInput);
     const button=document.getElementById('submitButton');const statusBox=document.getElementById('status');
     form.addEventListener('submit',function(event){

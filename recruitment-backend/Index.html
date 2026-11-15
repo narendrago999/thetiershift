@@ -21,7 +21,7 @@
 </head>
 <body>
   <div class="wrap">
-    <h2>Apply to TierShift Technologies</h2>
+    <h2 id="roleHeading">Apply to TierShift Technologies</h2>
     <p class="intro">Select the position you are applying for, complete your details and upload your CV. You will receive an application reference number after submission.</p>
     <form id="applicationForm">
       <div class="trap" aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
@@ -99,7 +99,9 @@
     };
     function updateRoleGuidance(role){
       const config=roleGuidance[role];
-      if(!config)return;
+      const heading=document.getElementById('roleHeading');
+      if(heading) heading.textContent=validRoles.includes(role)?'Apply for '+role:'Apply to TierShift Technologies';
+      if(!config){notifyParentHeight();return;}
       skillsLabel.textContent=config.skillsLabel;
       skills.placeholder=config.skillsPlaceholder;
       skillsHint.textContent=config.skillsHint;

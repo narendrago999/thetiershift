@@ -70,7 +70,7 @@ function submitApplication(form) {
     const consent = form.consent === 'on' || form.consent === true || form.consent === 'true';
     const resume = form.resume;
 
-    if (!role || !['Senior Software Engineer', 'Software Engineer'].includes(role) || !name || !email || !location || !experience || !skills || !consent) {
+    if (!role || !['Senior Software Engineer', 'AI Engineer', 'Software Engineer'].includes(role) || !name || !email || !location || !experience || !skills || !consent) {
       throw new Error('Please complete all required fields and confirm the privacy consent.');
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

@@ -57,6 +57,7 @@ function submitApplication(form) {
     }
     verifyTurnstile(form.turnstileToken, secretKey);
 
+    const role = cleanText(form.role, 80);
     const name = cleanText(form.name, 100);
     const email = cleanText(form.email, 160).toLowerCase();
     const phone = cleanText(form.phone, 40);
@@ -69,7 +70,7 @@ function submitApplication(form) {
     const consent = form.consent === 'on' || form.consent === true || form.consent === 'true';
     const resume = form.resume;
 
-    if (!name || !email || !location || !experience || !skills || !consent) {
+    if (!role || !['Senior Software Engineer', 'Software Engineer'].includes(role) || !name || !email || !location || !experience || !skills || !consent) {
       throw new Error('Please complete all required fields and confirm the privacy consent.');
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -106,12 +107,12 @@ function submitApplication(form) {
       'Email': email, 'Phone': phone || 'Not provided', 'Location': location,
       'Experience': experience, 'Skills': skills, 'LinkedIn': linkedin || 'Not provided',
       'GitHub / Portfolio': portfolio || 'Not provided', 'Notice Period': notice || 'Not provided',
-      'Role': 'Software Engineer'
+      'Role': role
     });
 
     sheet.appendRow([
       applicantId, new Date(), name, email, phone, location, experience, skills,
-      linkedin, portfolio, notice, 'Software Engineer', applicantFolder.getUrl(), resumeFile.getUrl()
+      linkedin, portfolio, notice, role, applicantFolder.getUrl(), resumeFile.getUrl()
     ]);
     return {
       success: true,

@@ -21,13 +21,14 @@
 </head>
 <body>
   <div class="wrap">
-    <h2>Apply for Software Engineer</h2>
-    <p class="intro">Complete the details below and upload your CV. Once submitted, you'll receive an application reference number.</p>
+    <h2>Apply to TierShift Technologies</h2>
+    <p class="intro">Select the position you are applying for, complete your details and upload your CV. You will receive an application reference number after submission.</p>
     <form id="applicationForm">
       <div class="trap" aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div class="field"><label for="role">Position applying for *</label><select id="role" name="role" required><option value="">Select a position</option><option>Senior Software Engineer</option><option>Software Engineer</option></select></div>
       <div class="field"><label for="name">Full name *</label><input id="name" name="name" autocomplete="name" maxlength="100" required></div>
       <div class="row"><div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" maxlength="160" required></div><div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40"></div></div>
-      <div class="row"><div class="field"><label for="location">Current location *</label><input id="location" name="location" maxlength="120" required></div><div class="field"><label for="experience">Experience *</label><select id="experience" name="experience" required><option value="">Select experience</option><option>Fresher</option><option>Less than 1 year</option><option>1–2 years</option><option>2–3 years</option><option>3+ years</option></select></div></div>
+      <div class="row"><div class="field"><label for="location">Current location *</label><input id="location" name="location" maxlength="120" required></div><div class="field"><label for="experience">Experience *</label><select id="experience" name="experience" required><option value="">Select experience</option><option>Fresher</option><option>Less than 1 year</option><option>1–2 years</option><option>2–3 years</option><option>3–5 years</option><option>5–8 years</option><option>8+ years</option></select></div></div>
       <div class="field"><label for="skills">Key skills / technologies *</label><textarea id="skills" name="skills" maxlength="1200" placeholder="e.g. JavaScript, React, Node.js, SQL" required></textarea></div>
       <div class="row"><div class="field"><label for="linkedin">LinkedIn profile</label><input id="linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/..."></div><div class="field"><label for="portfolio">GitHub / Portfolio</label><input id="portfolio" name="portfolio" type="url" placeholder="https://github.com/..."></div></div>
       <div class="field"><label for="notice">Notice period / availability</label><input id="notice" name="notice" maxlength="120" placeholder="e.g. Immediate, 30 days"></div>

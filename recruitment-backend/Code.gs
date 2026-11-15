@@ -37,8 +37,14 @@ function setupRecruitmentStorage() {
       'Notice Period', 'Role', 'Drive Folder URL', 'Resume File URL'
     ]);
     sheet.setFrozenRows(1);
-    sheet.getRange(1, 1, 1, 14).setFontWeight('bold');
   }
+  // Add the role-specific project detail column safely for existing registers.
+  const headers = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
+  if (headers.indexOf('Role-specific Experience') === -1) {
+    const nextColumn = sheet.getLastColumn() + 1;
+    sheet.getRange(1, nextColumn).setValue('Role-specific Experience').setFontWeight('bold');
+  }
+  sheet.getRange(1, 1, 1, sheet.getLastColumn()).setFontWeight('bold');
   return 'Setup complete. Recruitment folder: ' + root.getUrl() + ' | Register: ' + register.getUrl();
 }
 
@@ -64,6 +70,7 @@ function submitApplication(form) {
     const location = cleanText(form.location, 120);
     const experience = cleanText(form.experience, 50);
     const skills = cleanText(form.skills, 1200);
+    const roleDetails = cleanText(form.roleDetails, 2000);
     const linkedin = cleanUrl(form.linkedin);
     const portfolio = cleanUrl(form.portfolio);
     const notice = cleanText(form.notice, 120);
@@ -107,12 +114,12 @@ function submitApplication(form) {
       'Email': email, 'Phone': phone || 'Not provided', 'Location': location,
       'Experience': experience, 'Skills': skills, 'LinkedIn': linkedin || 'Not provided',
       'GitHub / Portfolio': portfolio || 'Not provided', 'Notice Period': notice || 'Not provided',
-      'Role': role
+      'Role': role, 'Role-specific Experience': roleDetails || 'Not provided'
     });
 
     sheet.appendRow([
       applicantId, new Date(), name, email, phone, location, experience, skills,
-      linkedin, portfolio, notice, role, applicantFolder.getUrl(), resumeFile.getUrl()
+      linkedin, portfolio, notice, role, applicantFolder.getUrl(), resumeFile.getUrl(), roleDetails
     ]);
     return {
       success: true,

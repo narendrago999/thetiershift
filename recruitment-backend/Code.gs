@@ -102,6 +102,10 @@ function submitApplication(form) {
     const root = DriveApp.getFolderById(rootId);
     const register = SpreadsheetApp.openById(registerId);
     const sheet = register.getSheetByName('Applicants');
+    const currentHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
+    if (currentHeaders.indexOf('Role-specific Experience') === -1) {
+      sheet.getRange(1, sheet.getLastColumn() + 1).setValue('Role-specific Experience').setFontWeight('bold');
+    }
     const nextNumber = Number(props.getProperty('NEXT_APPLICANT_NUMBER') || '0') + 1;
     props.setProperty('NEXT_APPLICANT_NUMBER', String(nextNumber));
     const applicantId = 'TS-' + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy') + '-' + String(nextNumber).padStart(4, '0');

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Disaster Recovery for Data Platforms: RTO, RPO and Recovery by Design | TierShift Technologies</title>
+<meta name="description" content="A practical guide to data platform disaster recovery covering RTO, RPO, dependencies, backups, replication, infrastructure as code, runbooks and recovery drills.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://thetiershift.com/insights/articles/data-platform-disaster-recovery-rto-rpo/">
+<meta property="og:type" content="article"><meta property="og:title" content="Disaster Recovery for Data Platforms: RTO, RPO and Recovery by Design"><meta property="og:description" content="A practical guide to data platform disaster recovery covering RTO, RPO, dependencies, backups, replication, infrastructure as code, runbooks and recovery drills."><meta property="og:url" content="https://thetiershift.com/insights/articles/data-platform-disaster-recovery-rto-rpo/"><meta property="og:image" content="https://thetiershift.com/assets/insights/data-platform-disaster-recovery.svg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Disaster Recovery for Data Platforms: RTO, RPO and Recovery by Design"><meta name="twitter:description" content="A practical guide to data platform disaster recovery covering RTO, RPO, dependencies, backups, replication, infrastructure as code, runbooks and recovery drills.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/insights/insights.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Disaster Recovery for Data Platforms: RTO, RPO and Recovery by Design","description":"A practical guide to data platform disaster recovery covering RTO, RPO, dependencies, backups, replication, infrastructure as code, runbooks and recovery drills.","image":"https://thetiershift.com/assets/insights/data-platform-disaster-recovery.svg","author":{"@type":"Organization","name":"TierShift Technologies"},"publisher":{"@type":"Organization","name":"TierShift Technologies","url":"https://thetiershift.com/"},"mainEntityOfPage":"https://thetiershift.com/insights/articles/data-platform-disaster-recovery-rto-rpo/","datePublished":"2026-11-15","dateModified":"2026-11-15"}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3EZB1M014N"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});gtag('js',new Date());gtag('config','G-3EZB1M014N');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2845295883834438" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/assets/css/brand-consistency.css"><script src="/assets/js/site-navigation.js" defer></script>
+</head><body><header class="ts-global-header"></header>
+<section class="article-hero"><div class="wrap"><a class="back" href="/insights/">← BACK TO INSIGHTS</a><div class="kicker">DATA ENGINEERING · CLOUD RELIABILITY · DISASTER RECOVERY</div><h1>Disaster Recovery for Data Platforms: RTO, RPO and Recovery by Design</h1><p>Design a recovery strategy around business impact—not just infrastructure—so teams know what to restore, in what order and within which objectives.</p><div style="color:#9eacc4;font-size:12px;margin-top:16px">By TierShift Technologies · Published 15 November 2026 · 12 min read</div></div></section>
+<main class="wrap layout"><article class="article">
+<p>A data platform can be highly available and still be difficult to recover after a serious incident. A service may survive a node failure but remain vulnerable to accidental deletion, corrupted data, compromised credentials, regional disruption or a failed deployment that affects multiple dependencies.</p>
+<p>Disaster recovery (DR) is the plan for restoring an acceptable level of business service after a major disruption. It is not simply a second copy of the infrastructure. A useful DR design connects business impact, recovery objectives, data protection, application dependencies and rehearsed operational procedures.</p>
+<figure class="article-visual"><img src="/assets/insights/data-platform-disaster-recovery.svg" alt="Disaster recovery architecture showing primary data platform, protected backups and configuration, recovery environment and validation stages" width="1200" height="520" loading="eager" decoding="async"><figcaption>Recovery depends on protected data, reproducible configuration, dependency sequencing and validation—not compute alone.</figcaption></figure>
+<h2>1. Start with business scenarios</h2>
+<p>Do not begin by choosing a replication product or a second region. Identify the scenarios that could interrupt the service:</p>
+<ul>
+<li>Accidental deletion or destructive data transformation.</li>
+<li>Ransomware, credential compromise or malicious configuration changes.</li>
+<li>Storage, compute, identity or networking service disruption.</li>
+<li>Regional outage or loss of connectivity to a critical source system.</li>
+<li>Failed release, schema migration or pipeline deployment.</li>
+<li>Loss of an integration runtime, gateway, secrets or orchestration dependency.</li>
+</ul>
+<p>Different scenarios require different controls. Replication may help with infrastructure or regional failure, but it can also replicate unwanted deletion or corruption. Backups, immutable copies, access separation and tested restoration are important for other failure modes.</p>
+<h2>2. Define RTO and RPO with business owners</h2>
+<p><strong>Recovery Time Objective (RTO)</strong> is the target time within which a service or business process should be restored after disruption. <strong>Recovery Point Objective (RPO)</strong> is the maximum tolerable amount of data loss measured in time.</p>
+<p>For example, a business process with an RPO of one hour needs a recovery point no more than one hour behind the incident, subject to the actual protection mechanism. An RTO of four hours means the process should return to an acceptable operating state within four hours. These are example targets, not universal recommendations.</p>
+<p>Set objectives by business scenario or data product. A finance close process, operational inventory feed and historical analytics archive may have very different tolerances. Faster recovery and lower data loss often require additional cost, complexity and operational readiness.</p>
+<h2>3. Separate high availability, backup and disaster recovery</h2>
+<table><thead><tr><th>Capability</th><th>What it addresses</th><th>What it does not guarantee</th></tr></thead><tbody>
+<tr><td>High availability</td><td>Continuity through common component failures</td><td>Recovery from every corruption or region-wide event</td></tr>
+<tr><td>Backup and restore</td><td>Recoverable copies from earlier points in time</td><td>Fast recovery unless restore time is tested</td></tr>
+<tr><td>Replication</td><td>Keeping another location or system synchronized</td><td>Protection from replicated logical corruption</td></tr>
+<tr><td>Disaster recovery</td><td>Coordinated restoration of an end-to-end business service</td><td>Success without a tested plan and clear ownership</td></tr>
+</tbody></table>
+<p>These capabilities complement one another. The right combination depends on the failure scenarios, business objectives and platform architecture.</p>
+<h2>4. Map the complete recovery dependency chain</h2>
+<p>Restoring a lakehouse or warehouse is not enough if users cannot authenticate, pipelines cannot reach sources or secrets are unavailable. Create a dependency map covering:</p>
+<ul>
+<li><strong>Identity and access:</strong> tenant, identity provider, service principals, managed identities, roles and emergency access.</li>
+<li><strong>Network:</strong> DNS, private endpoints, firewalls, gateways, routing and source connectivity.</li>
+<li><strong>Secrets and keys:</strong> vaults, certificates, encryption keys and rotation procedures.</li>
+<li><strong>Data:</strong> raw files, transactional tables, warehouse state, metadata, checkpoints and backups.</li>
+<li><strong>Compute and orchestration:</strong> capacities, clusters, schedules, pipelines, notebooks and integration runtimes.</li>
+<li><strong>Delivery and configuration:</strong> Git repositories, deployment pipelines, infrastructure definitions, parameters and environment settings.</li>
+<li><strong>Consumption:</strong> semantic models, reports, APIs, downstream applications and data science workloads.</li>
+</ul>
+<p>For each dependency, record its owner, recovery method, access requirements and prerequisite services. Identify which components must be restored first and which can be rebuilt from source control or infrastructure as code.</p>
+<h2>5. Choose a recovery pattern that matches the objective</h2>
+<h3>Backup and redeploy</h3><p>Restore protected data and redeploy the platform from version-controlled definitions. This can be cost-effective for workloads that tolerate longer recovery times, provided backups are usable and deployment dependencies are available.</p>
+<h3>Active-passive</h3><p>Maintain a secondary environment that can be activated during a disruption. Data replication or periodic restore keeps it closer to the primary environment. This can reduce recovery time but introduces ongoing cost and synchronization complexity.</p>
+<h3>Active-active</h3><p>Run service in multiple locations and distribute or fail over traffic. This can support demanding availability objectives, but data consistency, conflict handling, operational complexity and cost must be addressed explicitly.</p>
+<p>Do not choose a pattern from a product feature list alone. Compare the achievable RTO and RPO for the complete user scenario, including identity, network, data, orchestration and reporting.</p>
+<h2>6. Protect data and configuration separately</h2>
+<p>Data protection should account for accidental deletion, malicious changes, corruption and retention requirements. Define backup frequency, retention, isolation, access separation and restore validation. Where supported, consider immutable or protected backup options and separate administrative boundaries.</p>
+<p>Configuration should be reproducible. Store pipeline definitions, notebook code, SQL, infrastructure templates, environment mappings and deployment instructions in version control. Keep secrets out of source repositories; document how they are re-established securely in the recovery environment.</p>
+<p>Also protect operational metadata. Checkpoints, watermarks, orchestration state and schema registries can be essential to resume incremental ingestion safely. Decide whether each should be backed up, replicated, reconstructed or reset through a controlled reprocessing plan.</p>
+<h2>7. Write the recovery runbook as an executable sequence</h2>
+<p>A runbook should be specific enough for an on-call engineer who did not design the platform. A practical sequence often looks like this:</p>
+<ol>
+<li><strong>Declare and scope:</strong> confirm the incident, affected business scenarios and decision authority.</li>
+<li><strong>Protect evidence:</strong> preserve logs, snapshots and incident details where security or data corruption is suspected.</li>
+<li><strong>Establish a clean recovery boundary:</strong> identify the last known-good data and configuration state.</li>
+<li><strong>Restore foundations:</strong> identity, network, secrets, keys and required gateways.</li>
+<li><strong>Restore data services:</strong> storage, lakehouse or warehouse assets and required metadata.</li>
+<li><strong>Deploy processing:</strong> pipelines, notebooks, schedules and compute configuration.</li>
+<li><strong>Validate data:</strong> row counts, key uniqueness, aggregates, freshness, schema and critical business rules.</li>
+<li><strong>Restore consumers:</strong> semantic models, reports, APIs and downstream integrations.</li>
+<li><strong>Communicate and monitor:</strong> confirm service status, limitations and any temporary degraded mode.</li>
+<li><strong>Plan failback:</strong> define how and when the primary environment will be safely reinstated.</li>
+</ol>
+<h2>8. Validate recovery with evidence</h2>
+<p>A successful deployment does not prove that the business service is recovered. Define measurable checks for each critical data product:</p>
+<ul><li>Latest available source and target timestamps.</li><li>Expected record counts and key uniqueness.</li><li>Financial or operational control totals.</li><li>Pipeline completion and downstream refresh status.</li><li>Access checks for representative user roles.</li><li>Query latency and report availability.</li><li>Evidence that restored backups and configuration match the intended recovery point.</li></ul>
+<p>Record the actual recovery duration and achieved data-loss window. Compare them with the agreed RTO and RPO. If the test misses either objective, update the architecture, runbook or business target rather than marking the exercise as successful.</p>
+<h2>9. Run drills and plan for failback</h2>
+<p>Recovery procedures decay as systems change. Run periodic tabletop exercises and technical restore drills. Include the people who own identity, networking, data engineering, security, platform operations and business reporting. Test realistic scenarios, not only the easiest infrastructure failure.</p>
+<p>Failback deserves its own plan. Before returning to the primary environment, reconcile data written during the recovery period, validate replication direction, confirm DNS and routing changes, and obtain the required business approval. A rushed failback can create a second incident.</p>
+<h2>10. A compact DR readiness checklist</h2>
+<ul>
+<li>Business owners have approved RTO and RPO targets for critical scenarios.</li>
+<li>Critical dependencies and recovery order are documented.</li>
+<li>Backups are protected, isolated where appropriate and restore-tested.</li>
+<li>Infrastructure and application configuration are version-controlled.</li>
+<li>Secrets, keys, identities and gateway recovery are covered.</li>
+<li>Incremental checkpoints and replay procedures are documented.</li>
+<li>Validation queries and business control totals are ready.</li>
+<li>Runbooks have named owners, alternates and escalation paths.</li>
+<li>Drills measure actual recovery time and data loss.</li>
+<li>Failback and post-incident review are included.</li>
+</ul>
+<div class="callout"><strong>The TierShift perspective:</strong> A recovery plan is only credible when the organisation can demonstrate that it can restore the right data, dependencies and business outcomes within agreed objectives.</div>
+<h2>Conclusion</h2>
+<p>Disaster recovery is an end-to-end operating capability. Define business objectives first, protect both data and configuration, map dependencies, select a proportionate recovery pattern and test it with measurable evidence. A documented plan is a starting point; a rehearsed recovery is the proof.</p>
+<p>Explore <a href="/services/cloud-infrastructure/">TierShift's Cloud Infrastructure services</a> and <a href="/services/data-engineering/">Data Engineering services</a> to strengthen platform resilience.</p>
+<h2>Sources and further reading</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-in/azure/architecture/data-guide/disaster-recovery/dr-for-azure-data-platform-overview">Microsoft Azure Architecture Center: Disaster recovery for an Azure data platform</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/architecture/data-guide/disaster-recovery/dr-for-azure-data-platform-recommendations">Microsoft: Disaster recovery recommendations for an Azure data platform</a></li>
+</ul>
+<p class="article-note">Recovery capabilities differ by service and region. Confirm service-specific backup, replication, retention and restore behaviour before setting production RTO or RPO commitments.</p></article><aside class="article-sidebar"><div class="callout"><strong>Need help with your platform?</strong><p>Talk to TierShift about architecture, engineering and delivery.</p><a href="/contact/">Discuss your challenge →</a></div></aside></main>
+<footer class="footer"><div class="wrap foot"><strong>TierShift Technologies — Engineering the Next Shift.</strong><span><a href="/">Home</a> · <a href="/insights/">Insights</a> · <a href="/editorial-policy/">Editorial Policy</a> · <a href="/privacy-policy/">Privacy</a> · <a href="/contact/">Contact</a></span><span>© 2026 TierShift Technologies</span></div></footer>
+</body></html>

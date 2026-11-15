@@ -199,6 +199,14 @@
         frame.contentWindow.postMessage({type:'TIERSHIFT_TURNSTILE_TOKEN',token:tierShiftTurnstileToken}, '*');
       }
     }
+    function sendTierShiftRole() {
+      const frame = document.getElementById('tierShiftApplicationFrame');
+      const params = new URLSearchParams(window.location.search);
+      const role = params.get('role');
+      if (frame && frame.contentWindow && role) {
+        frame.contentWindow.postMessage({type:'TIERSHIFT_SET_ROLE',role:role}, '*');
+      }
+    }
     window.addEventListener('message', function(event) {
       const frame = document.getElementById('tierShiftApplicationFrame');
       if (!frame || event.source !== frame.contentWindow || !event.data) return;
@@ -210,7 +218,8 @@
         window.turnstile.reset(tierShiftTurnstileWidgetId);
       }
     });
-    document.getElementById('tierShiftApplicationFrame').addEventListener('load', sendTierShiftToken);
+    document.getElementById('tierShiftApplicationFrame').addEventListener('load', function(){sendTierShiftToken();sendTierShiftRole();});
+    window.addEventListener('DOMContentLoaded', sendTierShiftRole);
   </script>
 </body>
 </html>

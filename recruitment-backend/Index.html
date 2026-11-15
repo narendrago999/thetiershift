@@ -57,6 +57,14 @@
     if(window.ResizeObserver){new ResizeObserver(notifyParentHeight).observe(document.documentElement);}
     const form=document.getElementById('applicationForm');
     const roleSelect=document.getElementById('role');
+    const requestedRole=new URLSearchParams(window.location.search).get('role');
+    const validRoles=['Senior Software Engineer','AI Engineer','Software Engineer'];
+    if(requestedRole && validRoles.includes(requestedRole)){
+      roleSelect.value=requestedRole;
+      roleSelect.style.pointerEvents='none';
+      roleSelect.setAttribute('aria-readonly','true');
+      roleSelect.tabIndex=-1;
+    }
     const skills=document.getElementById('skills');
     const skillsLabel=document.getElementById('skillsLabel');
     const skillsHint=document.getElementById('skillsHint');

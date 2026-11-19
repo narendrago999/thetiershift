@@ -3,15 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jobs Across Every Industry &amp; Experience Level | TierShift</title>
-  <meta name="description" content="Explore jobs across technology, business, operations, sales, design, finance, customer support and more. Search by role, company, skill or experience and apply at the source.">
+  <title>Jobs in India: Technology &amp; Other Careers | TierShift</title>
+  <meta name="description" content="Explore curated jobs in India across technology, data, AI, software, business and more. Filter by role, experience and salary, then apply through the original employer listing.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://thetiershift.com/opportunities/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://thetiershift.com/opportunities/">
-  <meta property="og:title" content="Remote Technology Jobs &amp; Opportunities | TierShift">
-  <meta property="og:description" content="Explore jobs across industries and experience levels. Filter opportunities and apply directly with employers.">
+  <meta property="og:title" content="Jobs in India: Technology &amp; Other Careers | TierShift">
+  <meta property="og:description" content="Explore curated jobs across technology, data, AI, software and business. Filter by experience and salary, then apply at the source.">
+  <meta property="og:image" content="https://thetiershift.com/assets/tiershift-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="TierShift Technologies — curated job opportunities">
   <meta property="og:site_name" content="TierShift Technologies">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jobs in India: Technology &amp; Other Careers | TierShift">
+  <meta name="twitter:description" content="Search curated jobs by role, experience and salary. Apply through the original employer listing.">
+  <meta name="twitter:image" content="https://thetiershift.com/assets/tiershift-og.jpg">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +37,32 @@
     "publisher":{"@type":"Organization","name":"TierShift Technologies","url":"https://thetiershift.com/"}
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://thetiershift.com/"},
+      {"@type":"ListItem","position":2,"name":"Opportunities","item":"https://thetiershift.com/opportunities/"}
+    ]
+  }
+  </script>
+  <!-- Google tag (gtag.js): same GA4 property used across TierShift; analytics remains consent-gated -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3EZB1M014N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag('consent', 'default', {
+      ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
+      analytics_storage:'denied', functionality_storage:'granted',
+      security_storage:'granted', wait_for_update:500
+    });
+    gtag('js', new Date());
+    gtag('config', 'G-3EZB1M014N', {send_page_view:false});
+  </script>
+  <!-- AdSense publisher code: existing TierShift publisher account -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2845295883834438" crossorigin="anonymous"></script>
   <style>
     :root{--jobs-ink:#101b32;--jobs-muted:#64748b;--jobs-blue:#5575f7;--jobs-line:#e4eaf3;--jobs-soft:#f5f7fc}
     *{box-sizing:border-box}
@@ -732,7 +766,48 @@
       prev.addEventListener('click', () => { if (currentPage > 1) { currentPage--; filterJobs(); } });
       next.addEventListener('click', () => { currentPage++; filterJobs(); });
       filterJobs();
+
+      // Job-board measurement: events are sent only after the visitor grants analytics consent.
+      function trackJobEvent(name, params) {
+        try {
+          if (localStorage.getItem('tiershift-analytics-consent') === 'granted' && typeof window.gtag === 'function') {
+            window.gtag('event', name, Object.assign({page_path: location.pathname}, params || {}));
+          }
+        } catch (error) {}
+      }
+      search.addEventListener('change', () => {
+        const term = search.value.trim();
+        if (term) trackJobEvent('job_search', {search_term: term.slice(0, 80)});
+      });
+      [experience, salaryMin, salaryMax, salaryBand].forEach(control => {
+        control.addEventListener('change', () => trackJobEvent('job_filter_change', {
+          filter_name: control.id,
+          filter_value: String(control.value || 'all').slice(0, 60)
+        }));
+      });
+      grid.addEventListener('click', event => {
+        const link = event.target.closest('a.job-apply, a.job-source');
+        if (!link) return;
+        const card = link.closest('.job-card');
+        trackJobEvent('job_application_outbound_click', {
+          job_title: card ? (card.querySelector('h3')?.textContent || '').trim().slice(0, 100) : '',
+          employer: card ? (card.querySelector('.job-company')?.textContent || '').trim().slice(0, 80) : '',
+          destination_domain: (() => { try { return new URL(link.href).hostname; } catch (e) { return ''; } })(),
+          link_text: (link.textContent || '').trim().slice(0, 70)
+        });
+      });
+      prev.addEventListener('click', () => trackJobEvent('job_pagination', {direction: 'previous'}));
+      next.addEventListener('click', () => trackJobEvent('job_pagination', {direction: 'next'}));
     })();
   </script>
+  <style id="tiershift-consent-style">
+    #ts-consent{position:fixed;z-index:99999;left:18px;right:18px;bottom:18px;max-width:900px;margin:auto;padding:18px 20px;background:#101b32;color:#fff;border:1px solid #ffffff2b;border-radius:14px;box-shadow:0 12px 40px #0004;display:none;font:14px/1.55 Inter,Arial,sans-serif}
+    #ts-consent p{margin:0 0 12px;color:#e2e8f0}#ts-consent a{color:#a9bbff;text-decoration:underline}
+    #ts-consent .ts-actions{display:flex;gap:9px;flex-wrap:wrap}
+    #ts-consent button{border:1px solid #8392ac;border-radius:7px;padding:9px 14px;font-weight:700;cursor:pointer}
+    #ts-consent .ts-accept{background:#5575f7;border-color:#5575f7;color:white}#ts-consent .ts-reject{background:transparent;color:white}
+    @media(max-width:540px){#ts-consent{left:10px;right:10px;bottom:10px;padding:15px}#ts-consent .ts-actions button{flex:1}}
+  </style>
+  <script src="/assets/js/site-consent.js" defer></script>
 </body>
 </html>

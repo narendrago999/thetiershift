@@ -124,7 +124,7 @@
     <section class="jobs-main" aria-labelledby="open-roles-title">
       <div class="jobs-intro">
         <div><h2 id="open-roles-title">Current opportunities</h2><p>Only listings posted from 20 October to 19 November 2026 are included. We prioritise employer career sites and official applicant-tracking portals.</p></div>
-        <span class="jobs-count" id="jobsCount" aria-live="polite">28 listings · latest additions checked 19 November 2026</span>
+        <span class="jobs-count" id="jobsCount" aria-live="polite">28</span>
       </div>
       <div class="jobs-filters" role="search">
         <div><label for="jobSearch">Search roles, companies or skills</label><input id="jobSearch" type="search" placeholder="e.g. Microsoft Fabric, PySpark, Data Engineer"></div>
@@ -459,7 +459,7 @@
         currentPage = Math.min(Math.max(1, currentPage), pageCount);
         cards.forEach(card => { card.hidden = true; });
         matching.slice((currentPage - 1) * pageSize, currentPage * pageSize).forEach(card => { card.hidden = false; });
-        count.textContent = matching.length + ' ' + (matching.length === 1 ? 'matching listing' : 'matching listings');
+        count.textContent = String(matching.length);
         empty.style.display = matching.length ? 'none' : 'block';
         pagination.style.display = matching.length > pageSize ? 'flex' : 'none';
         pageStatus.textContent = 'Page ' + currentPage + ' of ' + pageCount;

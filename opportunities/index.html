@@ -84,7 +84,17 @@
     .jobs-footer a{color:#dce5ff;text-decoration:none}
     @media(max-width:760px){.jobs-filters{grid-template-columns:1fr 1fr}.jobs-hero{padding:65px 19px 58px}.jobs-main{padding:38px 17px 62px}.jobs-grid{grid-template-columns:1fr}.jobs-principles{grid-template-columns:1fr}.jobs-intro{align-items:flex-start;flex-direction:column}.jobs-count{align-self:flex-start}.jobs-filters{grid-template-columns:1fr}.jobs-submit{align-items:flex-start;flex-direction:column}}
     @media(max-width:420px){.jobs-filters{grid-template-columns:1fr}.job-facts{grid-template-columns:1fr 1fr}.job-card{padding:19px}}
-      #jobsGrid > .job-card[hidden]{display:none!important}\n</style>
+      #jobsGrid > .job-card[hidden]{display:none!important}\n    .jobs-about{padding:34px 20px;background:#f5f7fc;border-bottom:1px solid var(--jobs-line)}
+    .jobs-about-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:30px}
+    .jobs-about-copy{max-width:760px}
+    .jobs-about-copy h2{margin:9px 0 8px;color:var(--jobs-ink);font:700 1.55rem/1.2 'Space Grotesk',sans-serif}
+    .jobs-about-copy p{margin:0;color:#64748b;font-size:.9rem;line-height:1.7}
+    .jobs-about-stat{min-width:190px;padding:19px 24px;border:1px solid var(--jobs-line);border-radius:14px;background:#fff;text-align:center;box-shadow:0 12px 30px -26px rgba(16,27,50,.35)}
+    .jobs-about-stat strong{display:block;color:#405fdb;font:800 2.4rem/1 'Space Grotesk',sans-serif}
+    .jobs-about-stat span{display:block;margin-top:7px;color:var(--jobs-ink);font-weight:800}
+    .jobs-about-stat small{display:block;margin-top:4px;color:#8490a3;font-size:.72rem}
+    @media(max-width:650px){.jobs-about-inner{align-items:stretch;flex-direction:column}.jobs-about-stat{min-width:0;text-align:left}.jobs-about-stat strong{font-size:2rem}}
+</style>
 </head>
 <body>
   <header class="ts-global-header"></header>
@@ -95,6 +105,20 @@
         <h1>Find your next <span>opportunity.</span></h1>
         <p>Explore opportunities from employers and job sources across technology and non-technology fields — including engineering, data, AI, design, marketing, sales, finance, operations, HR, customer support, healthcare, education and more. Search any experience level, check the original listing and apply directly with the employer or authorised recruiter.</p>
         <div class="jobs-hero-meta"><span>Remote &amp; on-site opportunities</span><span>All industries · All experience levels</span><span>External opportunities</span></div>
+      </div>
+    </section>
+    <section class="jobs-about" aria-labelledby="jobs-about-title">
+      <div class="jobs-about-inner">
+        <div class="jobs-about-copy">
+          <span class="jobs-eyebrow">ABOUT TIERSHIFT JOBS</span>
+          <h2 id="jobs-about-title">One place to discover your next opportunity.</h2>
+          <p>TierShift brings together opportunities across industries, experience levels and locations. Browse roles in one place, compare the details that matter and follow the individual listing to the employer's official application page when you're ready.</p>
+        </div>
+        <div class="jobs-about-stat" aria-live="polite">
+          <strong id="totalJobsCount">28</strong>
+          <span>Total jobs listed</span>
+          <small>Currently published on TierShift</small>
+        </div>
       </div>
     </section>
     <section class="jobs-main" aria-labelledby="open-roles-title">
@@ -409,6 +433,8 @@
       const prev = document.getElementById('jobsPrev');
       const next = document.getElementById('jobsNext');
       const pageStatus = document.getElementById('jobsPageStatus');
+      const totalJobsCount = document.getElementById('totalJobsCount');
+      if (totalJobsCount) totalJobsCount.textContent = String(cards.length);
       if (!search || !experience || !salaryMin || !salaryMax || !count || !empty || !pagination || !prev || !next || !pageStatus) return;
       const pageSize = 6;
       let currentPage = 1;

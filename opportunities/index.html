@@ -47,7 +47,7 @@
     .jobs-intro h2{margin:0 0 8px;color:var(--jobs-ink);font:700 1.8rem 'Space Grotesk',sans-serif}
     .jobs-intro p{margin:0;color:var(--jobs-muted);line-height:1.65}
     .jobs-count{flex:0 0 auto;padding:9px 12px;border-radius:9px;background:#eef2ff;color:#344b9d;font-size:.82rem;font-weight:700}
-    .jobs-filters{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:12px;margin-bottom:22px;padding:15px;border:1px solid var(--jobs-line);border-radius:14px;background:#fff}
+    .jobs-filters{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(180px,1fr) minmax(130px,.7fr) minmax(130px,.7fr);gap:12px;margin-bottom:22px;padding:15px;border:1px solid var(--jobs-line);border-radius:14px;background:#fff}
     .jobs-filters label{display:block;margin:0 0 7px;color:#526078;font-size:.76rem;font-weight:700}
     .jobs-filters input,.jobs-filters select{width:100%;height:45px;padding:0 13px;border:1px solid #d9e1ee;border-radius:8px;background:#fff;color:#17233b;font:inherit;font-size:.9rem}
     .jobs-filters input:focus,.jobs-filters select:focus{outline:2px solid rgba(85,117,247,.25);border-color:#5575f7}
@@ -82,8 +82,8 @@
     .jobs-submit a{flex:0 0 auto;color:#fff;font-weight:800;text-decoration:none;border:1px solid #7188e8;border-radius:8px;padding:11px 15px}
     .jobs-footer{padding:24px 20px;background:#0b1425;color:#aebbd0;text-align:center;font-size:.8rem}
     .jobs-footer a{color:#dce5ff;text-decoration:none}
-    @media(max-width:760px){.jobs-hero{padding:65px 19px 58px}.jobs-main{padding:38px 17px 62px}.jobs-grid{grid-template-columns:1fr}.jobs-principles{grid-template-columns:1fr}.jobs-intro{align-items:flex-start;flex-direction:column}.jobs-count{align-self:flex-start}.jobs-filters{grid-template-columns:1fr}.jobs-submit{align-items:flex-start;flex-direction:column}}
-    @media(max-width:420px){.job-facts{grid-template-columns:1fr 1fr}.job-card{padding:19px}}
+    @media(max-width:760px){.jobs-filters{grid-template-columns:1fr 1fr}.jobs-hero{padding:65px 19px 58px}.jobs-main{padding:38px 17px 62px}.jobs-grid{grid-template-columns:1fr}.jobs-principles{grid-template-columns:1fr}.jobs-intro{align-items:flex-start;flex-direction:column}.jobs-count{align-self:flex-start}.jobs-filters{grid-template-columns:1fr}.jobs-submit{align-items:flex-start;flex-direction:column}}
+    @media(max-width:420px){.jobs-filters{grid-template-columns:1fr}.job-facts{grid-template-columns:1fr 1fr}.job-card{padding:19px}}
   </style>
 </head>
 <body>
@@ -105,76 +105,78 @@
       <div class="jobs-filters" role="search">
         <div><label for="jobSearch">Search roles, companies or skills</label><input id="jobSearch" type="search" placeholder="e.g. Microsoft Fabric, PySpark, Data Engineer"></div>
         <div><label for="experienceFilter">Experience (type what you want)</label><input id="experienceFilter" type="text" placeholder="e.g. Fresher, 2 years, 3–5 years, 10+ years"></div>
+        <div><label for="salaryMin">Minimum salary (₹ LPA)</label><input id="salaryMin" type="number" min="0" step="0.5" placeholder="e.g. 5"></div>
+        <div><label for="salaryMax">Maximum salary (₹ LPA)</label><input id="salaryMax" type="number" min="0" step="0.5" placeholder="e.g. 20"></div>
       </div>
       <div class="jobs-grid" id="jobsGrid">
-        <article class="job-card" data-experience="" data-search="american express senior data engineer ii data engineering gurugram haryana india hybrid analytics technology finance">
+        <article class="job-card" data-experience="" data-search="american express senior data engineer ii data engineering gurugram haryana india hybrid analytics technology finance" data-salary-min="12" data-salary-max="25">
           <div class="job-card-top"><span class="job-company">American Express</span><span class="job-status">Posted 18 Nov 2026</span></div>
           <h3>Senior Data Engineer II</h3>
           <p class="job-summary">Data engineering opportunity listed by American Express for its Gurugram team. Review the employer's official posting for responsibilities, qualifications and current application status.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>18 November 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>18 November 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹12–25 LPA</strong></div></div></div>
           <div class="job-tags"><span>Data Engineering</span><span>Analytics</span><span>Financial Services</span></div>
           <div class="job-actions"><a class="job-apply" href="https://careers.americanexpress.com/en/sites/CX_1/jobs?location=Gurugram%252C+HR%252C+India&locationId=300000032710650&locationLevel=city&mode=location&radius=0&radiusUnit=KM" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: American Express Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="american express business analyst data analytics gurugram haryana india hybrid finance analytics">
+        <article class="job-card" data-experience="" data-search="american express business analyst data analytics gurugram haryana india hybrid finance analytics" data-salary-min="6" data-salary-max="12">
           <div class="job-card-top"><span class="job-company">American Express</span><span class="job-status">Posted 18 Nov 2026</span></div>
           <h3>Business Analyst – Data Analytics</h3>
           <p class="job-summary">Business and data analytics role listed for the Gurugram office. Check the official employer page for the complete job description and eligibility.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>18 November 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>18 November 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹6–12 LPA</strong></div></div></div>
           <div class="job-tags"><span>Business Analysis</span><span>Data Analytics</span><span>Finance</span></div>
           <div class="job-actions"><a class="job-apply" href="https://careers.americanexpress.com/en/sites/CX_1/jobs?location=Gurugram%252C+HR%252C+India&locationId=300000032710650&locationLevel=city&mode=location&radius=0&radiusUnit=KM" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: American Express Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="american express senior analyst data governance management gurugram india hybrid governance data management">
+        <article class="job-card" data-experience="" data-search="american express senior analyst data governance management gurugram india hybrid governance data management" data-salary-min="7" data-salary-max="15">
           <div class="job-card-top"><span class="job-company">American Express</span><span class="job-status">Posted 17 Nov 2026</span></div>
           <h3>Senior Analyst – Data Governance &amp; Management</h3>
           <p class="job-summary">Data governance and management opportunity listed on the American Express careers portal for Gurugram.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>17 November 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>17 November 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹7–15 LPA</strong></div></div></div>
           <div class="job-tags"><span>Data Governance</span><span>Data Management</span></div>
           <div class="job-actions"><a class="job-apply" href="https://careers.americanexpress.com/en/sites/CX_1/jobs?location=Gurugram%252C+HR%252C+India&locationId=300000032710650&locationLevel=city&mode=location&radius=0&radiusUnit=KM" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: American Express Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="american express customer care professional gurugram india hybrid customer service support">
+        <article class="job-card" data-experience="" data-search="american express customer care professional gurugram india hybrid customer service support" data-salary-min="2.5" data-salary-max="5">
           <div class="job-card-top"><span class="job-company">American Express</span><span class="job-status">Posted 18 Nov 2026</span></div>
           <h3>Customer Care Professional VT4II</h3>
           <p class="job-summary">Customer service opportunity listed by American Express in Gurugram. Confirm shift, language and experience requirements on the official posting.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>18 November 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>18 November 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹2.5–5 LPA</strong></div></div></div>
           <div class="job-tags"><span>Customer Service</span><span>Support</span></div>
           <div class="job-actions"><a class="job-apply" href="https://careers.americanexpress.com/en/sites/CX_1/jobs?location=Gurugram%252C+HR%252C+India&locationId=300000032710650&locationLevel=city&mode=location&radius=0&radiusUnit=KM" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: American Express Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="emerson customer support associate pdc chennai tamil nadu india onsite customer service orders operations">
+        <article class="job-card" data-experience="" data-search="emerson customer support associate pdc chennai tamil nadu india onsite customer service orders operations" data-salary-min="2.5" data-salary-max="5">
           <div class="job-card-top"><span class="job-company">Emerson</span><span class="job-status">Posted 10 Nov 2026</span></div>
           <h3>Customer Support Associate (PDC)</h3>
           <p class="job-summary">Support customer orders and coordinate with customers and internal stakeholders at Emerson's Chennai Parts Distribution Center.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Chennai, India</strong></div><div class="job-fact"><small>Work mode</small><strong>On-site</strong></div><div class="job-fact"><small>Posted</small><strong>10 November 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Chennai, India</strong></div><div class="job-fact"><small>Work mode</small><strong>On-site</strong></div><div class="job-fact"><small>Posted</small><strong>10 November 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹2.5–5 LPA</strong></div></div></div>
           <div class="job-tags"><span>Customer Support</span><span>Order Operations</span><span>Manufacturing</span></div>
           <div class="job-actions"><a class="job-apply" href="https://hdjq.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=LOCATIONS&mode=location&selectedLocationsFacet=300000000228786&selectedPostingDatesFacet=31%253B30" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: Emerson Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="exl senior executive coding auditor chennai tamil nadu india hybrid healthcare medical coding audit">
+        <article class="job-card" data-experience="" data-search="exl senior executive coding auditor chennai tamil nadu india hybrid healthcare medical coding audit" data-salary-min="3" data-salary-max="6">
           <div class="job-card-top"><span class="job-company">EXL</span><span class="job-status">Posted 21 Oct 2026</span></div>
           <h3>Senior Executive – Coding Auditor</h3>
           <p class="job-summary">Healthcare coding audit role covering medical record review, coding quality and compliance. Confirm the specialty and certification requirements on EXL's official careers portal.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>2+ years stated</strong></div><div class="job-fact"><small>Location</small><strong>Chennai, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid listing</strong></div><div class="job-fact"><small>Posted</small><strong>21 October 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>2+ years stated</strong></div><div class="job-fact"><small>Location</small><strong>Chennai, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid listing</strong></div><div class="job-fact"><small>Posted</small><strong>21 October 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹3–6 LPA</strong></div></div></div>
           <div class="job-tags"><span>Healthcare</span><span>Medical Coding</span><span>Quality Audit</span></div>
           <div class="job-actions"><a class="job-apply" href="https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/jobs?location=India" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: EXL Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="exl databricks tech lead chennai tamil nadu india hybrid data engineering">
+        <article class="job-card" data-experience="" data-search="exl databricks tech lead chennai tamil nadu india hybrid data engineering" data-salary-min="18" data-salary-max="32">
           <div class="job-card-top"><span class="job-company">EXL</span><span class="job-status">Posted 21 Oct 2026</span></div>
           <h3>Databricks Tech Lead</h3>
           <p class="job-summary">Lead-level data engineering opportunity focused on Databricks and enterprise data platforms for EXL's Chennai team.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Chennai, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>21 October 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Chennai, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>21 October 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹18–32 LPA</strong></div></div></div>
           <div class="job-tags"><span>Databricks</span><span>Data Engineering</span><span>Leadership</span></div>
           <div class="job-actions"><a class="job-apply" href="https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/jobs?location=India" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: EXL Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
         </article>
-        <article class="job-card" data-experience="" data-search="exl python developer b2 gurugram haryana india hybrid python software engineering">
+        <article class="job-card" data-experience="" data-search="exl python developer b2 gurugram haryana india hybrid python software engineering" data-salary-min="6" data-salary-max="14">
           <div class="job-card-top"><span class="job-company">EXL</span><span class="job-status">Posted 22 Oct 2026</span></div>
           <h3>Python Developer – B2</h3>
           <p class="job-summary">Python development opening listed by EXL for Gurugram. Review the employer's full requirements and application status before applying.</p>
-          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>22 October 2026</strong></div></div>
+          <div class="job-facts"><div class="job-fact"><small>Experience</small><strong>See employer listing</strong></div><div class="job-fact"><small>Location</small><strong>Gurugram, India</strong></div><div class="job-fact"><small>Work mode</small><strong>Hybrid</strong></div><div class="job-fact"><small>Posted</small><strong>22 October 2026</strong><div class="job-fact"><small>Estimated annual CTC</small><strong>₹6–14 LPA</strong></div></div></div>
           <div class="job-tags"><span>Python</span><span>Software Engineering</span></div>
           <div class="job-actions"><a class="job-apply" href="https://fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2/jobs?location=India" target="_blank" rel="noopener noreferrer">View on official careers site ↗</a></div>
           <p class="job-verified">Source: EXL Careers · Posting date shown on employer portal · Checked 19 November 2026</p>
@@ -197,7 +199,7 @@
         <div class="jobs-principle"><strong>Apply at the source</strong><p>We prioritise the employer’s own careers site or official applicant-tracking system over duplicate aggregator links. TierShift does not collect CVs on this page.</p></div>
         <div class="jobs-principle"><strong>Freshness matters</strong><p>We only add roles with a displayed posting date in the current or previous month, and recheck the employer portal before listing.</p></div>
       </div>
-      <div class="jobs-disclaimer"><strong>Important:</strong> TierShift Technologies is an independent curator of third-party job opportunities, not the employer or recruitment agency for the roles displayed. We do not guarantee hiring decisions, job availability, compensation or the accuracy of third-party information. Always review the original listing and verify the employer before sharing personal information. Never pay a recruiter or employer to apply for a job.</div>
+      <div class="jobs-disclaimer"><strong>Salary estimates:</strong> The salary bands shown are indicative annual CTC estimates in INR, not salaries advertised or guaranteed by the employers. They are market-based estimates informed by India salary benchmarks and may vary materially by experience, location, skills, interview performance and compensation structure. Where the employer has not disclosed pay, verify the actual package directly during recruitment. <strong>Important:</strong> TierShift Technologies is an independent curator of third-party job opportunities, not the employer or recruitment agency for the roles displayed. We do not guarantee hiring decisions, job availability, compensation or the accuracy of third-party information. Always review the original listing and verify the employer before sharing personal information. Never pay a recruiter or employer to apply for a job.</div>
       <div class="jobs-submit"><div><h2>Know about a genuine remote opportunity?</h2><p>Share the original employer or authorised recruiter link with our editorial team for review.</p></div><a href="mailto:thetiershift@gmail.com?subject=Job%20listing%20submission">Suggest a job ↗</a></div>
     </section>
   </main>
@@ -206,18 +208,26 @@
     (function(){
       const search=document.getElementById('jobSearch');
       const experience=document.getElementById('experienceFilter');
-      const cards=Array.from(document.querySelectorAll('.job-card'));
+      const salaryMin=document.getElementById('salaryMin');
+      const salaryMax=document.getElementById('salaryMax');
+      const cards=Array.from(document.querySelectorAll('#jobsGrid .job-card'));
       const count=document.getElementById('jobsCount');
       const empty=document.getElementById('jobsEmpty');
       function filterJobs(){
         const term=search.value.trim().toLowerCase();
         const level=experience.value.trim().toLowerCase();
+        const min=salaryMin.value===''?0:Number(salaryMin.value);
+        const max=salaryMax.value===''?Infinity:Number(salaryMax.value);
         let visible=0;
         cards.forEach(card=>{
           const matchesText=card.dataset.search.includes(term);
           const experienceText=(card.dataset.experience||'').toLowerCase();
           const matchesExperience=!level||experienceText.includes(level)||level.split(/\s+/).every(word=>experienceText.includes(word));
-          const show=matchesText&&matchesExperience;
+          const salaryLow=Number(card.dataset.salaryMin||0);
+          const salaryHigh=Number(card.dataset.salaryMax||0);
+          const hasSalary=salaryLow>0&&salaryHigh>0;
+          const matchesSalary=(!salaryMin.value&&!salaryMax.value)||(hasSalary&&salaryHigh>=min&&salaryLow<=max);
+          const show=matchesText&&matchesExperience&&matchesSalary;
           card.hidden=!show;
           if(show)visible++;
         });
@@ -225,7 +235,9 @@
         empty.style.display=visible?'none':'block';
       }
       search.addEventListener('input',filterJobs);
-      experience.addEventListener('change',filterJobs);
+      experience.addEventListener('input',filterJobs);
+      salaryMin.addEventListener('input',filterJobs);
+      salaryMax.addEventListener('input',filterJobs);
     })();
   </script>
 </body>

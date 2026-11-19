@@ -156,7 +156,11 @@
     .jobs-submit a{border-color:#8193ff;border-radius:10px;background:rgba(255,255,255,.07);transition:background .18s}
     .jobs-submit a:hover{background:rgba(255,255,255,.16)}
     .jobs-footer{background:#080f1e}
-    @media(max-width:760px){.jobs-hero{min-height:0;padding:72px 20px 64px}.jobs-main{padding:44px 18px 68px}.jobs-filters{padding:17px}.jobs-intro{gap:14px}.jobs-intro h2{font-size:1.65rem}.jobs-about{padding:32px 20px}.jobs-about-stat{min-width:0}.jobs-submit{padding:24px}}
+    .jobs-filters select{height:49px;padding:0 38px 0 14px;border:1px solid #e0e6f0;border-radius:10px;background-color:#fbfcff;color:#17233b;font:inherit;font-size:.9rem;cursor:pointer}
+    .jobs-filters select:focus{outline:0;border-color:#7185ff;box-shadow:0 0 0 4px rgba(83,109,254,.11)}
+    @media(max-width:900px){.jobs-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.jobs-filters:before{grid-column:1/-1}}
+    @media(max-width:760px){.jobs-hero{min-height:0;padding:72px 20px 64px}.jobs-main{padding:44px 18px 68px}.jobs-filters{grid-template-columns:repeat(2,minmax(0,1fr));padding:17px}.jobs-filters:before{grid-column:1/-1}.jobs-intro{gap:14px}.jobs-intro h2{font-size:1.65rem}.jobs-about{padding:32px 20px}.jobs-about-stat{min-width:0}.jobs-submit{padding:24px}}
+    @media(max-width:560px){.jobs-filters{grid-template-columns:minmax(0,1fr)}.jobs-filters:before{grid-column:1}.jobs-filters>div{min-width:0}}
     @media(max-width:420px){.jobs-hero h1{font-size:2.55rem}.job-card{padding:20px}.jobs-count{align-self:flex-start}}
 
   </style>

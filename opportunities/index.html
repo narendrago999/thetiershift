@@ -160,7 +160,8 @@
         let visible=0;
         cards.forEach(card=>{
           const matchesText=card.dataset.search.includes(term);
-          const experienceText=(card.dataset.experience||'').toLowerCase();\n          const matchesExperience=!level||experienceText.includes(level)||level.split(/\\s+/).every(word=>experienceText.includes(word));
+          const experienceText=(card.dataset.experience||'').toLowerCase();
+          const matchesExperience=!level||experienceText.includes(level)||level.split(/\s+/).every(word=>experienceText.includes(word));
           const show=matchesText&&matchesExperience;
           card.hidden=!show;
           if(show)visible++;

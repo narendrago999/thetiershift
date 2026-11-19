@@ -47,7 +47,7 @@
     .jobs-intro h2{margin:0 0 8px;color:var(--jobs-ink);font:700 1.8rem 'Space Grotesk',sans-serif}
     .jobs-intro p{margin:0;color:var(--jobs-muted);line-height:1.65}
     .jobs-count{flex:0 0 auto;padding:9px 12px;border-radius:9px;background:#eef2ff;color:#344b9d;font-size:.82rem;font-weight:700}
-    .jobs-filters{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(180px,1fr) minmax(130px,.7fr) minmax(130px,.7fr);gap:12px;margin-bottom:22px;padding:15px;border:1px solid var(--jobs-line);border-radius:14px;background:#fff}
+    .jobs-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:22px;padding:15px;border:1px solid var(--jobs-line);border-radius:14px;background:#fff}
     .jobs-filters label{display:block;margin:0 0 7px;color:#526078;font-size:.76rem;font-weight:700}
     .jobs-filters input,.jobs-filters select{width:100%;height:45px;padding:0 13px;border:1px solid #d9e1ee;border-radius:8px;background:#fff;color:#17233b;font:inherit;font-size:.9rem}
     .jobs-filters input:focus,.jobs-filters select:focus{outline:2px solid rgba(85,117,247,.25);border-color:#5575f7}
@@ -106,8 +106,6 @@
       <div class="jobs-filters" role="search">
         <div><label for="jobSearch">Search roles, companies or skills</label><input id="jobSearch" type="search" placeholder="e.g. Microsoft Fabric, PySpark, Data Engineer"></div>
         <div><label for="experienceFilter">Experience (type what you want)</label><input id="experienceFilter" type="text" placeholder="e.g. Fresher, 2 years, 3–5 years, 10+ years"></div>
-        <div><label for="salaryMin">Minimum salary (₹ LPA)</label><input id="salaryMin" type="number" min="0" step="0.5" placeholder="e.g. 5"></div>
-        <div><label for="salaryMax">Maximum salary (₹ LPA)</label><input id="salaryMax" type="number" min="0" step="0.5" placeholder="e.g. 20"></div>
       </div>
       <div class="jobs-grid" id="jobsGrid">
 <article class="job-card" data-experience="Not specified by employer" data-search="american express software engineer ii bengaluru, india technology software engineering;financial services" data-salary-min="0" data-salary-max="0">
@@ -361,8 +359,6 @@
     (function(){
       const search=document.getElementById('jobSearch');
       const experience=document.getElementById('experienceFilter');
-      const salaryMin=document.getElementById('salaryMin');
-      const salaryMax=document.getElementById('salaryMax');
       const cards=Array.from(document.querySelectorAll('#jobsGrid .job-card'));
       const count=document.getElementById('jobsCount');
       const empty=document.getElementById('jobsEmpty');
@@ -372,15 +368,11 @@
       function filterJobs(){
         const term=search.value.trim().toLowerCase();
         const level=experience.value.trim().toLowerCase();
-        const min=salaryMin.value===''?0:Number(salaryMin.value);
-        const max=salaryMax.value===''?Infinity:Number(salaryMax.value);
         const filtered=cards.filter(card=>{
           const matchesText=card.dataset.search.includes(term);
           const exp=(card.dataset.experience||'').toLowerCase();
           const matchesExperience=!level||exp.includes(level)||level.split(/\\s+/).every(word=>exp.includes(word));
-          const low=Number(card.dataset.salaryMin||0),high=Number(card.dataset.salaryMax||0);
-          const matchesSalary=(!salaryMin.value&&!salaryMax.value)||(low>0&&high>0&&high>=min&&low<=max);
-          return matchesText&&matchesExperience&&matchesSalary;
+          return matchesText&&matchesExperience;
         });
         count.textContent=filtered.length+' '+(filtered.length===1?'matching listing':'matching listings');
         empty.style.display=filtered.length?'none':'block';
@@ -406,7 +398,7 @@
         info.textContent='Showing '+Math.min((currentPage-1)*pageSize+1,total)+'–'+Math.min(currentPage*pageSize,total)+' of '+total+' jobs';
         pagination.appendChild(info);
       }
-      [search,experience,salaryMin,salaryMax].forEach(el=>el.addEventListener('input',()=>{currentPage=1;filterJobs();}));
+      [search,experience].forEach(el=>el.addEventListener('input',()=>{currentPage=1;filterJobs();}));
       filterJobs();
     })();
   </script></body>
